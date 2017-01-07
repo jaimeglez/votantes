@@ -1,0 +1,18 @@
+development: &common
+  adapter: postgresql
+  encoding: utf8
+  reconnect: false
+  database: votantes_development
+  pool: 5
+  username: jaime
+  password:
+  host: localhost
+
+test:
+  <<: *common
+  database: votantes_test
+
+production:
+  <<: *common
+  database: votantes_production
+
