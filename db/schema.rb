@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20170107212234) do
   create_table "squares", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name",       limit: 100
     t.uuid     "section_id"
+    t.uuid     "zone_id"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
