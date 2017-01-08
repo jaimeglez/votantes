@@ -1,6 +1,11 @@
 class ZonesController < ApplicationController
   def index
+    search = params[:search]
+
     @zones = Zone.all
+    if(search && search[:name].present?)
+      @zones = @zones.where("name LIKE ?", "%#{search[:name]}%")
+    end
   end
 
   def new

@@ -13,7 +13,7 @@
 
 .col-xs-12
   %h1
-    Lista
+    Lista de zonas
 
   -unless @zones.empty?
     %table.table.table-hover
@@ -27,6 +27,10 @@
           %td=zone.id
           %td=zone.name
           %td
+            = link_to 'Agregar sección', new_section_path(zone_id: zone.id)
+            |
+            = link_to 'Secciones', sections_path(zone_id: zone.id)
+            |
             = link_to 'Ver', zone_path(zone.id)
             |
             = link_to 'Editar', edit_zone_path(zone.id)

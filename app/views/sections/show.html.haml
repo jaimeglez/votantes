@@ -1,19 +1,19 @@
 .panel.panel-default
   .panel-heading
     %b
-      Zonas
+      Secciones
 
   .panel-body
     .col-xs-12
       .wizzard-subtitle
-        Información de la zona
+        Información de la sección
 
     .col-xs-12
       .col-xs-5
         %b
           Nombre
-        = @zone.name
+        = @section.name
 
 .col-xs-12.text-right.bottom
-  = link_to 'Lista de zonas', :back, class: 'btn btn-default'
+  = link_to 'Lista de secciones', :back, class: 'btn btn-default'
 

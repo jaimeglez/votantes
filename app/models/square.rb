@@ -1,4 +1,6 @@
 class Square < ActiveRecord::Base
-  validates_presence_of :name
+  belongs_to :section
+
+  validates_presence_of :name, :section_id
   validates_length_of :name, maximum: 100
 end
