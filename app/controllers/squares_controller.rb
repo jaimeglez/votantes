@@ -1,6 +1,6 @@
 class SquaresController < ApplicationController
-  before_filter :get_zones, only: [:new, :edit]
-  before_filter :get_sections, only: [:new, :edit]
+  before_filter :get_zones
+  before_filter :get_sections
 
   def index
     section_id = params[:section_id]
@@ -18,16 +18,17 @@ class SquaresController < ApplicationController
 
   def new
     section_id = params[:section_id]
-    @square = Square.new(section_id: section_id)
+    zone_id = params[:zone_id]
+    @square = Square.new(section_id: section_id, zone_id: zone_id)
   end
 
   def create
     @square = Square.new(square_permit)
     if @square.save
-      flash.now[:success] = 'Se creó la zona satisfactoriamente'
+      flash.now[:success] = 'Se creó la manzana satisfactoriamente'
       redirect_to squares_path
     else
-      flash.now[:warning] = 'Hubo un error al crear la zona'
+      flash.now[:danger] = 'Hubo un error al crear la manzana'
       render :new
     end
   end
@@ -43,10 +44,10 @@ class SquaresController < ApplicationController
   def update
     @square = Square.find(params[:id])
     if @square.update(square_permit)
-      flash.now[:success] = 'Se actualizó la zona satisfactoriamente'
+      flash.now[:success] = 'Se actualizó la manzana satisfactoriamente'
       redirect_to squares_path
     else
-      flash.now[:warning] = 'Hubo un error al editar la zona'
+      flash.now[:danger] = 'Hubo un error al editar la manzana'
       render :edit
     end
   end
@@ -54,9 +55,9 @@ class SquaresController < ApplicationController
   def destroy
     @square = Square.find(params[:id])
     if @square.destroy
-      flash.now[:success] = 'Se eliminó la zona satisfactoriamente'
+      flash.now[:success] = 'Se eliminó la manzana satisfactoriamente'
     else
-      flash.now[:warning] = 'Hubo un error al eliminar la zona'
+      flash.now[:danger] = 'Hubo un error al eliminar la manzana'
     end
     redirect_to squares_path
   end

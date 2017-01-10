@@ -29,7 +29,9 @@
           %td=section.name
           %td=section.zone.name
           %td
-            = link_to 'Agregar manzana', new_square_path(section_id: section.id)
+            = link_to 'Agregar manzana', new_square_path(section_id: section.id, zone_id: section.zone.id)
+            |
+            = link_to 'Manzanas', squares_path(section_id: section.id)
             |
             = link_to 'Ver', section_path(section.id)
             |

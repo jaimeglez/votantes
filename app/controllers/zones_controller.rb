@@ -18,7 +18,7 @@ class ZonesController < ApplicationController
       flash.now[:success] = 'Se creó la zona satisfactoriamente'
       redirect_to zones_path
     else
-      flash.now[:warning] = 'Hubo un error al crear la zona'
+      flash.now[:danger] = 'Hubo un error al crear la zona'
       render :new
     end
   end
@@ -37,7 +37,7 @@ class ZonesController < ApplicationController
       flash.now[:success] = 'Se actualizó la zona satisfactoriamente'
       redirect_to zones_path
     else
-      flash.now[:warning] = 'Hubo un error al editar la zona'
+      flash.now[:danger] = 'Hubo un error al editar la zona'
       render :edit
     end
   end
@@ -47,7 +47,7 @@ class ZonesController < ApplicationController
     if @zone.destroy
       flash.now[:success] = 'Se eliminó la zona satisfactoriamente'
     else
-      flash.now[:warning] = 'Hubo un error al eliminar la zona'
+      flash.now[:danger] = 'Hubo un error al eliminar la zona'
     end
     redirect_to zones_path
   end

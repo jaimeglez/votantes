@@ -1,0 +1,14 @@
+- flash.each do |name, msg|
+  - if msg.is_a?(String)
+    %div(class="alert alert-#{name} alert-dismissible")
+      %button.close(type="button" data-dismiss="alert" aria-label="Close")
+        %span(aria-hidden="true") &times;
+      = msg
+  - elsif msg.is_a?(Hash)
+    %ul{class: "alert alert-#{name} alert-dismissible"}
+      - msg.each do |key, value|
+        %li
+          %span
+            %strong= "#{t(key)}:"
+            - value.each do |text|
+              = t(text)

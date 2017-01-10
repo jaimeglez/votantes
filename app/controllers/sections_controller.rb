@@ -1,5 +1,5 @@
 class SectionsController < ApplicationController
-  before_filter :get_zones, only: [:new, :edit]
+  before_filter :get_zones
 
   def index
     zone_id = params[:zone_id]
@@ -23,10 +23,10 @@ class SectionsController < ApplicationController
   def create
     @section = Section.new(section_permit)
     if @section.save
-      flash.now[:success] = 'Se creó la zona satisfactoriamente'
+      flash.now[:success] = 'Se creó la sección satisfactoriamente'
       redirect_to sections_path
     else
-      flash.now[:warning] = 'Hubo un error al crear la zona'
+      flash.now[:danger] = 'Hubo un error al crear la sección'
       render :new
     end
   end
@@ -42,10 +42,10 @@ class SectionsController < ApplicationController
   def update
     @section = Section.find(params[:id])
     if @section.update(section_permit)
-      flash.now[:success] = 'Se actualizó la zona satisfactoriamente'
+      flash.now[:success] = 'Se actualizó la sección satisfactoriamente'
       redirect_to sections_path
     else
-      flash.now[:warning] = 'Hubo un error al editar la zona'
+      flash.now[:danger] = 'Hubo un error al editar la sección'
       render :edit
     end
   end
@@ -53,9 +53,9 @@ class SectionsController < ApplicationController
   def destroy
     @section = Section.find(params[:id])
     if @section.destroy
-      flash.now[:success] = 'Se eliminó la zona satisfactoriamente'
+      flash.now[:success] = 'Se eliminó la sección satisfactoriamente'
     else
-      flash.now[:warning] = 'Hubo un error al eliminar la zona'
+      flash.now[:danger] = 'Hubo un error al eliminar la sección'
     end
     redirect_to sections_path
   end
