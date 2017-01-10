@@ -13,6 +13,13 @@ class SectionsController < ApplicationController
     if(search && search[:name].present?)
       @sections = @sections.where("name LIKE ?", "%#{search[:name]}%")
     end
+
+    respond_to do |format|
+
+      format.html
+      format.json { render json: @sections }
+
+    end
   end
 
   def new
