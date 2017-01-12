@@ -2,12 +2,13 @@
 %html
   %title Votantes
   = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+  = javascript_include_tag 'application', 'data-turbolinks-track' => true
   = csrf_meta_tags
   %body
     #header
       = render 'layouts/header'
+      = render 'layouts/flash_messages'
     #content.container
       = yield
     #footer.container
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
 

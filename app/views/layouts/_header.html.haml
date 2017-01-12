@@ -1,3 +1,32 @@
 .navbar.navbar-inverse{role: 'navigation'}
   .navbar-header
     = link_to 'Votantes', root_path, class: 'navbar-brand'
+  .collapse.navbar-collapse
+    %ul.nav.navbar-nav.main-menu
+      %li.dropdown
+        = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
+          Zonas
+          %b.caret
+        %ul.dropdown-menu
+          %li
+            = link_to 'Lista de zonas', zones_path
+          %li
+            = link_to 'Crear zona', new_zone_path
+      %li.dropdown
+        = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
+          Secciones
+          %b.caret
+        %ul.dropdown-menu
+          %li
+            = link_to 'Lista de secciones', sections_path
+          %li
+            = link_to 'Crear seccion', new_section_path
+      %li.dropdown
+        = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
+          Manzanas
+          %b.caret
+        %ul.dropdown-menu
+          %li
+            = link_to 'Lista de manzanas', squares_path
+          %li
+            = link_to 'Crear manzana', new_square_path

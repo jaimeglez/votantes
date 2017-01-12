@@ -1,0 +1,19 @@
+.panel.panel-default
+  .panel-heading
+    %b
+      Manzanas
+
+  .panel-body
+    .col-xs-12
+      .wizzard-subtitle
+        Información de la manzana
+
+    .col-xs-12
+      .col-xs-5
+        %b
+          Nombre
+        = @square.name
+
+.col-xs-12.text-right.bottom
+  = link_to 'Lista de manzanas', :back, class: 'btn btn-default'
+

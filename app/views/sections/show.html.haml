@@ -1,0 +1,19 @@
+.panel.panel-default
+  .panel-heading
+    %b
+      Secciones
+
+  .panel-body
+    .col-xs-12
+      .wizzard-subtitle
+        Información de la sección
+
+    .col-xs-12
+      .col-xs-5
+        %b
+          Nombre
+        = @section.name
+
+.col-xs-12.text-right.bottom
+  = link_to 'Lista de secciones', :back, class: 'btn btn-default'
+

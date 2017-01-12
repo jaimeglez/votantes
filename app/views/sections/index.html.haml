@@ -1,0 +1,44 @@
+.well.well-lg
+  .row
+    .col-xs-12
+      %h4.text-muted
+        Buscar sección
+  = simple_form_for :search, { url: sections_path, method: :get, defaults: {required: false} } do |f|
+    .row
+      .col-xs-4
+        = f.input :name, label: 'Nombre de seccion'
+    .btn-group
+      =link_to 'Crear seccion', new_section_path, class: 'btn btn-success'
+      = f.button :submit, value: 'Buscar', class: 'btn btn-default'
+
+.col-xs-12
+  %h1
+    Lista de secciones
+
+  -unless @sections.empty?
+    %table.table.table-hover
+      %thead
+        %tr
+          %th Id
+          %th Nombre
+          %th Zona
+
+      -@sections.each_with_index do |section,index|
+        %tr
+          %td=section.id
+          %td=section.name
+          %td=section.zone.name
+          %td
+            = link_to 'Agregar manzana', new_square_path(section_id: section.id, zone_id: section.zone.id)
+            |
+            = link_to 'Manzanas', squares_path(section_id: section.id)
+            |
+            = link_to 'Ver', section_path(section.id)
+            |
+            = link_to 'Editar', edit_section_path(section.id)
+            |
+            = link_to 'Borrar', section_path(section.id), method: :delete, data: { confirm: 'Desea eliminar la seccion?' }
+
+  -else
+    %h4
+      No hay secciones registradas

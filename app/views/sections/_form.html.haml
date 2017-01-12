@@ -1,0 +1,20 @@
+.panel.panel-default
+  .panel-heading
+    %b
+      Sección
+  .panel-body
+    = simple_form_for @section, html: {multipart: true, class:  'form-horizontal' }, validate: true do |f|
+      .col-xs-12
+        .col-xs-5
+          = f.input :zone_id, as: :select, label: 'Zona', required: true, collection: @zones
+      .col-xs-12
+        .col-xs-5
+          = f.input :name, input_html: { maxlength: 100 }, label: 'Nombre', required: true
+
+      .col-xs-12
+        .col-xs-12.text-right
+          = f.button :submit, 'Guardar', class: ['btn', 'btn-success']
+
+.col-xs-12.text-right.bottom
+  = link_to 'Lista de secciones', :back, class: 'btn btn-default'
+
