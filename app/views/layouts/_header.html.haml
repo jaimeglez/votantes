@@ -30,3 +30,11 @@
             = link_to 'Lista de manzanas', squares_path
           %li
             = link_to 'Crear manzana', new_square_path
+    %ul.nav.navbar-nav.navbar-right
+      %li.dropdown
+        = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
+          Opciones
+          %b.caret
+        %ul.dropdown-menu
+          %li.dropdown
+            = link_to 'Importar votantes', voters_path
