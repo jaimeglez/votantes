@@ -9,6 +9,6 @@
       - msg.each do |key, value|
         %li
           %span
-            %strong= "#{t(key)}:"
+            %strong= "#{key}:"
             - value.each do |text|
-              = t(text)
+              = text
