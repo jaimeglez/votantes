@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170107212234) do
+ActiveRecord::Schema.define(version: 20170112044353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,15 @@ ActiveRecord::Schema.define(version: 20170107212234) do
     t.uuid     "zone_id"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+  end
+
+  create_table "voters", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "full_name",        limit: 150
+    t.string   "address"
+    t.string   "electoral_number", limit: 18
+    t.string   "section"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   create_table "zones", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
