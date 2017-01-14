@@ -5,8 +5,8 @@ Rails.application.routes.draw do
     resources :zones
     resources :sections
     resources :squares
+    resources :voter_documents
   end
 
-  resources :voters
 
 end

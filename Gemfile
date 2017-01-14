@@ -7,6 +7,7 @@ gem 'pg'
 gem 'haml-rails'
 gem 'simple_form'
 gem 'devise'
+gem 'carrierwave'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
