@@ -3,7 +3,7 @@
     %b
       Manzana
   .panel-body
-    = simple_form_for @square, html: {multipart: true, class:  'form-horizontal' }, validate: true do |f|
+    = simple_form_for [:admin, @square], html: {multipart: true, class:  'form-horizontal' }, validate: true do |f|
       .col-xs-12
         .col-xs-5
           = f.input :zone_id, as: :select, label: 'Zona', required: true, collection: @zones

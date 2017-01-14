@@ -3,12 +3,12 @@
     .col-xs-12
       %h4.text-muted
         Buscar zona
-  = simple_form_for :search, { url: zones_path, method: :get, defaults: {required: false} } do |f|
+  = simple_form_for :search, { url: admin_zones_path, method: :get, defaults: {required: false} } do |f|
     .row
       .col-xs-4
         = f.input :name, label: 'Nombre de zona'
     .btn-group
-      =link_to 'Crear zona', new_zone_path, class: 'btn btn-success'
+      =link_to 'Crear zona', new_admin_zone_path, class: 'btn btn-success'
       = f.button :submit, value: 'Buscar', class: 'btn btn-default'
 
 .col-xs-12
@@ -27,15 +27,15 @@
           %td=zone.id
           %td=zone.name
           %td
-            = link_to 'Agregar sección', new_section_path(zone_id: zone.id)
+            = link_to 'Agregar sección', new_admin_section_path(zone_id: zone.id)
             |
-            = link_to 'Secciones', sections_path(zone_id: zone.id)
+            = link_to 'Secciones', admin_sections_path(zone_id: zone.id)
             |
-            = link_to 'Ver', zone_path(zone.id)
+            = link_to 'Ver', admin_zone_path(zone.id)
             |
-            = link_to 'Editar', edit_zone_path(zone.id)
+            = link_to 'Editar', edit_admin_zone_path(zone.id)
             |
-            = link_to 'Borrar', zone_path(zone.id), method: :delete, data: { confirm: 'Desea eliminar la zona?' }
+            = link_to 'Borrar', admin_zone_path(zone.id), method: :delete, data: { confirm: 'Desea eliminar la zona?' }
 
   -else
     %h4

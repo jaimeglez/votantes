@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
+  devise_for :admins
   root 'dashboard#index'
-  resources :zones
-  resources :sections
-  resources :squares
+  namespace :admin do
+    resources :zones
+    resources :sections
+    resources :squares
+  end
 
   resources :voters
 
