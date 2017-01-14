@@ -1,4 +1,4 @@
-class ZonesController < ApplicationController
+class Admin::ZonesController < Admin::AdminBaseController
   def index
     search = params[:search]
 
@@ -16,7 +16,7 @@ class ZonesController < ApplicationController
     @zone = Zone.new(zone_permit)
     if @zone.save
       flash.now[:success] = 'Se creó la zona satisfactoriamente'
-      redirect_to zones_path
+      redirect_to admin_zones_path
     else
       flash.now[:danger] = 'Hubo un error al crear la zona'
       render :new
@@ -35,7 +35,7 @@ class ZonesController < ApplicationController
     @zone = Zone.find(params[:id])
     if @zone.update(zone_permit)
       flash.now[:success] = 'Se actualizó la zona satisfactoriamente'
-      redirect_to zones_path
+      redirect_to admin_zones_path
     else
       flash.now[:danger] = 'Hubo un error al editar la zona'
       render :edit
@@ -49,7 +49,7 @@ class ZonesController < ApplicationController
     else
       flash.now[:danger] = 'Hubo un error al eliminar la zona'
     end
-    redirect_to zones_path
+    redirect_to admin_zones_path
   end
 
   private

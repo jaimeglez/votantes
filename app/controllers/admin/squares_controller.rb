@@ -1,4 +1,4 @@
-class SquaresController < ApplicationController
+class Admin::SquaresController < Admin::AdminBaseController
   before_filter :get_zones
   before_filter :get_sections
 
@@ -26,7 +26,7 @@ class SquaresController < ApplicationController
     @square = Square.new(square_permit)
     if @square.save
       flash.now[:success] = 'Se creó la manzana satisfactoriamente'
-      redirect_to squares_path
+      redirect_to admin_squares_path
     else
       flash.now[:danger] = 'Hubo un error al crear la manzana'
       render :new
@@ -45,7 +45,7 @@ class SquaresController < ApplicationController
     @square = Square.find(params[:id])
     if @square.update(square_permit)
       flash.now[:success] = 'Se actualizó la manzana satisfactoriamente'
-      redirect_to squares_path
+      redirect_to admin_squares_path
     else
       flash.now[:danger] = 'Hubo un error al editar la manzana'
       render :edit
@@ -59,7 +59,7 @@ class SquaresController < ApplicationController
     else
       flash.now[:danger] = 'Hubo un error al eliminar la manzana'
     end
-    redirect_to squares_path
+    redirect_to admin_squares_path
   end
 
   private

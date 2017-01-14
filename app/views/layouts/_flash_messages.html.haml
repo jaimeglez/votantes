@@ -1,4 +1,6 @@
 - flash.each do |name, msg|
+  - if ['notice', 'alert'].include?(name)
+    - name = (name == 'alert') ? 'danger' : 'success'
   - if msg.is_a?(String)
     %div(class="alert alert-#{name} alert-dismissible")
       %button.close(type="button" data-dismiss="alert" aria-label="Close")

@@ -3,12 +3,12 @@
     .col-xs-12
       %h4.text-muted
         Buscar sección
-  = simple_form_for :search, { url: sections_path, method: :get, defaults: {required: false} } do |f|
+  = simple_form_for :search, { url: admin_sections_path, method: :get, defaults: {required: false} } do |f|
     .row
       .col-xs-4
         = f.input :name, label: 'Nombre de seccion'
     .btn-group
-      =link_to 'Crear seccion', new_section_path, class: 'btn btn-success'
+      =link_to 'Crear seccion', new_admin_section_path, class: 'btn btn-success'
       = f.button :submit, value: 'Buscar', class: 'btn btn-default'
 
 .col-xs-12
@@ -29,15 +29,15 @@
           %td=section.name
           %td=section.zone.name
           %td
-            = link_to 'Agregar manzana', new_square_path(section_id: section.id, zone_id: section.zone.id)
+            = link_to 'Agregar manzana', new_admin_square_path(section_id: section.id, zone_id: section.zone.id)
             |
-            = link_to 'Manzanas', squares_path(section_id: section.id)
+            = link_to 'Manzanas', admin_squares_path(section_id: section.id)
             |
-            = link_to 'Ver', section_path(section.id)
+            = link_to 'Ver', admin_section_path(section.id)
             |
-            = link_to 'Editar', edit_section_path(section.id)
+            = link_to 'Editar', edit_admin_section_path(section.id)
             |
-            = link_to 'Borrar', section_path(section.id), method: :delete, data: { confirm: 'Desea eliminar la seccion?' }
+            = link_to 'Borrar', admin_section_path(section.id), method: :delete, data: { confirm: 'Desea eliminar la seccion?' }
 
   -else
     %h4
