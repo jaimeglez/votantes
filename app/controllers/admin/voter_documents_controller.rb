@@ -14,7 +14,6 @@ class Admin::VoterDocumentsController < Admin::AdminBaseController
          flash.now[:success] = 'Se creó documento satisfactoriamente'
          redirect_to admin_voter_documents_path
       else
-        byebug
         flash.now[:danger] = 'Hubo un error al crear el documento'
         render :new
       end
