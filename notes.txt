@@ -2,3 +2,27 @@ http://www.ieec.org.mx/index.php?id=creden
 https://www.facebook.com/ifetel/posts/573990049352517
 
 http://www.shertonenglish.com/resources/es/vocabulary/politics-and-government.php
+
+=Full_name
+nombre                                  --12
+apellido paterno                        --13
+apellido materno                        --14
+
+=Address
+calle                                   --18
+num ext                                 --20
+num int(opcional)                       --19
+colonia                                 --21
+municipio                               --30
+estado                                  --31
+
+=section
+seccion(4 digitos)                      --NO SE 1 tmp
+
+=clave
+clave electoral(18 alfanumerico)(llave) --POSIBLE 7
+
+telefono(10 digitos)                    --NO
+redes sociales(opcional)                --NO
+correo(opcional)                        --NO
+manzana(3 digitos)(opcional)            --NO SE
