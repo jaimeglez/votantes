@@ -22,7 +22,11 @@
       -@messages.each_with_index do |message,index|
         %tr
           %td=message.msg_type
-          %td=link_to message.content_video.file.filename, message.content_video_url
+          %td
+            -if message.content_video.blank?
+              =message.content_text
+            -else
+              =link_to message.content_video.file.filename, message.content_video_url
           %td
             = link_to 'Borrar', admin_message_path(message.id), method: :delete, data: { confirm: 'Desea eliminar el mensaje?' }
 
