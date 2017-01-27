@@ -3,7 +3,8 @@ class CreateMessages < ActiveRecord::Migration
     enable_extension "hstore"
     create_table :messages, id: :uuid do |t|
       t.string :msg_type
-      t.hstore :content
+      t.string :content_video
+      t.text   :content_text
 
       t.timestamps null: false
     end

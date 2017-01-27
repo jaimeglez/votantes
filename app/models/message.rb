@@ -1,7 +1,8 @@
 class Message < ActiveRecord::Base
-  store_accessor :content, :content_video, :content_text
-  mount_uploader :content_video, VideoUploader, serialize_to: :content
+  mount_uploader :content_video, VideoUploader
   validate :file_size
+  validates :content_video, presence: true, if: "msg_type == 'video'"
+  validates :content_text, presence: true, if: "msg_type == 'text'"
 
   def file_size
     if content_video.size.to_f/(1000*1000) > 10

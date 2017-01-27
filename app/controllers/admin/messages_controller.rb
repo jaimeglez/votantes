@@ -20,6 +20,6 @@ class Admin::MessagesController < Admin::AdminBaseController
 
    private
    def message_permit
-     params.require(:message).permit(:msg_type, :content_text, :content_video)
+     params.require(:message).permit(:msg_type, :content_video, :content_text)
    end
 end

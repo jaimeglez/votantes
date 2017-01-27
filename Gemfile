@@ -8,6 +8,7 @@ gem 'haml-rails'
 gem 'simple_form'
 gem 'devise'
 gem 'carrierwave'
+gem 'mini_magick'
 gem 'sidekiq'
 gem 'roo'
 # Use SCSS for stylesheets
