@@ -1,4 +1,10 @@
 class Voter < ActiveRecord::Base
+  # Role constants
+  ZONE_COORDINATOR = 1;
+  SECTION_COORDINATOR = 2;
+  SQUARE_COORDINATOR = 3;
+  PROMOTER = 4;
+  SYMPATHIZER = 5;
 
   attr_accessor :imported
 
@@ -6,8 +12,16 @@ class Voter < ActiveRecord::Base
   validates :latitude, :longitude, :phone_number, :social_network, :role, :email,
     presence: true, if: :user_created_from_app?
 
+  before_create :add_default_role
+
+  private
+
   def user_created_from_app?
     return true if not imported
+  end
+
+  def add_default_role
+    self.role = SYMPATHIZER if self.role.nil?
   end
 
 end
