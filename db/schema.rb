@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170126004403) do
+ActiveRecord::Schema.define(version: 20170129190153) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,9 +38,10 @@ ActiveRecord::Schema.define(version: 20170126004403) do
 
   create_table "messages", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "msg_type"
-    t.hstore   "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "content_video"
+    t.text     "content_text"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "sections", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
@@ -79,6 +80,8 @@ ActiveRecord::Schema.define(version: 20170126004403) do
     t.string   "role"
     t.string   "email"
   end
+
+  add_index "voters", ["electoral_number"], name: "index_voters_on_electoral_number", unique: true, using: :btree
 
   create_table "zones", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name",       limit: 100
