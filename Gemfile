@@ -11,6 +11,9 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'sidekiq'
 gem 'roo'
+gem 'omniauth'
+gem 'devise_token_auth'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets

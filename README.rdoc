@@ -25,6 +25,10 @@ Things you may want to cover:
 
   `Admin.create(email: 'a@b.com', password: '12345678')`
 
+* Create user
+
+  `User.create(email: 'c@c.com', password: '1234567890')`
+
 * Services
 
   `bundle exec sidekiq`
