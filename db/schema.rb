@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20170129190153) do
     t.string   "phone_number"
     t.string   "social_network"
     t.string   "role"
-    t.string   "email"
+    t.boolean  "active"
   end
 
   add_index "voters", ["electoral_number"], name: "index_voters_on_electoral_number", unique: true, using: :btree
