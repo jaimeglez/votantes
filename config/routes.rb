@@ -9,11 +9,13 @@ Rails.application.routes.draw do
     resources :messages, except: [ :edit, :destroy, :update ]
   end
 
-  # token auth routes available at /api/v1/auth
+  # # token auth routes available at /api/v1/auth
   namespace :api do
     scope :v1 do
       mount_devise_token_auth_for 'User', at: 'auth'
     end
+  end
+  api_version(module: "api/v1", header: {name: "API-VERSION-1", value: "v1"}, defaults: {format: :json}, path: {value: "api/v1"}, default: false) do
   end
 
 

@@ -13,6 +13,7 @@ gem 'sidekiq'
 gem 'roo'
 gem 'omniauth'
 gem 'devise_token_auth'
+gem 'versionist'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
