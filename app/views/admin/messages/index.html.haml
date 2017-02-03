@@ -1,0 +1,36 @@
+.well.well-lg
+  .row
+    .col-xs-12
+      %h4.text-muted
+        Mensajes
+    .col-xs-12
+      .btn-group
+        =link_to 'Crear mensaje', new_admin_message_path, class: 'btn btn-success'
+        -# = f.button :submit, value: 'Buscar', class: 'btn btn-default'
+
+.col-xs-12
+  %h1
+    Lista de mensajes
+
+  -unless @messages.empty?
+    %table.table.table-hover
+      %thead
+        %tr
+          %th Tipo
+          %th Contenido
+
+      -@messages.each_with_index do |message,index|
+        %tr
+          %td=message.msg_type
+          %td
+            -if message.content_video.blank?
+              =message.content_text
+            -else
+              =link_to message.content_video.file.filename, message.content_video_url
+          %td
+            = link_to 'Borrar', admin_message_path(message.id), method: :delete, data: { confirm: 'Desea eliminar el mensaje?' }
+
+  -else
+    %h4
+      No hay mensajes
+
