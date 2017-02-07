@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 20170205191335) do
     t.string   "confirmation_token"
     t.json     "tokens"
     t.string   "email"
+    t.uuid     "user_id"
   end
 
   add_index "voters", ["confirmation_token"], name: "index_voters_on_confirmation_token", unique: true, using: :btree

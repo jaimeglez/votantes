@@ -11,7 +11,6 @@ class Voter < ActiveRecord::Base
   has_many :sections, class_name: 'Section', foreign_key: :coordinator_id
   has_many :squares,  class_name: 'Square',  foreign_key: :coordinator_id
 
-
   # Role constants
   ZONE_COORDINATOR = 1;
   SECTION_COORDINATOR = 2;
@@ -22,9 +21,10 @@ class Voter < ActiveRecord::Base
   attr_accessor :imported
 
   validates_presence_of :full_name, :address, :electoral_number, :section
-  validates :latitude, :longitude, :phone_number, :social_network, :role,
+  validates :latitude, :longitude, :phone_number, :social_network, :role, :email, :user_id,
     presence: true, if: :user_created_from_app?
 
+  before_validation :check_user_permissions, on: :create
   before_validation :check_electoral_number, on: :create
   before_create :add_default_role
   validates :electoral_number, uniqueness: true
@@ -32,7 +32,7 @@ class Voter < ActiveRecord::Base
   private
 
   def user_created_from_app?
-    return true if not imported
+    return true if !imported
   end
 
   def check_electoral_number
@@ -41,6 +41,23 @@ class Voter < ActiveRecord::Base
     if voter.nil?
       puts 'Saving but need to check the electoral number'
       return
+    end
+
+  end
+
+  def check_user_permissions
+    user = Voter.find( self.user_id )
+
+    if user.role > self.role
+      puts 'You do not have permissions to do this'
+      return false
+    elsif user.role == PROMOTER && self.role == SYMPATHIZER
+      user_sympathizers = Voter.where(role: SYMPATHIZER, user_id: user.id)
+
+      if user_sympathizers.count > 9
+        puts 'You are not allowed to add more sympathizers'
+        return false
+      end
     end
 
   end
