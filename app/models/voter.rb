@@ -1,4 +1,12 @@
 class Voter < ActiveRecord::Base
+  # devise modules
+  # +  # Include default devise modules.
+  devise :database_authenticatable, :registerable,
+    :recoverable, :rememberable, :trackable, :validatable,
+    :omniauthable
+  include DeviseTokenAuth::Concerns::User
+
+
   # Role constants
   ZONE_COORDINATOR = 1;
   SECTION_COORDINATOR = 2;
