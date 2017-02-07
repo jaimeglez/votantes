@@ -24,7 +24,7 @@
           %td=document.name
           %td=link_to document.attachment.file.filename, document.attachment_url
           %td
-            = link_to 'Borrar', admin_voter_document_path(document.id), method: :delete, data: { confirm: 'Desea eliminar el documento?' }
+            -# = link_to 'Borrar', admin_voter_document_path(document.id), method: :delete, data: { confirm: 'Desea eliminar el documento?' }
 
   -else
     %h4

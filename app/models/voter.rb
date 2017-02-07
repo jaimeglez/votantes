@@ -17,7 +17,7 @@ class Voter < ActiveRecord::Base
   attr_accessor :imported
 
   validates_presence_of :full_name, :address, :electoral_number, :section
-  validates :latitude, :longitude, :phone_number, :social_network, :role, :email,
+  validates :latitude, :longitude, :phone_number, :social_network, :role,
     presence: true, if: :user_created_from_app?
 
   before_validation :check_electoral_number, on: :create
@@ -41,6 +41,18 @@ class Voter < ActiveRecord::Base
 
   def add_default_role
     self.role = SYMPATHIZER if self.role.nil?
+  end
+
+  # overrides methods fromo devise
+  protected
+
+  # TODO check why is always requiring Email.
+  def email_required?
+    imported ? false : true
+  end
+
+  def password_required?
+    imported ? false : true
   end
 
 end
