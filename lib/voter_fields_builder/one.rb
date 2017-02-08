@@ -42,7 +42,7 @@ module VoterFieldsBuilder
               Voter.create(full_name: full_name(record),
                            address: full_address(record),
                            electoral_number: record[6],
-                           section: record[0])
+                           section: record[0], imported: true)
             end
           end
         end

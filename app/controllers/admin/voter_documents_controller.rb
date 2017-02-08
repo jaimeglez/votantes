@@ -11,7 +11,7 @@ class Admin::VoterDocumentsController < Admin::AdminBaseController
       @voter_document = VoterDocument.new(document_params)
 
       if @voter_document.save
-         flash.now[:success] = 'Se creó documento satisfactoriamente'
+         flash.now[:success] = 'El documento importara los votantes en unos minutos'
          redirect_to admin_voter_documents_path
       else
         flash.now[:danger] = 'Hubo un error al crear el documento'

@@ -22,6 +22,7 @@ class Voter < ActiveRecord::Base
 
   before_validation :check_electoral_number, on: :create
   before_create :add_default_role
+  validates :electoral_number, uniqueness: true, if: :user_created_from_app?
 
   private
 
