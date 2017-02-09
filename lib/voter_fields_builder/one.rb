@@ -39,10 +39,13 @@ module VoterFieldsBuilder
           (@initial_row..last_row).each_slice(1000) do |batch|
             batch.each do |row|
               record = @voter_data.row(row)
-              Voter.create(full_name: full_name(record),
-                           address: full_address(record),
-                           electoral_number: record[6],
-                           section: record[0], imported: true)
+              voter = Voter.new(full_name: full_name(record),
+                                   address: full_address(record),
+                                   electoral_number: record[6],
+                                   section: record[0], imported: true)
+              if(voter.valid?)
+                voter.save
+              end
             end
           end
         end
