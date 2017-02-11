@@ -32,7 +32,7 @@ class Voter < ActiveRecord::Base
   private
 
   def user_created_from_app?
-    return true if !imported
+    return true unless imported
   end
 
   def check_electoral_number

@@ -1,4 +1,4 @@
-class Api::V1::VotersController < ApplicationController
+class Api::V1::VotersController < Api::V1::ApiBaseController
   respond_to :json
 
   def index
