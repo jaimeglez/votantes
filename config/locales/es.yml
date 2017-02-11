@@ -4,7 +4,21 @@ es:
       voter: 'Votante'
     attributes:
       voter:
-        full_name: "Nombre completo"
+        full_name: 'Nombre completo'
+        address: 'Dirección'
+        electoral_number: 'Clave electoral'
+        section: 'Sección'
+        created_at: 'Creado en'
+        updated_at: 'Actualizado en'
+        latitude: 'Latitud'
+        longitude: 'Longitud'
+        phone_number: 'Teléfono'
+        social_network: 'Red social'
+        role: 'Rol'
+        active: 'Activo'
+        provider: 'Prooverdor'
+        email: 'Correo electrónico'
+
     errors:
       messages:
         record_invalid: "La validación falló: %{errors}"
