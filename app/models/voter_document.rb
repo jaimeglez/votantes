@@ -6,7 +6,7 @@ class VoterDocument < ActiveRecord::Base
   after_create  :store_voters_data
 
   def store_voters_data
-    VoterWorker.perform_at(1.minutes.from_now, id)
+    VoterWorker.perform_at(10.seconds.from_now, id)
   end
 
 end

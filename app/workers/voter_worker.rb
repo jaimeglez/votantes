@@ -14,7 +14,7 @@ class VoterWorker
     rescue => error
       # raise ActiveRecord::Rollback
       document.destroy
-      puts 'ocurrio un error relacionado con la cargada o parseo de datos --------------------------------------------'
+      puts "Ocurrio un error relacionado con la cargada o parseo de datos ------------------#{error}"
     end
   end
 end
