@@ -4,7 +4,7 @@ class Voter < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable,
     :omniauthable
-  include DeviseTokenAuth::Concerns::User
+  # include DeviseTokenAuth::Concerns::User
 
 
   # Role constants
@@ -22,6 +22,7 @@ class Voter < ActiveRecord::Base
 
   before_validation :check_electoral_number, on: :create
   before_create :add_default_role
+  validates :electoral_number, uniqueness: true
 
   private
 

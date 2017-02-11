@@ -2,7 +2,7 @@ class VoterWorker
   include Sidekiq::Worker
 
   def perform(document_id)
-    document = VoterDocument.last
+    document = VoterDocument.find(document_id)
     file_url = document.attachment_url
 
     begin

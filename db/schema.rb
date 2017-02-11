@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170203054602) do
+ActiveRecord::Schema.define(version: 20170207173935) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,9 +97,7 @@ ActiveRecord::Schema.define(version: 20170203054602) do
 
   add_index "voters", ["confirmation_token"], name: "index_voters_on_confirmation_token", unique: true, using: :btree
   add_index "voters", ["electoral_number"], name: "index_voters_on_electoral_number", unique: true, using: :btree
-  add_index "voters", ["email"], name: "index_voters_on_email", unique: true, using: :btree
   add_index "voters", ["reset_password_token"], name: "index_voters_on_reset_password_token", unique: true, using: :btree
-  add_index "voters", ["uid", "provider"], name: "index_voters_on_uid_and_provider", unique: true, using: :btree
 
   create_table "zones", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name",       limit: 100
