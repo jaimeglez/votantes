@@ -26,7 +26,7 @@ class Voter < ActiveRecord::Base
 
   before_validation :check_user_permissions, on: :create
   before_validation :check_electoral_number, on: :create
-  before_create :add_default_role
+  before_create :add_default_role, :set_active
   validates :electoral_number, uniqueness: true
 
   private
@@ -39,7 +39,7 @@ class Voter < ActiveRecord::Base
     voter = Voter.find_by(electoral_number: self.electoral_number)
 
     if voter.nil?
-      puts 'Saving but need to check the electoral number'
+      # Send push notification saying that need to check Electoral Number
       return
     end
 
@@ -49,13 +49,15 @@ class Voter < ActiveRecord::Base
     user = Voter.find( self.user_id )
 
     if user.role > self.role
-      puts 'You do not have permissions to do this'
+      self.errors.add(:base, I18n.t('custom.role_hierarchy_validation'))
       return false
-    elsif user.role == PROMOTER && self.role == SYMPATHIZER
+    end
+
+    if user.role == PROMOTER && self.role == SYMPATHIZER
       user_sympathizers = Voter.where(role: SYMPATHIZER, user_id: user.id)
 
       if user_sympathizers.count > 9
-        puts 'You are not allowed to add more sympathizers'
+        self.errors.add(:base, I18n.t('custom.role_sympathizers_limit'))
         return false
       end
     end
@@ -64,6 +66,10 @@ class Voter < ActiveRecord::Base
 
   def add_default_role
     self.role = SYMPATHIZER if self.role.nil?
+  end
+
+  def set_active
+    self.active = true
   end
 
   # overrides methods fromo devise

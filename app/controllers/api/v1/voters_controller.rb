@@ -16,13 +16,13 @@ class Api::V1::VotersController < Api::V1::ApiBaseController
     if voter.save
       render json: {
         status: 200,
-        message: 'Successfully voter added',
+        message: I18n.t('successful.new_voter'),
         voter: voter
       }.to_json
     else
       render json: {
         status: 400,
-        message: 'Something went wrong'
+        message: voter.errors
       }.to_json
     end
 
@@ -42,37 +42,52 @@ class Api::V1::VotersController < Api::V1::ApiBaseController
     voter = Voter.find(params[:id])
 
     if voter.update(voter_permit)
-      puts 'display successful message'
+      render json: {
+        status: 200,
+        message: I18n.t('successful.update_voter'),
+        voter: voter
+      }.to_json
     else
-      puts 'display error logs'
+      render json: {
+        status: 400,
+        message: voter.errors
+      }.to_json
     end
   end
 
   def destroy
     voter = Voter.find(params[:id])
 
-    if voter.destroy
-      puts 'display successful message'
+    if voter.update_attribute(:active, false)
+      render json: {
+        status: 200,
+        message: I18n.t('successful.delete_voter'),
+        voter: voter
+      }.to_json
     else
-      puts 'display error logs'
+      render json: {
+        status: 400,
+        message: voter.errors
+      }.to_json
     end
   end
 
   private
   def voter_permit
     params.require(:voter).permit(
-      :full_name,
       :address,
+      :active,
       :electoral_number,
-      :section,
+      :email,
+      :full_name,
+      :imported,
       :latitude,
       :longitude,
+      :password,
       :phone_number,
+      :section,
       :social_network,
       :role,
-      :email,
-      :password,
-      :imported,
       :user_id
     )
   end
