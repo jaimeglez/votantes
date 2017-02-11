@@ -43,8 +43,12 @@ module VoterFieldsBuilder
                                    address: full_address(record),
                                    electoral_number: record[6],
                                    section: record[0], imported: true)
-              if(voter.valid?)
-                voter.save
+              begin
+                if(voter.valid?)
+                  voter.save
+                end
+              rescue => error
+                puts error
               end
             end
           end
