@@ -6,6 +6,13 @@ class Voter < ActiveRecord::Base
     :omniauthable
   # include DeviseTokenAuth::Concerns::User
 
+  # Associations
+  has_many :zones,    class_name: 'Zone',    foreign_key: :coordinator_id
+  has_many :sections, class_name: 'Section', foreign_key: :coordinator_id
+  has_many :squares,  class_name: 'Square',  foreign_key: :coordinator_id
+
+  # Scopes
+  scope :active, -> { where(active: true) }
 
   # Role constants
   ZONE_COORDINATOR = 1;
@@ -17,31 +24,55 @@ class Voter < ActiveRecord::Base
   attr_accessor :imported
 
   validates_presence_of :full_name, :address, :electoral_number, :section
-  validates :latitude, :longitude, :phone_number, :social_network, :role,
+  validates :latitude, :longitude, :phone_number, :social_network, :role, :email, :user_id,
     presence: true, if: :user_created_from_app?
 
+  before_validation :check_user_permissions, on: :create
   before_validation :check_electoral_number, on: :create
-  before_create :add_default_role
+  before_create :add_default_role, :set_active
   validates :electoral_number, uniqueness: true
 
   private
 
   def user_created_from_app?
-    return true if not imported
+    return true unless imported
   end
 
   def check_electoral_number
     voter = Voter.find_by(electoral_number: self.electoral_number)
 
     if voter.nil?
-      puts 'Saving but need to check the electoral number'
+      # Send push notification saying that need to check Electoral Number
       return
+    end
+
+  end
+
+  def check_user_permissions
+    user = Voter.find( self.user_id )
+
+    if user.role > self.role
+      self.errors.add(:base, I18n.t('custom.role_hierarchy_validation'))
+      return false
+    end
+
+    if user.role == PROMOTER && self.role == SYMPATHIZER
+      user_sympathizers = Voter.where(role: SYMPATHIZER, user_id: user.id)
+
+      if user_sympathizers.count > 9
+        self.errors.add(:base, I18n.t('custom.role_sympathizers_limit'))
+        return false
+      end
     end
 
   end
 
   def add_default_role
     self.role = SYMPATHIZER if self.role.nil?
+  end
+
+  def set_active
+    self.active = true
   end
 
   # overrides methods fromo devise

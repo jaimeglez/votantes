@@ -45,18 +45,20 @@ ActiveRecord::Schema.define(version: 20170207173935) do
   end
 
   create_table "sections", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "name",       limit: 100
+    t.string   "name",           limit: 100
     t.uuid     "zone_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.uuid     "coordinator_id"
   end
 
   create_table "squares", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "name",       limit: 100
+    t.string   "name",           limit: 100
     t.uuid     "section_id"
     t.uuid     "zone_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.uuid     "coordinator_id"
   end
 
   create_table "voter_documents", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
@@ -77,7 +79,7 @@ ActiveRecord::Schema.define(version: 20170207173935) do
     t.string   "longitude"
     t.string   "phone_number"
     t.string   "social_network"
-    t.string   "role"
+    t.integer  "role"
     t.boolean  "active"
     t.string   "provider",                           default: "email", null: false
     t.string   "uid",                                default: "",      null: false
@@ -93,6 +95,7 @@ ActiveRecord::Schema.define(version: 20170207173935) do
     t.string   "confirmation_token"
     t.json     "tokens"
     t.string   "email"
+    t.uuid     "user_id"
   end
 
   add_index "voters", ["confirmation_token"], name: "index_voters_on_confirmation_token", unique: true, using: :btree
@@ -100,9 +103,10 @@ ActiveRecord::Schema.define(version: 20170207173935) do
   add_index "voters", ["reset_password_token"], name: "index_voters_on_reset_password_token", unique: true, using: :btree
 
   create_table "zones", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "name",       limit: 100
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "name",           limit: 100
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.uuid     "coordinator_id"
   end
 
 end
