@@ -2,7 +2,7 @@ class VoterWorker
   include Sidekiq::Worker
 
   def perform(document_id)
-    document = VoterDocument.find(document_id)
+    document = VoterDocument.last
     file_url = document.attachment_url
 
     begin
@@ -14,7 +14,7 @@ class VoterWorker
     rescue => error
       # raise ActiveRecord::Rollback
       document.destroy
-      puts 'ocurrio un error relacionado con la cargada o parseo de datos --------------------------------------------'
+      puts "Ocurrio un error relacionado con la cargada o parseo de datos ------------------#{error}"
     end
   end
 end

@@ -1,3 +1,6 @@
+require 'open-uri'
+require 'tempfile'
+
 module VoterFieldsBuilder
   module One
 
@@ -15,20 +18,23 @@ module VoterFieldsBuilder
 
     private
       def self.replace_quo_char
-        text = File.read("#{Rails.root}/public#{@file_url}")
+        text = open("#{@file_url}").read
         new_contents = text.gsub('"', "")
-        File.open("#{Rails.root}/public#{@file_url}", "w") {|file| file.puts new_contents }
-        @file_url
+        @tmpfile = Tempfile.new('tmpFile')
+        @tmpfile.open
+        open(@tmpfile.path, "w") {|file| file.puts new_contents }
+        @tmpfile.close
+        @tmpfile.path
       end
 
       def self.prepare_xlsx
-        @voter_data = Roo::Excelx.new("#{Rails.root}/public#{@file_url}")
+        @voter_data = Roo::Excelx.new(@file_url)
         @initial_row = 5
         @headers = @voter_data.row(4)
       end
 
       def self.prepare_csv
-        @voter_data = Roo::CSV.new("#{Rails.root}/public#{replace_quo_char}", csv_options: {col_sep: "\;"})
+        @voter_data = Roo::CSV.new(replace_quo_char, csv_options: {col_sep: "\;"})
         @initial_row = 1
         # @headers = @voter_data.row(2)
       end
@@ -49,6 +55,7 @@ module VoterFieldsBuilder
             end
           end
         end
+        @tmpfile.unlink
       end
 
       def self.full_name(record)
