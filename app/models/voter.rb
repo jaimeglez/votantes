@@ -11,6 +11,9 @@ class Voter < ActiveRecord::Base
   has_many :sections, class_name: 'Section', foreign_key: :coordinator_id
   has_many :squares,  class_name: 'Square',  foreign_key: :coordinator_id
 
+  # Scopes
+  scope :active, -> { where(active: true) }
+
   # Role constants
   ZONE_COORDINATOR = 1;
   SECTION_COORDINATOR = 2;

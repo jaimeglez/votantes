@@ -2,7 +2,7 @@ class Api::V1::VotersController < Api::V1::ApiBaseController
   respond_to :json
 
   def index
-    voters = Voter.all
+    voters = Voter.active
     respond_with(voters)
   end
 
