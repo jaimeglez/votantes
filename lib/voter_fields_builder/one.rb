@@ -15,20 +15,20 @@ module VoterFieldsBuilder
 
     private
       def self.replace_quo_char
-        text = File.read(@file_url)
+        text = File.read("public#{@file_url}")
         new_contents = text.gsub('"', "")
-        File.open(@file_url, "w") {|file| file.puts new_contents }
+        File.open("public#{@file_url}", "w") {|file| file.puts new_contents }
         @file_url
       end
 
       def self.prepare_xlsx
-        @voter_data = Roo::Excelx.new(@file_url)
+        @voter_data = Roo::Excelx.new("public#{@file_url}")
         @initial_row = 5
         @headers = @voter_data.row(4)
       end
 
       def self.prepare_csv
-        @voter_data = Roo::CSV.new(replace_quo_char, csv_options: {col_sep: "\;"})
+        @voter_data = Roo::CSV.new("public#{replace_quo_char}", csv_options: {col_sep: "\;"})
         @initial_row = 1
         # @headers = @voter_data.row(2)
       end
