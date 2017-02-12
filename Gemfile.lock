@@ -222,6 +222,7 @@ DEPENDENCIES
   omniauth
   pg
   rails (= 4.2.6)
+  redis
   roo
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)

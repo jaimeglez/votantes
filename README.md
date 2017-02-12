@@ -33,6 +33,8 @@ Things you may want to cover:
 
   `bundle exec sidekiq`
 
+  [`Prepare sidekiq on Server(Heroku)`](http://stackoverflow.com/questions/13770713/rails-starting-sidekiq-on-heroku)
+
 # Endpoints
 
 ## Auth
