@@ -1,6 +1,7 @@
 class Section < ActiveRecord::Base
   has_many :squares, dependent: :restrict_with_error
   belongs_to :zone
+  belongs_to :voter
 
   validates_presence_of :name, :zone_id
   validates_associated :squares
