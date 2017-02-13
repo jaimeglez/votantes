@@ -13,13 +13,15 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       mount_devise_token_auth_for 'Voter', at: 'auth'
-
-      resources :voters
     end
 
   end
 
   api_version(module: "api/v1", header: {name: "API-VERSION-1", value: "v1"}, defaults: {format: :json}, path: {value: "api/v1"}, default: false) do
+    resources :voters
+    resources :zones, only: [:index]
+    resources :sections, only: [:index]
+    resources :squares, only: [:index]
   end
 
 end
