@@ -21,16 +21,18 @@ class Voter < ActiveRecord::Base
   PROMOTER = 4;
   SYMPATHIZER = 5;
 
-  attr_accessor :imported
+  attr_accessor :imported, :areas_ids
 
+  # Callbacks
   validates_presence_of :full_name, :address, :electoral_number, :section
+  validates :electoral_number, uniqueness: true
   validates :latitude, :longitude, :phone_number, :social_network, :role, :email, :user_id,
     presence: true, if: :user_created_from_app?
 
   before_validation :check_user_permissions, on: :create, if: :user_created_from_app?
   before_validation :check_electoral_number, on: :create
   before_create :add_default_role, :set_active
-  validates :electoral_number, uniqueness: true
+  after_create :associate_coordinations, if: :user_created_from_app?
 
   private
 
@@ -73,6 +75,24 @@ class Voter < ActiveRecord::Base
 
   def set_active
     self.active = true
+  end
+
+  def associate_coordinations
+    case role
+    when ZONE_COORDINATOR
+      areas_to_relate = Zone.where(id: eval(areas_ids))
+    when SECTION_COORDINATOR
+      areas_to_relate = Section.where(id: eval(areas_ids))
+    when SQUARE_COORDINATOR
+      areas_to_relate = Square.where(id: eval(areas_ids))
+    else
+      return
+    end
+
+    areas_to_relate.each do |area|
+      area.update_attribute(:coordinator_id, id)
+    end
+
   end
 
   # overrides methods fromo devise
