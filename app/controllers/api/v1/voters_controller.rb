@@ -76,6 +76,7 @@ class Api::V1::VotersController < Api::V1::ApiBaseController
   def voter_permit
     params.require(:voter).permit(
       :address,
+      :areas_ids,
       :active,
       :electoral_number,
       :email,
