@@ -3,7 +3,7 @@ $(function() {
     var zoneId = $(e.target).val();
     $.ajax({
       method: "GET",
-      url: "/admin/sections",
+      url: API_URL + "sections",
       dataType: 'json',
       data: { zone_id: zoneId }
     })
