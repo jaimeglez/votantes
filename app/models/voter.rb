@@ -32,7 +32,7 @@ class Voter < ActiveRecord::Base
   before_validation :check_user_permissions, on: :create, if: :user_created_from_app?
   before_validation :check_electoral_number, on: :create
   before_create :add_default_role, :set_active
-  after_create :associate_coordinations, if: :user_created_from_app?
+  after_create :associate_coordinations, :send_download_app_email, if: :user_created_from_app?
 
   private
 
@@ -93,6 +93,10 @@ class Voter < ActiveRecord::Base
       area.update_attribute(:coordinator_id, id)
     end
 
+  end
+
+  def send_download_app_email
+    VoterMailer.download_app_email(self).deliver_now
   end
 
   # overrides methods fromo devise
