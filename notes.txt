@@ -26,3 +26,17 @@ telefono(10 digitos)                    --NO
 redes sociales(opcional)                --NO
 correo(opcional)                        --NO
 manzana(3 digitos)(opcional)            --NO SE
+
+
+app = RailsPushNotifications::GCMApp.new
+app.gcm_key = 'AIzaSyAIW-qFF65PBsisWPLikJ7WhyVWLi8r6xw'
+               AIzaSyDV81InohgxSCGs_RlG-S93kBjr6RcT2JM
+app.save
+
+notification = app.notifications.create(
+  destinations: [
+    'Your first destination token',
+    'Your second destination token'
+  ],
+  data: { text: 'Hello GCM World!' }
+)
