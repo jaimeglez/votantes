@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get '/swagger' => redirect('/swagger/dist/index.html?url=/apidocs/api-docs.json')
   devise_for :admins
   root 'dashboard#index'
   namespace :admin do
