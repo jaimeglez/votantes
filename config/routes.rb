@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     scope :v1 do
       mount_devise_token_auth_for 'Voter', at: 'auth', controllers: {
-        registrations:  'api/v1/devise_token_auth/registrations'
+        registrations:  'api/v1/devise_token_auth/registrations',
+        sessions:  'api/v1/devise_token_auth/sessions'
       }
     end
 
