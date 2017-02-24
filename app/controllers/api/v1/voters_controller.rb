@@ -72,6 +72,14 @@ class Api::V1::VotersController < Api::V1::ApiBaseController
     end
   end
 
+  swagger_controller :voters, "Voters"
+  swagger_api :index do
+    summary "List all active Voters (active field as true)"
+    response :unauthorized
+    response :not_acceptable, "The request you made is not acceptable"
+    response :requested_range_not_satisfiable
+  end
+
   private
   def voter_permit
     params.require(:voter).permit(
