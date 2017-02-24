@@ -14,6 +14,10 @@
     {
       "path": "/apidocs/api/v1/zones.{format}",
       "description": "Zones Management"
+    },
+    {
+      "path": "/apidocs/api/v1/voters.{format}",
+      "description": "Voters"
     }
   ],
   "authorizations": null,
