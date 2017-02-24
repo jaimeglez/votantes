@@ -9,7 +9,6 @@
       "operations": [
         {
           "summary": "Fetches all zones",
-          "notes": "This lists all the zones",
           "parameters": [
             {
               "paramType": "query",
@@ -36,6 +35,7 @@
               "message": "Requested Range Not Satisfiable"
             }
           ],
+          "notes": "This lists all the zones",
           "nickname": "Api::V1::Zones#index",
           "method": "get"
         }

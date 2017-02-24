@@ -29,7 +29,7 @@ class Voter < ActiveRecord::Base
   validates :latitude, :longitude, :phone_number, :social_network, :role, :email, :user_id,
     presence: true, if: :user_created_from_app?
 
-  before_validation :check_user_permissions, on: :create, if: :user_created_from_app?
+  # before_validation :check_user_permissions, on: :create, if: :user_created_from_app?
   before_validation :check_electoral_number, on: :create
   before_create :add_default_role, :set_active
   after_create :associate_coordinations, if: :user_created_from_app?

@@ -4,6 +4,14 @@
   "basePath": "http://localhost:3000",
   "apis": [
     {
+      "path": "/apidocs/devise_token_auth/sessions.{format}",
+      "description": "Sessions"
+    },
+    {
+      "path": "/apidocs/devise_token_auth/registrations.{format}",
+      "description": "Registrations"
+    },
+    {
       "path": "/apidocs/api/v1/zones.{format}",
       "description": "Zones Management"
     }
