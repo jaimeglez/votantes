@@ -12,6 +12,14 @@
       "description": "Zones Management"
     },
     {
+      "path": "/apidocs/api/v1/sections.{format}",
+      "description": "Sections Management"
+    },
+    {
+      "path": "/apidocs/api/v1/squares.{format}",
+      "description": "Squares Management"
+    },
+    {
       "path": "/apidocs/overrides/sessions.{format}",
       "description": "Sessions"
     },

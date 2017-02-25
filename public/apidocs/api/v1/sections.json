@@ -5,10 +5,10 @@
   "resourcePath": "/api/v1",
   "apis": [
     {
-      "path": "/api/v1/zones",
+      "path": "/api/v1/sections",
       "operations": [
         {
-          "summary": "Fetches all zones",
+          "summary": "Fetches all sections",
           "responseMessages": [
             {
               "code": 401,
@@ -26,8 +26,17 @@
               "message": "Requested Range Not Satisfiable"
             }
           ],
-          "notes": "This lists all the zones",
-          "nickname": "Api::V1::Zones#index",
+          "notes": "This lists all the sections",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "zone_id",
+              "type": "string",
+              "description": "Filter per zone_id",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V1::Sections#index",
           "method": "get"
         }
       ]
