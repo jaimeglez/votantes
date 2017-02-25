@@ -72,7 +72,7 @@ class Api::V1::VotersController < Api::V1::ApiBaseController
     end
   end
 
-  swagger_controller :voters, "Voters"
+  swagger_controller :voters, "Voters", resource_path: "/api/v1"
   swagger_api :index do
     summary "List all active Voters (active field as true)"
     response :unauthorized

@@ -9,6 +9,18 @@
       "operations": [
         {
           "summary": "Creates a new User",
+          "responseMessages": [
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Not Acceptable"
+            }
+          ],
           "parameters": [
             {
               "paramType": "form",
@@ -100,18 +112,6 @@
               "type": "string",
               "description": "Password Confirmation",
               "required": true
-            }
-          ],
-          "responseMessages": [
-            {
-              "code": 401,
-              "responseModel": null,
-              "message": "Unauthorized"
-            },
-            {
-              "code": 406,
-              "responseModel": null,
-              "message": "Not Acceptable"
             }
           ],
           "nickname": "Overrides::Registrations#create",

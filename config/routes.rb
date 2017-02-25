@@ -12,7 +12,11 @@ Rails.application.routes.draw do
 
   # token auth routes available at /api/v1/auth
   namespace :api, defaults: { format: :json } do
-    scope :v1 do
+    namespace :v1 do
+      resources :voters
+      resources :zones, only: [:index]
+      resources :sections, only: [:index]
+      resources :squares, only: [:index]
       mount_devise_token_auth_for 'Voter', at: 'auth', skip: [:omniauth_callbacks], controllers: {
         registrations:  'overrides/registrations',
         sessions:  'overrides/sessions'
@@ -21,11 +25,7 @@ Rails.application.routes.draw do
 
   end
 
-  api_version(module: "api/v1", header: {name: "API-VERSION-1", value: "v1"}, defaults: {format: :json}, path: {value: "api/v1"}, default: false) do
-    resources :voters
-    resources :zones, only: [:index]
-    resources :sections, only: [:index]
-    resources :squares, only: [:index]
-  end
+  # api_version(module: "api/v1", header: {name: "API-VERSION-1", value: "v1"}, defaults: {format: :json}, path: {value: "api/v1"}, default: false) do
+  # end
 
 end
