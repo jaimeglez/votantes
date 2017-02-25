@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   # token auth routes available at /api/v1/auth
   namespace :api, defaults: { format: :json } do
     scope :v1 do
-      mount_devise_token_auth_for 'Voter', at: 'auth', controllers: {
+      mount_devise_token_auth_for 'Voter', at: 'auth', skip: [:omniauth_callbacks], controllers: {
         registrations:  'api/v1/devise_token_auth/registrations',
         sessions:  'api/v1/devise_token_auth/sessions'
       }
