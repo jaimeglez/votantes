@@ -95,16 +95,4 @@ class Voter < ActiveRecord::Base
 
   end
 
-  # overrides methods fromo devise
-  protected
-
-  # TODO check why is always requiring Email.
-  def email_required?
-    imported ? false : true
-  end
-
-  def password_required?
-    imported ? false : true
-  end
-
 end
