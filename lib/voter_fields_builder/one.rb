@@ -49,8 +49,9 @@ module VoterFieldsBuilder
                                    address: full_address(record),
                                    electoral_number: record[6],
                                    section: record[0], imported: true)
-              if(voter.valid?)
-                voter.save
+              voter.valid?
+              if(voter.errors.keys.include?(:password) && voter.errors.keys.include?(:email) && voter.errors.keys.length == 2)
+                voter.save(validate: false)
               end
             end
           end
