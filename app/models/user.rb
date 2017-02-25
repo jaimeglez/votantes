@@ -1,8 +1,8 @@
-class Voter < ActiveRecord::Base
-  # devise modules
+class User < ActiveRecord::Base
+  # Include default devise modules.
   devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable,
-    :omniauthable
+          :recoverable, :rememberable, :trackable, :validatable,
+          :omniauthable
   include DeviseTokenAuth::Concerns::User
 
   # Associations
@@ -23,15 +23,15 @@ class Voter < ActiveRecord::Base
   attr_accessor :imported, :areas_ids
 
   # Callbacks
-  validates_presence_of :full_name, :address, :electoral_number, :section
+  validates_presence_of :full_name, :address, :electoral_number
   validates :electoral_number, uniqueness: true
-  validates :latitude, :longitude, :phone_number, :social_network, :role, :user_id,
+  validates :latitude, :longitude, :phone_number, :social_network, :role,
     presence: true, if: :user_created_from_app?
 
-  before_validation :check_user_permissions, on: :create, if: :user_created_from_app?
+  # before_validation :check_user_permissions, on: :create, if: :user_created_from_app?
   before_validation :check_electoral_number, on: :create
   before_create :add_default_role, :set_active
-  after_create :associate_coordinations, if: :user_created_from_app?
+  # after_create :associate_coordinations, if: :user_created_from_app?
 
   private
 
@@ -40,7 +40,7 @@ class Voter < ActiveRecord::Base
   end
 
   def check_electoral_number
-    voter = Voter.find_by(electoral_number: self.electoral_number)
+    voter = User.find_by(electoral_number: self.electoral_number)
 
     if voter.nil?
       # Send push notification saying that need to check Electoral Number
@@ -50,7 +50,7 @@ class Voter < ActiveRecord::Base
   end
 
   def check_user_permissions
-    user = Voter.find( self.user_id )
+    user = User.find( self.user_id )
 
     if user.role > self.role
       self.errors.add(:base, I18n.t('custom.role_hierarchy_validation'))
@@ -58,7 +58,7 @@ class Voter < ActiveRecord::Base
     end
 
     if user.role == PROMOTER && self.role == SYMPATHIZER
-      user_sympathizers = Voter.where(role: SYMPATHIZER, user_id: user.id)
+      user_sympathizers = User.where(role: SYMPATHIZER, user_id: user.id)
 
       if user_sympathizers.count > 9
         self.errors.add(:base, I18n.t('custom.role_sympathizers_limit'))
@@ -94,16 +94,15 @@ class Voter < ActiveRecord::Base
 
   end
 
-  # overrides methods fromo devise
-  protected
-
-  # TODO check why is always requiring Email.
-  def email_required?
-    imported ? false : true
-  end
-
-  def password_required?
-    imported ? false : true
-  end
-
+  # # overrides methods fromo devise
+  # protected
+  #
+  # # TODO check why is always requiring Email.
+  # def email_required?
+  #   imported ? false : true
+  # end
+  #
+  # def password_required?
+  #   imported ? false : true
+  # end
 end
