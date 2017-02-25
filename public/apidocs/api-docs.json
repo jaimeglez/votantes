@@ -4,11 +4,11 @@
   "basePath": "http://localhost:3000",
   "apis": [
     {
-      "path": "/apidocs/api/v1/devise_token_auth/sessions.{format}",
+      "path": "/apidocs/overrides/sessions.{format}",
       "description": "Sessions"
     },
     {
-      "path": "/apidocs/api/v1/devise_token_auth/registrations.{format}",
+      "path": "/apidocs/overrides/registrations.{format}",
       "description": "Registrations"
     },
     {
