@@ -209,7 +209,7 @@
             {
               "code": 406,
               "responseModel": null,
-              "message": "The request you made is not acceptable"
+              "message": "The request you made is not acceptable "
             },
             {
               "code": 500,
