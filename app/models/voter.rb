@@ -4,7 +4,7 @@ class Voter < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable,
     :omniauthable
-  # include DeviseTokenAuth::Concerns::User
+  include DeviseTokenAuth::Concerns::User
 
   # Associations
   has_many :zones,    class_name: 'Zone',    foreign_key: :coordinator_id
@@ -97,18 +97,6 @@ class Voter < ActiveRecord::Base
 
   def send_download_app_email
     VoterMailer.download_app_email(self).deliver_now
-  end
-
-  # overrides methods fromo devise
-  protected
-
-  # TODO check why is always requiring Email.
-  def email_required?
-    imported ? false : true
-  end
-
-  def password_required?
-    imported ? false : true
   end
 
 end
