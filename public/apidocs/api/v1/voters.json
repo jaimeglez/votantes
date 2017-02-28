@@ -1,15 +1,13 @@
 {
   "apiVersion": "1.0",
   "swaggerVersion": "1.2",
-  "basePath": "http://localhost:3000",
+  "basePath": "https://votantes-app.herokuapp.com",
   "resourcePath": "/api/v1",
   "apis": [
     {
       "path": "/api/v1/voters",
       "operations": [
         {
-          "nickname": "Api::V1::Voters#index",
-          "method": "get",
           "summary": "Fetches all active voters",
           "notes": "List all active Voters (active field as true)",
           "responseMessages": [
@@ -28,7 +26,9 @@
               "responseModel": null,
               "message": "Requested Range Not Satisfiable"
             }
-          ]
+          ],
+          "nickname": "Api::V1::Voters#index",
+          "method": "get"
         }
       ]
     },
@@ -36,10 +36,8 @@
       "path": "/api/v1/voters",
       "operations": [
         {
-          "nickname": "Api::V1::Voters#create",
-          "method": "post",
           "summary": "Creates a new Voter",
-          "notes": "Put attention on imported, user_id, and areas_ids fields",
+          "notes": "This creates a new Voter that it could be an user as well",
           "responseMessages": [
             {
               "code": 401,
@@ -49,7 +47,12 @@
             {
               "code": 406,
               "responseModel": null,
-              "message": "Not Acceptable"
+              "message": "The request you made is not acceptable"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Requested Range Not Satisfiable"
             }
           ],
           "parameters": [
@@ -57,7 +60,7 @@
               "paramType": "form",
               "name": "full_name",
               "type": "string",
-              "description": "Full Name",
+              "description": "Full name",
               "required": true
             },
             {
@@ -71,14 +74,14 @@
               "paramType": "form",
               "name": "electoral_number",
               "type": "string",
-              "description": "Electoral Number",
+              "description": "Electoral number",
               "required": true
             },
             {
               "paramType": "form",
               "name": "section",
               "type": "string",
-              "description": "Section",
+              "description": "Seccion",
               "required": true
             },
             {
@@ -99,14 +102,14 @@
               "paramType": "form",
               "name": "phone_number",
               "type": "string",
-              "description": "Phone Number",
+              "description": "Phone number",
               "required": true
             },
             {
               "paramType": "form",
               "name": "social_network",
               "type": "string",
-              "description": "Social Network",
+              "description": "Social network",
               "required": true
             },
             {
@@ -114,23 +117,21 @@
               "name": "role",
               "type": "integer",
               "description": "Role",
-              "required": true,
-              "defaultValue": 5
+              "required": true
             },
             {
               "paramType": "form",
               "name": "email",
               "type": "string",
-              "description": "Email",
+              "description": "Email address",
               "required": true
             },
             {
               "paramType": "form",
               "name": "imported",
-              "type": "boolean",
-              "description": "Imported. This always should be false",
-              "required": true,
-              "defaultValue": false
+              "type": "string",
+              "description": "Imported",
+              "required": true
             },
             {
               "paramType": "form",
@@ -143,17 +144,19 @@
               "paramType": "form",
               "name": "user_id",
               "type": "string",
-              "description": "User that is adding the User/Voter",
+              "description": "User",
               "required": true
             },
             {
               "paramType": "form",
               "name": "areas_ids",
               "type": "string",
-              "description": "IDs of Zones, Sections or Squares if that will be a Coordinator. Send the ids in an array",
-              "required": false
+              "description": "Areas IDs",
+              "required": true
             }
-          ]
+          ],
+          "nickname": "Api::V1::Voters#create",
+          "method": "post"
         }
       ]
     },
@@ -161,10 +164,13 @@
       "path": "/api/v1/voters/{id}",
       "operations": [
         {
-          "nickname": "Api::V1::Voters#show",
-          "method": "get",
           "summary": "Fetches a single Voter",
           "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "Voter",
+              "message": "Success"
+            },
             {
               "code": 401,
               "responseModel": null,
@@ -189,7 +195,9 @@
               "description": "Voter ID",
               "required": true
             }
-          ]
+          ],
+          "nickname": "Api::V1::Voters#show",
+          "method": "get"
         }
       ]
     },
@@ -197,8 +205,6 @@
       "path": "/api/v1/voters/{id}",
       "operations": [
         {
-          "nickname": "Api::V1::Voters#update",
-          "method": "put",
           "summary": "Updates an existing Voter",
           "responseMessages": [
             {
@@ -229,7 +235,7 @@
               "paramType": "form",
               "name": "full_name",
               "type": "string",
-              "description": "Full Name",
+              "description": "Full name",
               "required": true
             },
             {
@@ -243,14 +249,14 @@
               "paramType": "form",
               "name": "electoral_number",
               "type": "string",
-              "description": "Electoral Number",
+              "description": "Electoral number",
               "required": true
             },
             {
               "paramType": "form",
               "name": "section",
               "type": "string",
-              "description": "Section",
+              "description": "Seccion",
               "required": true
             },
             {
@@ -271,14 +277,14 @@
               "paramType": "form",
               "name": "phone_number",
               "type": "string",
-              "description": "Phone Number",
+              "description": "Phone number",
               "required": true
             },
             {
               "paramType": "form",
               "name": "social_network",
               "type": "string",
-              "description": "Social Network",
+              "description": "Social network",
               "required": true
             },
             {
@@ -291,26 +297,27 @@
             {
               "paramType": "form",
               "name": "imported",
-              "type": "boolean",
+              "type": "string",
               "description": "Imported",
-              "required": true,
-              "defaultValue": false
+              "required": true
             },
             {
               "paramType": "form",
               "name": "user_id",
               "type": "string",
-              "description": "User that is adding the Voter",
+              "description": "User",
               "required": true
             },
             {
               "paramType": "form",
               "name": "areas_ids",
               "type": "string",
-              "description": "IDs of Zones, Sections or Squares if that will be a Coordinator",
-              "required": false
+              "description": "Areas IDs",
+              "required": true
             }
-          ]
+          ],
+          "nickname": "Api::V1::Voters#update",
+          "method": "patch"
         }
       ]
     },
@@ -318,10 +325,7 @@
       "path": "/api/v1/voters/{id}",
       "operations": [
         {
-          "nickname": "Api::V1::Voters#destroy",
-          "method": "delete",
           "summary": "Deletes logically an existing Voter",
-          "notes": "This methods set the active field of the Voter as false",
           "responseMessages": [
             {
               "code": 401,
@@ -347,7 +351,9 @@
               "description": "Voter ID",
               "required": true
             }
-          ]
+          ],
+          "nickname": "Api::V1::Voters#destroy",
+          "method": "delete"
         }
       ]
     }
