@@ -81,9 +81,10 @@
             {
               "paramType": "form",
               "name": "user_id",
-              "type": "required",
-              "description": null,
-              "required": false
+              "type": "string",
+              "description": "User",
+              "required": true,
+              "default": "5955228f-2a0c-4132-86e1-6600c38a1237"
             },
             {
               "paramType": "form",

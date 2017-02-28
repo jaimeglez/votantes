@@ -13,7 +13,7 @@ module Overrides
       param :form, :phone_number, :required, "Phone number"
       param :form, :social_network, :required, "Social network"
       param :form, :role, :required, "Role"
-      param :form, :user_id, :required, "User"
+      param :form, :user_id, :string, :required, "User"
       param :form, :section, :required, "Seccion"
       param :form, :email, :string, :required, "Email address"
       param :form, :password, :string, :required, "Password"
