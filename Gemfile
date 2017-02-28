@@ -6,17 +6,20 @@ gem 'rails', '4.2.6'
 gem 'pg'
 gem 'haml-rails'
 gem 'simple_form'
-gem 'devise'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'sidekiq'
 gem 'roo'
 gem 'omniauth'
-gem 'devise_token_auth'
 gem 'versionist'
 gem 'redis'
 gem "fog-aws"
 gem "select2-rails"
+gem 'swagger-docs'
+gem 'rack-cors'
+gem 'active_model_serializers', '~> 0.10.0.rc4'
+gem 'devise_token_auth', '~> 0.1.37'
+gem 'devise', '~> 4.0.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets

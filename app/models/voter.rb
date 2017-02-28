@@ -4,7 +4,7 @@ class Voter < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable,
     :omniauthable
-  # include DeviseTokenAuth::Concerns::User
+  include DeviseTokenAuth::Concerns::User
 
   # Associations
   has_many :zones,    class_name: 'Zone',    foreign_key: :coordinator_id
@@ -32,7 +32,7 @@ class Voter < ActiveRecord::Base
   before_validation :check_user_permissions, on: :create, if: :user_created_from_app?
   before_validation :check_electoral_number, on: :create
   before_create :add_default_role, :set_active
-  after_create :associate_coordinations, if: :user_created_from_app?
+  after_create :associate_coordinations, :send_download_app_email, if: :user_created_from_app?
 
   private
 
@@ -95,16 +95,8 @@ class Voter < ActiveRecord::Base
 
   end
 
-  # overrides methods fromo devise
-  protected
-
-  # TODO check why is always requiring Email.
-  def email_required?
-    imported ? false : true
-  end
-
-  def password_required?
-    imported ? false : true
+  def send_download_app_email
+    VoterMailer.download_app_email(self).deliver_now
   end
 
 end

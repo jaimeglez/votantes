@@ -14,4 +14,15 @@ class Api::V1::SquaresController < Api::V1::ApiBaseController
     respond_with squares
   end
 
+  swagger_controller :zones, "Squares Management", resource_path: "/api/v1"
+  swagger_api :index do
+    summary "Fetches all squares"
+    notes "This lists all the squares, you can filter the squares per zone or section, if you send both values, the api will return by the zone filter since zone has high priority"
+    param :query, :zone_id, :string, :optional, "Filter per zone_id"
+    param :query, :section_id, :string, :optional, "Filter per section_id"
+    response :unauthorized
+    response :not_acceptable, "The request you made is not acceptable"
+    response :requested_range_not_satisfiable
+  end
+
 end

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get '/swagger' => redirect('/swagger/dist/index.html?url=/apidocs/api-docs.json')
   devise_for :admins
   root 'dashboard#index'
   namespace :admin do
@@ -12,16 +13,19 @@ Rails.application.routes.draw do
   # token auth routes available at /api/v1/auth
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      mount_devise_token_auth_for 'Voter', at: 'auth'
+      resources :voters
+      resources :zones, only: [:index]
+      resources :sections, only: [:index]
+      resources :squares, only: [:index]
+      mount_devise_token_auth_for 'Voter', at: 'auth', skip: [:omniauth_callbacks], controllers: {
+        registrations:  'overrides/registrations',
+        sessions:  'overrides/sessions'
+      }
     end
 
   end
 
-  api_version(module: "api/v1", header: {name: "API-VERSION-1", value: "v1"}, defaults: {format: :json}, path: {value: "api/v1"}, default: false) do
-    resources :voters
-    resources :zones, only: [:index]
-    resources :sections, only: [:index]
-    resources :squares, only: [:index]
-  end
+  # api_version(module: "api/v1", header: {name: "API-VERSION-1", value: "v1"}, defaults: {format: :json}, path: {value: "api/v1"}, default: false) do
+  # end
 
 end
