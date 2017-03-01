@@ -81,7 +81,7 @@
               "paramType": "form",
               "name": "section",
               "type": "string",
-              "description": "Seccion",
+              "description": "Section",
               "required": true
             },
             {
@@ -215,7 +215,7 @@
             {
               "code": 406,
               "responseModel": null,
-              "message": "The request you made is not acceptable "
+              "message": "The request you made is not acceptable"
             },
             {
               "code": 500,
@@ -256,7 +256,7 @@
               "paramType": "form",
               "name": "section",
               "type": "string",
-              "description": "Seccion",
+              "description": "Section",
               "required": true
             },
             {
