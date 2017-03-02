@@ -37,10 +37,7 @@
       "operations": [
         {
           "summary": "Creates a new Voter",
-          "notes": "This creates a new Voter that it could be an user as well.\
-          The imported field should be false.\
-          The role field should be an integer value from 1 to 5 for 1 - Zone Coordinator to 5 - Sympathizer.\
-          Areas_ids should be an array of ids of the zone, sections or squares to be coordinated. For Promoter role (4) and Sympathizer role (5) this do not apply",
+          "notes": "This creates a new Voter that it could be an user as well. The imported field should be false. The role field should be an integer value from 1 to 5 for 1 - Zone Coordinator to 5 - Sympathizer. Areas_ids should be an array of ids of the zone, sections or squares to be coordinated. For Promoter role (4) and Sympathizer role (5) this do not apply",
           "responseMessages": [
             {
               "code": 401,
