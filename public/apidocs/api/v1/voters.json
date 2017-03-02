@@ -37,7 +37,10 @@
       "operations": [
         {
           "summary": "Creates a new Voter",
-          "notes": "This creates a new Voter that it could be an user as well",
+          "notes": "This creates a new Voter that it could be an user as well.\
+          The imported field should be false.\
+          The role field should be an integer value from 1 to 5 for 1 - Zone Coordinator to 5 - Sympathizer.\
+          Areas_ids should be an array of ids of the zone, sections or squares to be coordinated. For Promoter role (4) and Sympathizer role (5) this do not apply",
           "responseMessages": [
             {
               "code": 401,
@@ -117,7 +120,8 @@
               "name": "role",
               "type": "integer",
               "description": "Role",
-              "required": true
+              "required": true,
+              "defaultValue": 5
             },
             {
               "paramType": "form",
@@ -129,9 +133,10 @@
             {
               "paramType": "form",
               "name": "imported",
-              "type": "string",
+              "type": "boolean",
               "description": "Imported",
-              "required": true
+              "required": true,
+              "defaultValue": false
             },
             {
               "paramType": "form",
@@ -144,15 +149,15 @@
               "paramType": "form",
               "name": "user_id",
               "type": "string",
-              "description": "User",
+              "description": "User that is adding the User/Voter",
               "required": true
             },
             {
               "paramType": "form",
               "name": "areas_ids",
               "type": "string",
-              "description": "Areas IDs",
-              "required": true
+              "description": "IDs of Zones, Sections or Squares if that will be a Coordinator",
+              "required": false
             }
           ],
           "nickname": "Api::V1::Voters#create",
@@ -297,23 +302,24 @@
             {
               "paramType": "form",
               "name": "imported",
-              "type": "string",
+              "type": "boolean",
               "description": "Imported",
-              "required": true
+              "required": true,
+              "defaultValue": false
             },
             {
               "paramType": "form",
               "name": "user_id",
               "type": "string",
-              "description": "User",
+              "description": "User that is adding the Voter",
               "required": true
             },
             {
               "paramType": "form",
               "name": "areas_ids",
               "type": "string",
-              "description": "Areas IDs",
-              "required": true
+              "description": "IDs of Zones, Sections or Squares if that will be a Coordinator",
+              "required": false
             }
           ],
           "nickname": "Api::V1::Voters#update",
