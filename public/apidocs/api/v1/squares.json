@@ -10,6 +10,57 @@
         {
           "summary": "Fetches all squares",
           "notes": "This lists all the squares, you can filter the squares per zone or section, if you send both values, the api will return by the zone filter since zone has high priority",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "zone_id",
+              "type": "string",
+              "description": "Filter per zone_id",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "section_id",
+              "type": "string",
+              "description": "Filter per section_id",
+              "required": false
+            },
+            {
+              "paramType": "header",
+              "name": "access-token",
+              "type": "string",
+              "description": "Access token",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "token-type",
+              "type": "string",
+              "description": "Token type",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "client",
+              "type": "string",
+              "description": "Client",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "expiry",
+              "type": "string",
+              "description": "Expiry",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "uid",
+              "type": "string",
+              "description": "Email",
+              "required": true
+            }
+          ],
           "responseMessages": [
             {
               "code": 401,
@@ -25,22 +76,6 @@
               "code": 500,
               "responseModel": null,
               "message": "Requested Range Not Satisfiable"
-            }
-          ],
-          "parameters": [
-            {
-              "paramType": "query",
-              "name": "zone_id",
-              "type": "string",
-              "description": "Filter per zone_id",
-              "required": false
-            },
-            {
-              "paramType": "query",
-              "name": "section_id",
-              "type": "string",
-              "description": "Filter per section_id",
-              "required": false
             }
           ],
           "nickname": "Api::V1::Squares#index",

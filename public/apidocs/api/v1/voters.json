@@ -10,6 +10,43 @@
         {
           "summary": "Fetches all active voters",
           "notes": "List all active Voters (active field as true)",
+          "parameters": [
+            {
+              "paramType": "header",
+              "name": "access-token",
+              "type": "string",
+              "description": "Access token",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "token-type",
+              "type": "string",
+              "description": "Token type",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "client",
+              "type": "string",
+              "description": "Client",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "expiry",
+              "type": "string",
+              "description": "Expiry",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "uid",
+              "type": "string",
+              "description": "Email",
+              "required": true
+            }
+          ],
           "responseMessages": [
             {
               "code": 401,
@@ -37,25 +74,43 @@
       "operations": [
         {
           "summary": "Creates a new Voter",
-          "notes": "This creates a new Voter that it could be an user as well",
-          "responseMessages": [
-            {
-              "code": 401,
-              "responseModel": null,
-              "message": "Unauthorized"
-            },
-            {
-              "code": 406,
-              "responseModel": null,
-              "message": "The request you made is not acceptable"
-            },
-            {
-              "code": 500,
-              "responseModel": null,
-              "message": "Requested Range Not Satisfiable"
-            }
-          ],
+          "notes": "This creates a new Voter that it could be an user as well.    The imported field should be false.    The role field should be an integer value from 1 to 5 for 1 - Zone Coordinator to 5 - Sympathizer. Areas_ids should be an array of ids of the zone, sections or squares to be coordinated. For Promoter role (4) and Sympathizer role (5) this do not apply",
           "parameters": [
+            {
+              "paramType": "header",
+              "name": "access-token",
+              "type": "string",
+              "description": "Access token",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "token-type",
+              "type": "string",
+              "description": "Token type",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "client",
+              "type": "string",
+              "description": "Client",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "expiry",
+              "type": "string",
+              "description": "Expiry",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "uid",
+              "type": "string",
+              "description": "Email",
+              "required": true
+            },
             {
               "paramType": "form",
               "name": "full_name",
@@ -81,7 +136,7 @@
               "paramType": "form",
               "name": "section",
               "type": "string",
-              "description": "Seccion",
+              "description": "Section",
               "required": true
             },
             {
@@ -121,16 +176,17 @@
             },
             {
               "paramType": "form",
-              "name": "email",
-              "type": "string",
-              "description": "Email address",
+              "name": "imported",
+              "type": "boolean",
+              "description": "Imported",
+              "defaultValue": false,
               "required": true
             },
             {
               "paramType": "form",
-              "name": "imported",
+              "name": "email",
               "type": "string",
-              "description": "Imported",
+              "description": "Email address",
               "required": true
             },
             {
@@ -142,17 +198,27 @@
             },
             {
               "paramType": "form",
-              "name": "user_id",
-              "type": "string",
-              "description": "User",
-              "required": true
-            },
-            {
-              "paramType": "form",
               "name": "areas_ids",
               "type": "string",
               "description": "Areas IDs",
-              "required": true
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "The request you made is not acceptable"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Requested Range Not Satisfiable"
             }
           ],
           "nickname": "Api::V1::Voters#create",
@@ -165,6 +231,50 @@
       "operations": [
         {
           "summary": "Fetches a single Voter",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "string",
+              "description": "Voter ID",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "access-token",
+              "type": "string",
+              "description": "Access token",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "token-type",
+              "type": "string",
+              "description": "Token type",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "client",
+              "type": "string",
+              "description": "Client",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "expiry",
+              "type": "string",
+              "description": "Expiry",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "uid",
+              "type": "string",
+              "description": "Email",
+              "required": true
+            }
+          ],
           "responseMessages": [
             {
               "code": 200,
@@ -187,15 +297,6 @@
               "message": "Requested Range Not Satisfiable"
             }
           ],
-          "parameters": [
-            {
-              "paramType": "path",
-              "name": "id",
-              "type": "string",
-              "description": "Voter ID",
-              "required": true
-            }
-          ],
           "nickname": "Api::V1::Voters#show",
           "method": "get"
         }
@@ -206,24 +307,42 @@
       "operations": [
         {
           "summary": "Updates an existing Voter",
-          "responseMessages": [
-            {
-              "code": 401,
-              "responseModel": null,
-              "message": "Unauthorized"
-            },
-            {
-              "code": 406,
-              "responseModel": null,
-              "message": "The request you made is not acceptable "
-            },
-            {
-              "code": 500,
-              "responseModel": null,
-              "message": "Requested Range Not Satisfiable"
-            }
-          ],
           "parameters": [
+            {
+              "paramType": "header",
+              "name": "access-token",
+              "type": "string",
+              "description": "Access token",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "token-type",
+              "type": "string",
+              "description": "Token type",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "client",
+              "type": "string",
+              "description": "Client",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "expiry",
+              "type": "string",
+              "description": "Expiry",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "uid",
+              "type": "string",
+              "description": "Email",
+              "required": true
+            },
             {
               "paramType": "path",
               "name": "id",
@@ -256,7 +375,7 @@
               "paramType": "form",
               "name": "section",
               "type": "string",
-              "description": "Seccion",
+              "description": "Section",
               "required": true
             },
             {
@@ -297,15 +416,9 @@
             {
               "paramType": "form",
               "name": "imported",
-              "type": "string",
+              "type": "boolean",
               "description": "Imported",
-              "required": true
-            },
-            {
-              "paramType": "form",
-              "name": "user_id",
-              "type": "string",
-              "description": "User",
+              "defaultValue": false,
               "required": true
             },
             {
@@ -316,16 +429,6 @@
               "required": true
             }
           ],
-          "nickname": "Api::V1::Voters#update",
-          "method": "patch"
-        }
-      ]
-    },
-    {
-      "path": "/api/v1/voters/{id}",
-      "operations": [
-        {
-          "summary": "Deletes logically an existing Voter",
           "responseMessages": [
             {
               "code": 401,
@@ -343,13 +446,75 @@
               "message": "Requested Range Not Satisfiable"
             }
           ],
+          "nickname": "Api::V1::Voters#update",
+          "method": "patch"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/voters/{id}",
+      "operations": [
+        {
+          "summary": "Deletes logically an existing Voter",
           "parameters": [
+            {
+              "paramType": "header",
+              "name": "access-token",
+              "type": "string",
+              "description": "Access token",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "token-type",
+              "type": "string",
+              "description": "Token type",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "client",
+              "type": "string",
+              "description": "Client",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "expiry",
+              "type": "string",
+              "description": "Expiry",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "uid",
+              "type": "string",
+              "description": "Email",
+              "required": true
+            },
             {
               "paramType": "path",
               "name": "id",
               "type": "string",
               "description": "Voter ID",
               "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "The request you made is not acceptable"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Requested Range Not Satisfiable"
             }
           ],
           "nickname": "Api::V1::Voters#destroy",

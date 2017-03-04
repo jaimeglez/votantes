@@ -10,6 +10,43 @@
         {
           "summary": "Fetches all zones",
           "notes": "This lists all the zones",
+          "parameters": [
+            {
+              "paramType": "header",
+              "name": "access-token",
+              "type": "string",
+              "description": "Access token",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "token-type",
+              "type": "string",
+              "description": "Token type",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "client",
+              "type": "string",
+              "description": "Client",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "expiry",
+              "type": "string",
+              "description": "Expiry",
+              "required": true
+            },
+            {
+              "paramType": "header",
+              "name": "uid",
+              "type": "string",
+              "description": "Email",
+              "required": true
+            }
+          ],
           "responseMessages": [
             {
               "code": 401,

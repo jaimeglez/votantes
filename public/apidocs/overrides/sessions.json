@@ -1,7 +1,7 @@
 {
   "apiVersion": "1.0",
   "swaggerVersion": "1.2",
-  "basePath": "https://votantes-app.herokuapp.com",
+  "basePath": "http://localhost:3000",
   "resourcePath": "sessions",
   "apis": [
     {
@@ -9,18 +9,6 @@
       "operations": [
         {
           "summary": "Create a new session for a user",
-          "responseMessages": [
-            {
-              "code": 401,
-              "responseModel": null,
-              "message": "Unauthorized"
-            },
-            {
-              "code": 406,
-              "responseModel": null,
-              "message": "Not Acceptable"
-            }
-          ],
           "parameters": [
             {
               "paramType": "form",
@@ -37,16 +25,6 @@
               "required": true
             }
           ],
-          "nickname": "Overrides::Sessions#create",
-          "method": "post"
-        }
-      ]
-    },
-    {
-      "path": "/api/v1/auth/sign_out",
-      "operations": [
-        {
-          "summary": "Remove session for a user",
           "responseMessages": [
             {
               "code": 401,
@@ -59,6 +37,16 @@
               "message": "Not Acceptable"
             }
           ],
+          "nickname": "Overrides::Sessions#create",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/auth/sign_out",
+      "operations": [
+        {
+          "summary": "Remove session for a user",
           "parameters": [
             {
               "paramType": "header",
@@ -80,6 +68,18 @@
               "type": "string",
               "description": "Access token",
               "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Not Acceptable"
             }
           ],
           "nickname": "Overrides::Sessions#destroy",
