@@ -14,7 +14,6 @@ class Api::V1::VotersController < Api::V1::ApiBaseController
 
   def create
     params[:voter] = params
-    params[:voter][:user_id] = current_api_v1_voter.id
     voter = Voter.new(voter_permit)
 
     if voter.save
@@ -44,7 +43,6 @@ class Api::V1::VotersController < Api::V1::ApiBaseController
 
   def update
     params[:voter] = params
-    params[:voter][:user_id] = current_api_v1_voter.id
     voter = Voter.find(params[:id])
 
     if voter.update(voter_permit)
@@ -177,6 +175,8 @@ class Api::V1::VotersController < Api::V1::ApiBaseController
 
   private
   def voter_permit
+    params[:voter][:user_id] = current_api_v1_voter.id
+
     params.require(:voter).permit(
       :address,
       :areas_ids,
