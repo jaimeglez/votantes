@@ -172,7 +172,8 @@
               "name": "role",
               "type": "integer",
               "description": "Role",
-              "required": true
+              "required": true,
+              "defaultValue": 5
             },
             {
               "paramType": "form",
@@ -181,6 +182,7 @@
               "description": "Imported",
               "defaultValue": false,
               "required": true
+
             },
             {
               "paramType": "form",
@@ -200,7 +202,7 @@
               "paramType": "form",
               "name": "areas_ids",
               "type": "string",
-              "description": "Areas IDs",
+              "description": "IDs of Zones, Sections or Squares if that will be a Coordinator",
               "required": false
             }
           ],
@@ -425,8 +427,8 @@
               "paramType": "form",
               "name": "areas_ids",
               "type": "string",
-              "description": "Areas IDs",
-              "required": true
+              "description": "IDs of Zones, Sections or Squares if that will be a Coordinator",
+              "required": false
             }
           ],
           "responseMessages": [
