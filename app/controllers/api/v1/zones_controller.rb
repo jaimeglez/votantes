@@ -1,4 +1,5 @@
 class Api::V1::ZonesController < Api::V1::ApiBaseController
+  before_action :authenticate_api_v1_voter!
   respond_to :json
 
   def index
@@ -10,6 +11,11 @@ class Api::V1::ZonesController < Api::V1::ApiBaseController
   swagger_api :index do
     summary "Fetches all zones"
     notes "This lists all the zones"
+    param :header, 'access-token', :string, :required, 'Access token'
+    param :header, 'token-type', :string, :required, 'Token type'
+    param :header, 'client', :string, :required, 'Client'
+    param :header, 'expiry', :string, :required, 'Expiry'
+    param :header, 'uid', :string, :required, 'Email'
     response :unauthorized
     response :not_acceptable, "The request you made is not acceptable"
     response :requested_range_not_satisfiable

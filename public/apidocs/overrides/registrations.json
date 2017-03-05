@@ -9,18 +9,6 @@
       "operations": [
         {
           "summary": "Creates a new User",
-          "responseMessages": [
-            {
-              "code": 401,
-              "responseModel": null,
-              "message": "Unauthorized"
-            },
-            {
-              "code": 406,
-              "responseModel": null,
-              "message": "Not Acceptable"
-            }
-          ],
           "parameters": [
             {
               "paramType": "form",
@@ -83,8 +71,7 @@
               "name": "user_id",
               "type": "string",
               "description": "User",
-              "required": true,
-              "default": "5955228f-2a0c-4132-86e1-6600c38a1237"
+              "required": true
             },
             {
               "paramType": "form",
@@ -113,6 +100,18 @@
               "type": "string",
               "description": "Password Confirmation",
               "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Not Acceptable"
             }
           ],
           "nickname": "Overrides::Registrations#create",
