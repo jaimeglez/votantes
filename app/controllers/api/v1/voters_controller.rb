@@ -179,6 +179,7 @@ class Api::V1::VotersController < Api::V1::ApiBaseController
 
     params.require(:voter).permit(
       :address,
+      :audio,
       :areas_ids,
       :active,
       :electoral_number,

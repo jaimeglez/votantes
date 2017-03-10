@@ -6,6 +6,9 @@ class Voter < ActiveRecord::Base
     :omniauthable
   include DeviseTokenAuth::Concerns::User
 
+  # Audio recording field for uploading with Carrierwave
+  mount_uploader :audio, AudioUploader
+
   # Associations
   has_many :zones,    class_name: 'Zone',    foreign_key: :coordinator_id
   has_many :sections, class_name: 'Section', foreign_key: :coordinator_id
@@ -26,7 +29,7 @@ class Voter < ActiveRecord::Base
   # Callbacks
   validates_presence_of :full_name, :address, :electoral_number, :section
   validates :electoral_number, uniqueness: true
-  validates :latitude, :longitude, :phone_number, :social_network, :role, :email, :user_id,
+  validates :latitude, :longitude, :phone_number, :social_network, :role, :email, :user_id, :audio,
     presence: true, if: :user_created_from_app?
 
   before_validation :check_user_permissions, on: :create, if: :user_created_from_app?
