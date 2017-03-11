@@ -24,6 +24,10 @@
       "description": "Sessions"
     },
     {
+      "path": "/apidocs/overrides/passwords.{format}",
+      "description": "Passwords"
+    },
+    {
       "path": "/apidocs/overrides/registrations.{format}",
       "description": "Registrations"
     }

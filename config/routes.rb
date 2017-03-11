@@ -24,7 +24,8 @@ Rails.application.routes.draw do
       resources :squares, only: [:index]
       mount_devise_token_auth_for 'Voter', at: 'auth', skip: [:omniauth_callbacks], controllers: {
         registrations:  'overrides/registrations',
-        sessions:  'overrides/sessions'
+        sessions:  'overrides/sessions',
+        passwords: 'overrides/passwords'
       }
     end
 
