@@ -33,7 +33,7 @@ class Voter < ActiveRecord::Base
   before_validation :check_electoral_number, :add_rand_password, on: :create
   before_create :add_default_role, :set_active
   after_create :associate_coordinations, if: :user_created_from_app?
-  after_commit :send_download_app_email, if: :user_created_from_app?
+  after_commit :send_download_app_email, on: :create, if: :user_created_from_app?
 
   private
 
