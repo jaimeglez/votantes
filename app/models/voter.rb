@@ -99,7 +99,15 @@ class Voter < ActiveRecord::Base
   end
 
   def send_download_app_email
+    invite_to_set_password_params
     VoterMailer.download_app_email(self).deliver_now
+  end
+
+  def invite_to_set_password_params
+    enc = Devise.token_generator.generate(self.class, :reset_password_token)
+    self.reset_password_token = enc[1]
+    self.reset_password_sent_at = Time.now.utc
+    self.save!(validate: false)
   end
 
 end

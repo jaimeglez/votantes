@@ -6,6 +6,10 @@
   <body>
     <h1>Hola <%= @voter.full_name %></h1>
     <p>
+      Te damos la bienvenida y te invitamos a crear tu password en el siguiente link
+    </p>
+    <p><%= link_to 'Crear contraseña', voter_passwords_edit_url(voter: @voter, reset_password_token: @voter.reset_password_token).html_safe %></p>
+    <p>
       Ahora puedes descargar la applicación en el siguiente enlace:
     </p>
   </body>
