@@ -10,6 +10,11 @@ Rails.application.routes.draw do
     resources :messages, except: [ :edit, :destroy, :update ]
   end
 
+  get '/voter_passwords/edit', to: 'voter_passwords#edit'
+  put '/voter_passwords/update', to: 'voter_passwords#update'
+  get '/voter_passwords/success', to: 'voter_passwords#success'
+  get '/voter_passwords/not_found', to: 'voter_passwords#not_found'
+
   # token auth routes available at /api/v1/auth
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
@@ -19,7 +24,8 @@ Rails.application.routes.draw do
       resources :squares, only: [:index]
       mount_devise_token_auth_for 'Voter', at: 'auth', skip: [:omniauth_callbacks], controllers: {
         registrations:  'overrides/registrations',
-        sessions:  'overrides/sessions'
+        sessions:  'overrides/sessions',
+        passwords: 'overrides/passwords'
       }
     end
 

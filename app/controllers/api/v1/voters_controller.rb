@@ -112,8 +112,8 @@ class Api::V1::VotersController < Api::V1::ApiBaseController
     param :form, :role, :integer, :required, "Role"
     param :form, :imported, :boolean, :required, "Imported"
     param :form, :email, :string, :required, "Email address"
-    param :form, :password, :string, :required, "Password"
     param :form, :areas_ids, :string, :optional, "Areas IDs"
+
     response :unauthorized
     response :not_acceptable, "The request you made is not acceptable"
     response :requested_range_not_satisfiable

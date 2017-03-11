@@ -30,9 +30,10 @@ class Voter < ActiveRecord::Base
     presence: true, if: :user_created_from_app?
 
   before_validation :check_user_permissions, on: :create, if: :user_created_from_app?
-  before_validation :check_electoral_number, on: :create
+  before_validation :check_electoral_number, :add_rand_password, on: :create
   before_create :add_default_role, :set_active
-  after_create :associate_coordinations, :send_download_app_email, if: :user_created_from_app?
+  after_create :associate_coordinations, if: :user_created_from_app?
+  after_commit :send_download_app_email, on: :create, if: :user_created_from_app?
 
   private
 
@@ -77,6 +78,10 @@ class Voter < ActiveRecord::Base
     self.active = true
   end
 
+  def add_rand_password
+    self.password = (0...10).map { (65 + rand(26)).chr }.join
+  end
+
   def associate_coordinations
     case role
     when ZONE_COORDINATOR
@@ -92,10 +97,11 @@ class Voter < ActiveRecord::Base
     areas_to_relate.each do |area|
       area.update_attribute(:coordinator_id, id)
     end
-
   end
 
   def send_download_app_email
+    enc = Devise.token_generator.generate(self.class, :reset_password_token)
+    update_columns(reset_password_token: enc[1], reset_password_sent_at: Time.now.utc)
     VoterMailer.download_app_email(self).deliver_now
   end
 
