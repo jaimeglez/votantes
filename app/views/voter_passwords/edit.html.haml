@@ -1,0 +1,13 @@
+.panel.panel-default
+  .panel-heading
+    %h2 Guardar contraseña
+    = simple_form_for(@voter, as: @voter, url: voter_passwords_update_path, html: { method: :put }) do |f|
+      = f.input :reset_password_token, as: :hidden
+      = f.input :id, as: :hidden
+      = f.full_error :reset_password_token
+      .form-inputs
+        = f.input :password, label: "Nueva contraseña", required: true, autofocus: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length)
+        = f.input :password_confirmation, label: "Confirmación de contraseña", required: true
+      .form-actions
+        = f.button :submit, "Guardar"
+
