@@ -3,7 +3,11 @@ class VoterPasswordsController < ApplicationController
   include Devise::Controllers::Helpers
   layout 'devise_token'
   def edit
-    @voter = Voter.find(params[:voter])
+    @voter = Voter.find_by(id: params[:voter])
+    if !@voter
+      flash.now[:danger] = 'Su token expiró o el usuario no se encontró'
+      redirect_to voter_passwords_not_found_path
+    end
   end
 
   def update

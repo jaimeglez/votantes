@@ -32,7 +32,8 @@ class Voter < ActiveRecord::Base
   before_validation :check_user_permissions, on: :create, if: :user_created_from_app?
   before_validation :check_electoral_number, :add_rand_password, on: :create
   before_create :add_default_role, :set_active
-  after_create :associate_coordinations, :send_download_app_email, if: :user_created_from_app?
+  after_create :associate_coordinations, if: :user_created_from_app?
+  after_commit :send_download_app_email, if: :user_created_from_app?
 
   private
 
@@ -99,15 +100,9 @@ class Voter < ActiveRecord::Base
   end
 
   def send_download_app_email
-    invite_to_set_password_params
-    VoterMailer.download_app_email(self).deliver_now
-  end
-
-  def invite_to_set_password_params
     enc = Devise.token_generator.generate(self.class, :reset_password_token)
-    self.reset_password_token = enc[1]
-    self.reset_password_sent_at = Time.now.utc
-    self.save!(validate: false)
+    update_columns(reset_password_token: enc[1], reset_password_sent_at: Time.now.utc)
+    VoterMailer.download_app_email(self).deliver_now
   end
 
 end
