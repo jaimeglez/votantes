@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   get '/voter_passwords/edit', to: 'voter_passwords#edit'
   put '/voter_passwords/update', to: 'voter_passwords#update'
+  get '/voter_passwords/success', to: 'voter_passwords#success'
 
   # token auth routes available at /api/v1/auth
   namespace :api, defaults: { format: :json } do
