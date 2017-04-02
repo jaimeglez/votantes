@@ -195,8 +195,7 @@
               "paramType": "form",
               "name": "audio",
               "type": "file",
-              "description": "Audio File",
-              "required": true
+              "description": "Audio File"
             },
             {
               "paramType": "form",
