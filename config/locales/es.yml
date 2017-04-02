@@ -29,6 +29,7 @@ es:
   custom:
     role_hierarchy_validation: 'No tienes permiso para agregar este usuario'
     role_sympathizers_limit: 'Yo no puedes agregar más simpatizantes'
+    role_missing_areas_ids: 'Para agregar cualquier coordinador, areas_ids es requerido'
 
   successful:
     new_voter: 'Votante agregado satisfactoriamente'
