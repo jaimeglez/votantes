@@ -29,10 +29,9 @@ class Voter < ActiveRecord::Base
   validates :latitude, :longitude, :phone_number, :social_network, :role, :email, :user_id,
     presence: true, if: :user_created_from_app?
 
-  before_validation :check_user_permissions, on: :create, if: :user_created_from_app?
+  before_validation :check_user_permissions, :associate_coordinations, on: :create, if: :user_created_from_app?
   before_validation :check_electoral_number, :add_rand_password, on: :create
   before_create :add_default_role, :set_active
-  after_create :associate_coordinations, if: :user_created_from_app?
   after_commit :send_download_app_email, on: :create, if: :user_created_from_app?
 
   private
@@ -83,6 +82,12 @@ class Voter < ActiveRecord::Base
   end
 
   def associate_coordinations
+    if [ZONE_COORDINATOR, SECTION_COORDINATOR, SQUARE_COORDINATOR].include?(role) \
+      && areas_ids.blank?
+      self.errors.add(:base, I18n.t('custom.role_missing_areas_ids'))
+      return false
+    end
+
     case role
     when ZONE_COORDINATOR
       areas_to_relate = Zone.where(id: eval(areas_ids))
