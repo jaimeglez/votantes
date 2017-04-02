@@ -112,7 +112,7 @@ class Api::V1::VotersController < Api::V1::ApiBaseController
     param :form, :role, :integer, :required, "Role"
     param :form, :imported, :boolean, :required, "Imported"
     param :form, :email, :string, :required, "Email address"
-    param :form, :audio, :file, :required, "Audio File"
+    param :form, :audio, :file, "Audio File"
     param :form, :areas_ids, :string, :optional, "Areas IDs"
 
     response :unauthorized
