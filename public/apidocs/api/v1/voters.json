@@ -193,16 +193,16 @@
             },
             {
               "paramType": "form",
-              "name": "password",
-              "type": "string",
-              "description": "Password",
+              "name": "audio",
+              "type": "file",
+              "description": "Audio File",
               "required": true
             },
             {
               "paramType": "form",
               "name": "areas_ids",
               "type": "string",
-              "description": "IDs of Zones, Sections or Squares if that will be a Coordinator",
+              "description": "Areas IDs",
               "required": false
             }
           ],
