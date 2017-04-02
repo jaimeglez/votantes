@@ -6,6 +6,9 @@ class Voter < ActiveRecord::Base
     :omniauthable
   include DeviseTokenAuth::Concerns::User
 
+  # Audio recording field for uploading with Carrierwave
+  mount_uploader :audio, AudioUploader
+
   # Associations
   has_many :zones,    class_name: 'Zone',    foreign_key: :coordinator_id
   has_many :sections, class_name: 'Section', foreign_key: :coordinator_id
