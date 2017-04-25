@@ -28,6 +28,8 @@
           %td=voter.id
           %td=voter.full_name
           %td=voter.role_name(voter.role)
+
+    = paginate @voters
   -else
     %h4
       No hay usuarios registrados
