@@ -1,0 +1,33 @@
+.well.well-lg
+  .row
+    .col-xs-12
+      %h4.text-muted
+        Buscar usuarios
+  = simple_form_for :search, { url: admin_voters_path, method: :get, defaults: {required: false} } do |f|
+    .row
+      .col-xs-4
+        = f.input :query, label: false
+    .btn-group
+      = f.button :submit, value: 'Buscar', class: 'btn btn-default'
+      =link_to 'Mostrar todos', admin_voters_path, class: 'btn btn-default'
+
+.col-xs-12
+  %h1
+    Lista de usuarios
+
+  -unless @voters.empty?
+    %table.table.table-hover
+      %thead
+        %tr
+          %th Id
+          %th Nombre completo
+          %th Rol
+
+      -@voters.each_with_index do |voter,index|
+        %tr
+          %td=voter.id
+          %td=voter.full_name
+          %td=voter.role_name(voter.role)
+  -else
+    %h4
+      No hay usuarios registrados

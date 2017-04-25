@@ -244,3 +244,10 @@ es:
       long: "%d de %B de %Y %H:%M"
       short: "%d de %b %H:%M"
     pm: pm
+  voter:
+    roles:
+      zone_coordinator: 'Coordinador de zona'
+      section_coordinator: 'Coordinador de sección'
+      square_coordinator: 'Coordinador de manzana'
+      promoter: 'Promotor'
+      sympathizer: 'Simpatizante'

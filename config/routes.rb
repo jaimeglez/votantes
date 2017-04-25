@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :zones
     resources :sections
     resources :squares
+    resources :voters, only: [:index]
     resources :voter_documents, except: [ :edit, :destroy, :update ]
     resources :messages, except: [ :edit, :destroy, :update ]
   end

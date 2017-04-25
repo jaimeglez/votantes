@@ -18,11 +18,19 @@ class Voter < ActiveRecord::Base
   scope :active, -> { where(active: true) }
 
   # Role constants
-  ZONE_COORDINATOR = 1;
-  SECTION_COORDINATOR = 2;
-  SQUARE_COORDINATOR = 3;
-  PROMOTER = 4;
-  SYMPATHIZER = 5;
+  ZONE_COORDINATOR = 1
+  SECTION_COORDINATOR = 2
+  SQUARE_COORDINATOR = 3
+  PROMOTER = 4
+  SYMPATHIZER = 5
+
+  ROLES = {
+    1 => I18n.t('voter.roles.zone_coordinator'),
+    2 => I18n.t('voter.roles.section_coordinator'),
+    3 => I18n.t('voter.roles.square_coordinator'),
+    4 => I18n.t('voter.roles.promoter'),
+    5 => I18n.t('voter.roles.sympathizer'),
+  }
 
   attr_accessor :imported, :areas_ids
 
@@ -36,6 +44,10 @@ class Voter < ActiveRecord::Base
   before_validation :check_electoral_number, :add_rand_password, on: :create
   before_create :add_default_role, :set_active
   after_commit :send_download_app_email, on: :create, if: :user_created_from_app?
+
+  def role_name(role_number)
+    ROLES[role_number]
+  end
 
   private
 
