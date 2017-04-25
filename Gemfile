@@ -20,6 +20,7 @@ gem 'rack-cors'
 gem 'active_model_serializers', '~> 0.10.0.rc4'
 gem 'devise_token_auth', '~> 0.1.37'
 gem 'devise', '~> 4.0.0'
+gem 'kaminari'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
