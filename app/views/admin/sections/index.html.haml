@@ -22,12 +22,14 @@
           %th Id
           %th Nombre
           %th Zona
+          %th Coordinador
 
       -@sections.each_with_index do |section,index|
         %tr
           %td=section.id
           %td=section.name
           %td=section.zone.name
+          %td=section.voter ? section.voter.full_name : 'No asignado'
           %td
             = link_to 'Agregar manzana', new_admin_square_path(section_id: section.id, zone_id: section.zone.id)
             |
