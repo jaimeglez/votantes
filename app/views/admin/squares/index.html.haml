@@ -23,6 +23,7 @@
           %th Nombre
           %th Zona
           %th Sección
+          %th Coordinador
 
       -@squares.each_with_index do |square,index|
         %tr
@@ -30,6 +31,7 @@
           %td=square.name
           %td=square.zone.name
           %td=square.section.name
+          %td=square.voter ? square.voter.full_name : 'No asignado'
           %td
             = link_to 'Ver', admin_square_path(square.id)
             |

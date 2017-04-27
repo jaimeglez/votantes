@@ -21,11 +21,13 @@
         %tr
           %th Id
           %th Nombre
+          %th Coordinador
 
       -@zones.each_with_index do |zone,index|
         %tr
           %td=zone.id
           %td=zone.name
+          %td=zone.voter ? zone.voter.full_name : 'No asignado'
           %td
             = link_to 'Agregar sección', new_admin_section_path(zone_id: zone.id)
             |

@@ -1,6 +1,6 @@
 class Zone < ActiveRecord::Base
   has_many :sections, dependent: :restrict_with_error
-  belongs_to :voter
+  belongs_to :voter, foreign_key: :coordinator_id
 
   validates_presence_of :name
   validates_associated :sections
