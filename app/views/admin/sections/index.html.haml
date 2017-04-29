@@ -41,6 +41,7 @@
             |
             = link_to 'Borrar', admin_section_path(section.id), method: :delete, data: { confirm: 'Desea eliminar la seccion?' }
 
+    = paginate @sections
   -else
     %h4
       No hay secciones registradas

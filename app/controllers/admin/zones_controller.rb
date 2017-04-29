@@ -4,8 +4,9 @@ class Admin::ZonesController < Admin::AdminBaseController
 
     @zones = Zone.all
     if(search && search[:name].present?)
-      @zones = @zones.where("name LIKE ?", "%#{search[:name]}%")
+      @zones = @zones.where("lower(full_name) LIKE ?", "%#{search[:name]}%")
     end
+    @zones = @zones.page(params[:page]).per(10)
   end
 
   def new
@@ -50,6 +51,13 @@ class Admin::ZonesController < Admin::AdminBaseController
       flash.now[:danger] = 'Hubo un error al eliminar la zona'
     end
     redirect_to admin_zones_path
+  end
+
+  def select_data
+    @zones = Zone.all
+    respond_to do |format|
+      format.json { render json: @zones }
+    end
   end
 
   private

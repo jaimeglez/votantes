@@ -30,6 +30,7 @@
           %td
             = link_to 'Borrar', admin_message_path(message.id), method: :delete, data: { confirm: 'Desea eliminar el mensaje?' }
 
+    = paginate @messages
   -else
     %h4
       No hay mensajes

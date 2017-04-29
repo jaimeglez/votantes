@@ -1,6 +1,7 @@
 class Admin::MessagesController < Admin::AdminBaseController
   def index
     @messages = Message.all
+    @messages = @messages.page(params[:page]).per(10)
   end
 
   def new

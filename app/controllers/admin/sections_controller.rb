@@ -1,5 +1,5 @@
 class Admin::SectionsController < Admin::AdminBaseController
-  before_filter :get_zones
+  before_filter :get_zones, except: [:select_data]
 
   def index
     zone_id = params[:zone_id]
@@ -13,13 +13,7 @@ class Admin::SectionsController < Admin::AdminBaseController
     if(search && search[:name].present?)
       @sections = @sections.where("name LIKE ?", "%#{search[:name]}%")
     end
-
-    respond_to do |format|
-
-      format.html
-      format.json { render json: @sections }
-
-    end
+    @sections = @sections.page(params[:page]).per(10)
   end
 
   def new
@@ -65,6 +59,13 @@ class Admin::SectionsController < Admin::AdminBaseController
       flash.now[:danger] = 'Hubo un error al eliminar la sección'
     end
     redirect_to admin_sections_path
+  end
+
+  def select_data
+    @sections = Section.all
+    respond_to do |format|
+      format.json { render json: @sections }
+    end
   end
 
   private

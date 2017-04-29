@@ -39,6 +39,7 @@
             |
             = link_to 'Borrar', admin_zone_path(zone.id), method: :delete, data: { confirm: 'Desea eliminar la zona?' }
 
+    = paginate @zones
   -else
     %h4
       No hay zonas registradas

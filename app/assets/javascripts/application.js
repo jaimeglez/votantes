@@ -17,4 +17,4 @@
 //= require select2
 //= require_tree .
 
-var API_URL = '/api/v1/';
+var API_URL = '/admin/';

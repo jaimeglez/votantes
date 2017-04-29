@@ -3,8 +3,11 @@ Rails.application.routes.draw do
   devise_for :admins
   root 'dashboard#index'
   namespace :admin do
+    match 'zones/select_data' => 'zones#select_data', :via => :get
     resources :zones
+    match 'sections/select_data' => 'sections#select_data', :via => :get
     resources :sections
+    match 'squares/select_data' => 'squares#select_data', :via => :get
     resources :squares
     resources :voters, only: [:index]
     resources :voter_documents, except: [ :edit, :destroy, :update ]

@@ -14,6 +14,7 @@ class Admin::SquaresController < Admin::AdminBaseController
     if(search && search[:name].present?)
       @squares = @squares.where("name LIKE ?", "%#{search[:name]}%")
     end
+    @squares = @squares.page(params[:page]).per(10)
   end
 
   def new
@@ -60,6 +61,13 @@ class Admin::SquaresController < Admin::AdminBaseController
       flash.now[:danger] = 'Hubo un error al eliminar la manzana'
     end
     redirect_to admin_squares_path
+  end
+
+  def select_data
+    @squares = Square.all
+    respond_to do |format|
+      format.json { render json: @squares }
+    end
   end
 
   private

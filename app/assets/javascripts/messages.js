@@ -65,7 +65,7 @@ $(function() {
   var getEntityData = function(selectId){
     $.ajax({
       method: 'GET',
-      url: API_URL + groupType,
+      url: API_URL + groupType + '/select_data',
       dataType: 'json'
     })
     .done(function(collection) {

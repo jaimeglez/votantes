@@ -39,6 +39,7 @@
             |
             = link_to 'Borrar', admin_square_path(square.id), method: :delete, data: { confirm: 'Desea eliminar la manzana?' }
 
+    = paginate @squares
   -else
     %h4
       No hay manzanas registradas
