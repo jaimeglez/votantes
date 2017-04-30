@@ -62,48 +62,6 @@ ActiveRecord::Schema.define(version: 20170310043453) do
     t.uuid     "coordinator_id"
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string   "provider",                          default: "email", null: false
-    t.string   "uid",                               default: "",      null: false
-    t.string   "encrypted_password",                default: "",      null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                     default: 0,       null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
-    t.string   "name"
-    t.string   "nickname"
-    t.string   "image"
-    t.string   "email"
-    t.json     "tokens"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "full_name"
-    t.string   "address"
-    t.string   "electoral_number",       limit: 18
-    t.string   "section"
-    t.string   "latitude"
-    t.string   "longitude"
-    t.string   "phone_number"
-    t.string   "social_network"
-    t.integer  "role"
-    t.boolean  "active"
-    t.uuid     "user_id"
-  end
-
-  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
-  add_index "users", ["electoral_number"], name: "index_users_on_electoral_number", unique: true, using: :btree
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
-
   create_table "voter_documents", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
     t.string   "attachment"

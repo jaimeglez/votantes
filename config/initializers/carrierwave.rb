@@ -5,10 +5,19 @@ require 'carrierwave/storage/fog'
 CarrierWave.configure do |config|
   config.fog_credentials = {
     provider:              'AWS',
-    aws_access_key_id:     ENV["AWS_VOTERS_ACCESS_KEY"],
-    aws_secret_access_key: ENV["AWS_VOTERS_SECRET_KEY"],
-    region: "us-west-2"
+    aws_access_key_id:     Rails.application.secrets.aws_access_key_id,
+    aws_secret_access_key: Rails.application.secrets.aws_secret_access_key,
+    region: "us-west-1"
   }
-  config.fog_directory  = 'we-send-it'
-  config.fog_attributes = { 'Cache-Control' => "max-age=#{365.day.to_i}" } # optional, defaults to {}
+
+  if Rails.env.staging? || Rails.env.production?
+    config.storage = :fog
+  else
+    config.storage = :file
+    config.enable_processing = false
+    config.root = "#{Rails.root}/tmp"
+  end
+
+  config.cache_dir = "#{Rails.root}/tmp/uploads" 
+  config.fog_directory    = ENV['S3_BUCKET_NAME']
 end

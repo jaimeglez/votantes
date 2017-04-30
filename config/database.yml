@@ -4,7 +4,7 @@ development: &common
   reconnect: false
   database: votantes_development
   pool: 5
-  username: jaime
+  username: gerardocastro
   password:
   host: localhost
 
