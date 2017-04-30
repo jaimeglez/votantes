@@ -16,6 +16,7 @@ class Voter < ActiveRecord::Base
 
   # Scopes
   scope :active, -> { where(active: true) }
+  scope :per_role, ->(roleId) { where(role: roleId) }
 
   # Role constants
   ZONE_COORDINATOR = 1

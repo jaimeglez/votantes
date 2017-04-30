@@ -6,7 +6,10 @@
   = simple_form_for :search, { url: admin_voters_path, method: :get, defaults: {required: false} } do |f|
     .row
       .col-xs-4
-        = f.input :query, label: false
+        = f.input :query, label: 'Nombre'
+      .col-xs-4
+        = f.input :role, as: :select, collection: roles_collection, label: 'Rol'
+    =@roles
     .btn-group
       = f.button :submit, value: 'Buscar', class: 'btn btn-default'
       =link_to 'Mostrar todos', admin_voters_path, class: 'btn btn-default'
