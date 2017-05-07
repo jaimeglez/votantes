@@ -1,30 +1,23 @@
 class Admin::SectionsController < Admin::AdminBaseController
-  before_filter :get_zones
+  before_action :search_form, only: :index
+  before_action :get_zones, only: [:new, :edit]
 
   def index
-    zone_id = params[:zone_id]
-    search = params[:search]
-
-    if zone_id
-      @sections = Section.includes(:zone).where(zone_id: zone_id)
+    if params[:q].present?
+      @sections = Section.build_search(params[:q]).order('name asc')
     else
-      @sections = Section.all.includes(:zone)
-    end
-    if(search && search[:name].present?)
-      @sections = @sections.where("name LIKE ?", "%#{search[:name]}%")
+      @sections = Section.all.order('name asc')
     end
 
-    respond_to do |format|
-
-      format.html
-      format.json { render json: @sections }
-
-    end
+    # respond_to do |format|
+    #   format.html
+    #   format.json { render json: @sections }
+    # end
   end
 
   def new
-    zone_id = params[:zone_id]
-    @section = Section.new(zone_id: zone_id)
+    @section = Section.new
+    @coordinators = Voter.allowed_section_coordinators
   end
 
   def create
@@ -38,12 +31,9 @@ class Admin::SectionsController < Admin::AdminBaseController
     end
   end
 
-  def show
-    @section = Section.find(params[:id])
-  end
-
   def edit
     @section = Section.find(params[:id])
+    @coordinators = Voter.allowed_section_coordinators
   end
 
   def update
@@ -57,23 +47,18 @@ class Admin::SectionsController < Admin::AdminBaseController
     end
   end
 
-  def destroy
-    @section = Section.find(params[:id])
-    if @section.destroy
-      flash.now[:success] = 'Se eliminó la sección satisfactoriamente'
-    else
-      flash.now[:danger] = 'Hubo un error al eliminar la sección'
-    end
-    redirect_to admin_sections_path
-  end
-
   private
     def section_permit
-      params.require(:section).permit(:id, :name, :zone_id)
+      params.require(:section).permit(:name, :zone_id, :coordinator_id, :active)
     end
 
     def get_zones
       @zones = Zone.all
     end
 
+    def search_form
+      @coordinators = Voter.with_roles(Voter::SECTION_COORDINATOR)
+      @zones = Zone.active
+      @q = params[:q] ||= {}
+    end
 end

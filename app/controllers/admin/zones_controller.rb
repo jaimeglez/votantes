@@ -1,15 +1,17 @@
 class Admin::ZonesController < Admin::AdminBaseController
-  def index
-    search = params[:search]
+  before_action :search_form, only: :index
 
-    @zones = Zone.all
-    if(search && search[:name].present?)
-      @zones = @zones.where("name LIKE ?", "%#{search[:name]}%")
+  def index
+    if params[:q].present?
+      @zones = Zone.build_search(params[:q]).order('name asc')
+    else
+      @zones = Zone.all.order('name asc')
     end
   end
 
   def new
     @zone = Zone.new
+    @coordinators = Voter.allowed_zone_coordinators
   end
 
   def create
@@ -23,12 +25,9 @@ class Admin::ZonesController < Admin::AdminBaseController
     end
   end
 
-  def show
-    @zone = Zone.find(params[:id])
-  end
-
   def edit
     @zone = Zone.find(params[:id])
+    @coordinators = Voter.allowed_zone_coordinators
   end
 
   def update
@@ -42,19 +41,13 @@ class Admin::ZonesController < Admin::AdminBaseController
     end
   end
 
-  def destroy
-    @zone = Zone.find(params[:id])
-    if @zone.destroy
-      flash.now[:success] = 'Se eliminó la zona satisfactoriamente'
-    else
-      flash.now[:danger] = 'Hubo un error al eliminar la zona'
-    end
-    redirect_to admin_zones_path
-  end
-
   private
     def zone_permit
-      params.require(:zone).permit(:id, :name)
+      params.require(:zone).permit(:id, :name, :coordinator_id, :active)
     end
 
+    def search_form
+      @coordinators = Voter.with_roles(Voter::ZONE_COORDINATOR)
+      @q = params[:q] ||= {}
+    end
 end

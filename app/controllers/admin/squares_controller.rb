@@ -1,25 +1,18 @@
 class Admin::SquaresController < Admin::AdminBaseController
-  before_filter :get_zones
+  before_action :search_form, only: :index
   before_filter :get_sections
 
   def index
-    section_id = params[:section_id]
-    search = params[:search]
-
-    if section_id
-      @squares = Square.includes(:section).where(section_id: section_id)
+    if params[:q].present?
+      @squares = Square.build_search(params[:q]).order('name asc')
     else
-      @squares = Square.all.includes(:section)
-    end
-    if(search && search[:name].present?)
-      @squares = @squares.where("name LIKE ?", "%#{search[:name]}%")
+      @squares = Square.all.order('name asc')
     end
   end
 
   def new
-    section_id = params[:section_id]
-    zone_id = params[:zone_id]
-    @square = Square.new(section_id: section_id, zone_id: zone_id)
+    @square = Square.new
+    @coordinators = Voter.allowed_square_coordinators
   end
 
   def create
@@ -39,6 +32,7 @@ class Admin::SquaresController < Admin::AdminBaseController
 
   def edit
     @square = Square.find(params[:id])
+    @coordinators = Voter.allowed_square_coordinators
   end
 
   def update
@@ -52,26 +46,19 @@ class Admin::SquaresController < Admin::AdminBaseController
     end
   end
 
-  def destroy
-    @square = Square.find(params[:id])
-    if @square.destroy
-      flash.now[:success] = 'Se eliminó la manzana satisfactoriamente'
-    else
-      flash.now[:danger] = 'Hubo un error al eliminar la manzana'
-    end
-    redirect_to admin_squares_path
-  end
-
   private
     def square_permit
-      params.require(:square).permit(:id, :name, :zone_id, :section_id)
-    end
-
-    def get_zones
-      @zones = Zone.all
+      params.require(:square).permit(:name, 
+        :section_id, :coordinator_id, :active)
     end
 
     def get_sections
-      @sections = Section.all
+      @sections = Section.all.includes(:zone)
+    end
+
+    def search_form
+      @coordinators = Voter.with_roles(Voter::SQUARE_COORDINATOR)
+      @sections = Section.active.includes(:zone)
+      @q = params[:q] ||= {}
     end
 end

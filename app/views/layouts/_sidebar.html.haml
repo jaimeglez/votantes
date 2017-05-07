@@ -1,0 +1,32 @@
+%aside.aside
+  .aside-inner
+    #nav.sidebar{'data-sidebar-anyclick-close' => ''}
+      %ul.nav
+        %li{class: active_menu_option('dashboard')}
+          = link_to root_path do
+            %span
+              Inicio
+        %li{class: active_menu_option('zones')}
+          = link_to admin_zones_path do
+            %span
+              Zonas
+        %li{class: active_menu_option('sections')}
+          = link_to admin_sections_path do
+            %span
+              Secciones
+        %li{class: active_menu_option('squares')}
+          = link_to admin_squares_path do
+            %span
+              Manzanas
+        %li{class: active_menu_option('voters')}
+          = link_to admin_voters_path do
+            %span
+              Personas
+        %li{class: active_menu_option('messages')}
+          = link_to admin_messages_path do
+            %span
+              Mensajes
+        %li
+          = link_to destroy_admin_session_path, method: :delete do
+            %span
+              Salir

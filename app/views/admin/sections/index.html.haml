@@ -1,46 +1,65 @@
-.well.well-lg
-  .row
-    .col-xs-12
-      %h4.text-muted
-        Buscar sección
-  = simple_form_for :search, { url: admin_sections_path, method: :get, defaults: {required: false} } do |f|
-    .row
-      .col-xs-4
-        = f.input :name, label: 'Nombre de seccion'
-    .btn-group
-      =link_to 'Crear seccion', new_admin_section_path, class: 'btn btn-success'
-      = f.button :submit, value: 'Buscar', class: 'btn btn-default'
+= content_for :javascript do
+  = javascript_include_tag 'panels', 'jquery.storageapi'
 
-.col-xs-12
-  %h1
-    Lista de secciones
+%h3
+  Secciones
+  .pull-right
+    = link_to 'Crear zona', new_admin_section_path, class: 'btn btn-success'
 
-  -unless @sections.empty?
-    %table.table.table-hover
-      %thead
-        %tr
-          %th Id
-          %th Nombre
-          %th Zona
-          %th Coordinador
+.row
+  .col-lg-12
+    .panel.panel-default
+      .panel-heading.panel-heading-collapsed
+        Buscar
+        = link_to 'javascript:void(0)', data: {tool: 'panel-collapse',
+          toggle: 'tooltip'}, class: 'pull-right' do
+          %em.fa.fa-plus
+      .panel-wrapper.collapse
+        = simple_form_for :q, { url: admin_sections_path, method: :get, defaults: {required: false} } do |f|
+          .panel-body
+            .row
+              .col-lg-4
+                = f.input :name, input_html: {value: @q[:name]}, label: 'Nombre'
+              .col-lg-4
+                = f.input :zone, as: :select, collection: @zones, label_method: :name, value_method: :id, selected: @q[:zone], include_blank: true, label: 'Zona', include_blank: 'Todas', input_html: {data: {tool: 'select2'}}
+              .col-lg-4
+                = f.input :coordinator, as: :select, collection: @coordinators, label_method: :full_name, value_method: :id, selected: @q[:coordinator], include_blank: 'Todos', label: 'Coordinador', input_html: {data: {tool: 'select2'}}
+            .row
+              .col-lg-4
+                = f.input :active, as: :select, collection: active_options, selected: @q[:active], include_blank: 'Todos', label: 'Activo', input_html: {data: {tool: 'select2'}}
+          .panel-footer
+            = f.button :submit, value: 'Buscar', class: 'btn btn-primary'
+            %span.pull-right
+              = link_to 'Mostrar todos', admin_zones_path, class: 'btn btn-default'
 
-      -@sections.each_with_index do |section,index|
-        %tr
-          %td=section.id
-          %td=section.name
-          %td=section.zone.name
-          %td=section.voter ? section.voter.full_name : 'No asignado'
-          %td
-            = link_to 'Agregar manzana', new_admin_square_path(section_id: section.id, zone_id: section.zone.id)
-            |
-            = link_to 'Manzanas', admin_squares_path(section_id: section.id)
-            |
-            = link_to 'Ver', admin_section_path(section.id)
-            |
-            = link_to 'Editar', edit_admin_section_path(section.id)
-            |
-            = link_to 'Borrar', admin_section_path(section.id), method: :delete, data: { confirm: 'Desea eliminar la seccion?' }
-
-  -else
-    %h4
-      No hay secciones registradas
+.row
+  .col-lg-12  
+    .panel.panel-default 
+      .panel-body
+        - if @sections.empty?
+          %h4
+            No hay secciones registradas
+        - else
+          %table.table.table-responsive.table-bordered.table-hover
+            %thead
+              %tr
+                %th Nombre
+                %th Zona
+                %th Coordinador
+                %th Activo
+                %th
+            %tbody
+              - @sections.each do |section|
+                %tr
+                  %td
+                    = section.name.titleize
+                  %td
+                    = section.zone.name.titleize
+                  %td
+                    = coordinator_name(section)
+                  %td
+                    = active_label(section)
+                  %td
+                    = link_to 'Manzanas', admin_squares_path(section_id: section.id)
+                    |
+                    = link_to 'Editar', edit_admin_section_path(section.id)

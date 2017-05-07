@@ -1,14 +1,23 @@
 !!!
 %html
-  %title Votantes
-  = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
-  = csrf_meta_tags
+  %head
+    %title Votantes
+    %meta{charset: 'utf-8'}
+    %meta{name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1'}
+    = csrf_meta_tags
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
   %body
-    #header
-      = render 'layouts/header'
-      = render 'layouts/flash_messages'
-    #content.container
-      = yield
-    #footer.container
-    = javascript_include_tag 'application'
-    = yield :javascript
+    .wrapper
+      - unless current_admin.nil?
+        = render 'layouts/header'
+        = render 'layouts/sidebar'
+        %section
+          .content-wrapper
+            = render 'layouts/flash_messages'
+            = yield
+      - else
+        .content-wrapper
+          = render 'layouts/flash_messages'
+          = yield
+      = javascript_include_tag 'application'
+      = yield :javascript

@@ -13,8 +13,8 @@ gem 'roo'
 gem 'omniauth'
 gem 'versionist'
 gem 'redis'
-gem "fog-aws"
-gem "select2-rails"
+gem 'fog-aws'
+gem 'select2-rails'
 gem 'swagger-docs'
 gem 'rack-cors'
 gem 'active_model_serializers', '~> 0.10.0.rc4'
@@ -38,6 +38,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'blondie', git: 'git@github.com:Ghrind/blondie.git', branch: 'master'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -56,7 +57,6 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'

@@ -1,52 +1,11 @@
-.navbar.navbar-inverse{role: 'navigation'}
-  .navbar-header
-    = link_to 'Votantes', root_path, class: 'navbar-brand'
-  .collapse.navbar-collapse
-    - if admin_signed_in?
-      %ul.nav.navbar-nav.main-menu
-        %li.dropdown
-          = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
-            Zonas
-            %b.caret
-          %ul.dropdown-menu
-            %li
-              = link_to 'Lista de zonas', admin_zones_path
-            %li
-              = link_to 'Crear zona', new_admin_zone_path
-        %li.dropdown
-          = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
-            Secciones
-            %b.caret
-          %ul.dropdown-menu
-            %li
-              = link_to 'Lista de secciones', admin_sections_path
-            %li
-              = link_to 'Crear seccion', new_admin_section_path
-        %li.dropdown
-          = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
-            Manzanas
-            %b.caret
-          %ul.dropdown-menu
-            %li
-              = link_to 'Lista de manzanas', admin_squares_path
-            %li
-              = link_to 'Crear manzana', new_admin_square_path
-
-      %ul.nav.navbar-nav.navbar-right
-        %li.dropdown
-          = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
-            Opciones
-            %b.caret
-          %ul.dropdown-menu
-            %li.dropdown
-              = link_to 'Lista de usuarios', admin_voters_path
-            %li.dropdown
-              = link_to 'Importar votantes', admin_voter_documents_path
-            %li.dropdown
-              = link_to 'Mensajes', admin_messages_path
-        %li.dropdown
-          = link_to 'Cerrar sesion', destroy_admin_session_path, method: :delete
-    - else
-      %ul.nav.navbar-nav.navbar-right
-        %li.dropdown
-          = link_to 'Iniciar sesión', new_admin_session_path
+%header.topnavbar-wrapper
+  %nav.navbar.topnavbar{role: 'navigation'}
+    .navbar-header
+      = link_to 'logo', root_path, class: 'navbar-brand'
+    .nav-wrapper
+      %ul.nav.navbar-nav
+        %li
+          = link_to '#', class: 'visible-xs sidebar-toggle',
+            data: {'toggle-state' => 'aside-toggled', 
+            'no-persist' => 'true'} do
+            %em.fa.fa-navicon

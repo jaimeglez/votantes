@@ -1,12 +1,25 @@
 Rails.application.routes.draw do
   get '/swagger' => redirect('/swagger/dist/index.html?url=/apidocs/api-docs.json')
   devise_for :admins
-  root 'dashboard#index'
+
+  devise_scope :admin do
+    authenticated :admin do
+      root 'admin/dashboards#show', as: :authenticated_root
+    end
+
+    unauthenticated do
+      root 'devise/sessions#new', as: :unauthenticated_root
+    end
+  end
+
+  root to: 'devise/sessions#new'
+
   namespace :admin do
-    resources :zones
-    resources :sections
-    resources :squares
-    resources :voters, only: [:index]
+    resource :dashboard, only: :show
+    resources :zones, except: [ :destroy, :show ]
+    resources :sections, except: [ :destroy, :show ]
+    resources :squares, except: [ :destroy ]
+    resources :voters
     resources :voter_documents, except: [ :edit, :destroy, :update ]
     resources :messages, except: [ :edit, :destroy, :update ]
   end
@@ -31,8 +44,4 @@ Rails.application.routes.draw do
     end
 
   end
-
-  # api_version(module: "api/v1", header: {name: "API-VERSION-1", value: "v1"}, defaults: {format: :json}, path: {value: "api/v1"}, default: false) do
-  # end
-
 end

@@ -12,9 +12,20 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require bootstrap
 //= require select2
-//= require_tree .
+//= require sidebar
 
 var API_URL = '/api/v1/';
+window.APP_MEDIAQUERY = {
+    'desktopLG':             1200,
+    'desktop':                992,
+    'tablet':                 768,
+    'mobile':                 480
+  };
+
+$(document).ready(function(){
+  $('[data-tool="select2"]').select2({
+    theme: 'bootstrap'
+  });
+});

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170310043453) do
+ActiveRecord::Schema.define(version: 20170118033846) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,27 +40,36 @@ ActiveRecord::Schema.define(version: 20170310043453) do
     t.string   "msg_type"
     t.string   "content_video"
     t.text     "content_text"
+    t.hstore   "receivers"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-    t.hstore   "receivers"
   end
 
   create_table "sections", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name",           limit: 100
     t.uuid     "zone_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
     t.uuid     "coordinator_id"
+    t.boolean  "active",                     default: true
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
   end
+
+  add_index "sections", ["active"], name: "index_sections_on_active", using: :btree
+  add_index "sections", ["coordinator_id"], name: "index_sections_on_coordinator_id", using: :btree
+  add_index "sections", ["zone_id"], name: "index_sections_on_zone_id", using: :btree
 
   create_table "squares", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name",           limit: 100
     t.uuid     "section_id"
-    t.uuid     "zone_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
     t.uuid     "coordinator_id"
+    t.boolean  "active",                     default: true
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
   end
+
+  add_index "squares", ["active"], name: "index_squares_on_active", using: :btree
+  add_index "squares", ["coordinator_id"], name: "index_squares_on_coordinator_id", using: :btree
+  add_index "squares", ["section_id"], name: "index_squares_on_section_id", using: :btree
 
   create_table "voter_documents", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
@@ -74,14 +83,15 @@ ActiveRecord::Schema.define(version: 20170310043453) do
     t.string   "address"
     t.string   "electoral_number",       limit: 18
     t.string   "section"
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
     t.string   "latitude"
     t.string   "longitude"
     t.string   "phone_number"
     t.string   "social_network"
     t.integer  "role"
-    t.boolean  "active"
+    t.string   "email"
+    t.boolean  "active",                             default: true
+    t.uuid     "square_id"
+    t.string   "audio"
     t.string   "provider",                           default: "email", null: false
     t.string   "uid",                                default: ""
     t.string   "encrypted_password",                 default: ""
@@ -95,20 +105,27 @@ ActiveRecord::Schema.define(version: 20170310043453) do
     t.string   "last_sign_in_ip"
     t.string   "confirmation_token"
     t.json     "tokens"
-    t.string   "email"
-    t.uuid     "user_id"
-    t.string   "audio"
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
   end
 
+  add_index "voters", ["active"], name: "index_voters_on_active", using: :btree
   add_index "voters", ["confirmation_token"], name: "index_voters_on_confirmation_token", unique: true, using: :btree
-  add_index "voters", ["electoral_number"], name: "index_voters_on_electoral_number", unique: true, using: :btree
+  add_index "voters", ["email"], name: "index_voters_on_email", unique: true, using: :btree
   add_index "voters", ["reset_password_token"], name: "index_voters_on_reset_password_token", unique: true, using: :btree
+  add_index "voters", ["role"], name: "index_voters_on_role", using: :btree
+  add_index "voters", ["square_id"], name: "index_voters_on_square_id", using: :btree
+  add_index "voters", ["uid", "provider"], name: "index_voters_on_uid_and_provider", unique: true, using: :btree
 
   create_table "zones", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name",           limit: 100
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
     t.uuid     "coordinator_id"
+    t.boolean  "active",                     default: true
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
   end
+
+  add_index "zones", ["active"], name: "index_zones_on_active", using: :btree
+  add_index "zones", ["coordinator_id"], name: "index_zones_on_coordinator_id", using: :btree
 
 end

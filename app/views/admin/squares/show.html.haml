@@ -1,19 +1,31 @@
 .panel.panel-default
   .panel-heading
     %b
-      Manzanas
+      = @square.name.titleize
 
   .panel-body
-    .col-xs-12
-      .wizzard-subtitle
-        Información de la manzana
+    .col-md-12
+      .col-md-6
+        %div
+          %b
+            Sección: 
+          = @square.section.name_with_zone_name
+        %div
+          %b
+            Coordinador:
+          = coordinator_name(@square)
+        %div
+          %b
+            Activa:
+          = active_label(@square)
+    .col-md-12
+      .col-md-6
+        Simpatizantes
+        %ol
+          - @square.voters.each do |voter|
+            %li
+              = voter.full_name
 
-    .col-xs-12
-      .col-xs-5
-        %b
-          Nombre
-        = @square.name
-
-.col-xs-12.text-right.bottom
-  = link_to 'Lista de manzanas', :back, class: 'btn btn-default'
+.col-md-12.text-right.bottom
+  = link_to 'Lista de manzanas', admin_squares_path, class: 'btn btn-default'
 

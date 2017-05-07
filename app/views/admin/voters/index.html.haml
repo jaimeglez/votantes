@@ -1,35 +1,69 @@
-.well.well-lg
-  .row
-    .col-xs-12
-      %h4.text-muted
-        Buscar usuarios
-  = simple_form_for :search, { url: admin_voters_path, method: :get, defaults: {required: false} } do |f|
-    .row
-      .col-xs-4
-        = f.input :query, label: false
-    .btn-group
-      = f.button :submit, value: 'Buscar', class: 'btn btn-default'
-      =link_to 'Mostrar todos', admin_voters_path, class: 'btn btn-default'
+= content_for :javascript do
+  = javascript_include_tag 'panels', 'jquery.storageapi'
 
-.col-xs-12
-  %h1
-    Lista de usuarios
+%h3
+  Personas
+  .pull-right
+    = link_to 'Crear persona', new_admin_voter_path, class: 'btn btn-success'
 
-  -unless @voters.empty?
-    %table.table.table-hover
-      %thead
-        %tr
-          %th Id
-          %th Nombre completo
-          %th Rol
+.row
+  .col-lg-12
+    .panel.panel-default
+      .panel-heading.panel-heading-collapsed
+        Buscar
+        = link_to 'javascript:void(0)', data: {tool: 'panel-collapse',
+          toggle: 'tooltip'}, class: 'pull-right' do
+          %em.fa.fa-plus
+      .panel-wrapper.collapse
+        = simple_form_for :q, { url: admin_voters_path, method: :get, defaults: {required: false} } do |f|
+          .panel-body
+            .row
+              .col-lg-4
+                = f.input :full_name, input_html: {value: @q[:full_name]}, label: 'Nombre'
+              .col-lg-4
+                = f.input :address, input_html: {value: @q[:address]}, label: 'Dirección'
+              .col-lg-4
+                = f.input :role, as: :select, collection: roles_options, selected: @q[:role], include_blank: 'Todos', label: 'Rol', input_html: {data: {tool: 'select2'}}
+            .row
+              .col-lg-4
+                = f.input :active, as: :select, collection: active_options, selected: @q[:active], include_blank: 'Todos', label: 'Activo', input_html: {data: {tool: 'select2'}}
+          .panel-footer
+            = f.button :submit, value: 'Buscar', class: 'btn btn-primary'
+            %span.pull-right
+              = link_to 'Mostrar todos', admin_squares_path, class: 'btn btn-default'
 
-      -@voters.each_with_index do |voter,index|
-        %tr
-          %td=voter.id
-          %td=voter.full_name
-          %td=voter.role_name(voter.role)
-
-    = paginate @voters
-  -else
-    %h4
-      No hay usuarios registrados
+.row
+  .col-lg-12  
+    .panel.panel-default 
+      .panel-body
+        - if @voters.empty?
+          %h4
+            No hay personas registradas
+        - else
+          %table.table.table-responsive.table-bordered.table-hover
+            %thead
+              %tr
+                %th Nombre
+                %th Dirección
+                %th Rol
+                %th Areas
+                %th Activa
+                %th
+            %tbody
+              - @voters.each do |voter|
+                %tr
+                  %td
+                    = voter.full_name
+                  %td
+                    = voter.address
+                  %td
+                    = voter.role_name
+                  %td
+                    = areas_name(voter)
+                  %td
+                    = active_label(voter)
+                  %td
+                    = link_to 'Ver', admin_voter_path(voter.id)
+                    |
+                    = link_to 'Editar', edit_admin_voter_path(voter.id)
+    =# paginate @voters

@@ -1,44 +1,65 @@
-.well.well-lg
-  .row
-    .col-xs-12
-      %h4.text-muted
-        Buscar manzana
-  = simple_form_for :search, { url: admin_squares_path, method: :get, defaults: {required: false} } do |f|
-    .row
-      .col-xs-4
-        = f.input :name, label: 'Nombre de manzana'
-    .btn-group
-      =link_to 'Crear manzana', new_admin_square_path, class: 'btn btn-success'
-      = f.button :submit, value: 'Buscar', class: 'btn btn-default'
+= content_for :javascript do
+  = javascript_include_tag 'panels', 'jquery.storageapi'
 
-.col-xs-12
-  %h1
-    Lista de manzanas
+%h3
+  Manzanas
+  .pull-right
+    = link_to 'Crear zona', new_admin_square_path, class: 'btn btn-success'
 
-  -unless @squares.empty?
-    %table.table.table-hover
-      %thead
-        %tr
-          %th Id
-          %th Nombre
-          %th Zona
-          %th Sección
-          %th Coordinador
+.row
+  .col-lg-12
+    .panel.panel-default
+      .panel-heading.panel-heading-collapsed
+        Buscar
+        = link_to 'javascript:void(0)', data: {tool: 'panel-collapse',
+          toggle: 'tooltip'}, class: 'pull-right' do
+          %em.fa.fa-plus
+      .panel-wrapper.collapse
+        = simple_form_for :q, { url: admin_squares_path, method: :get, defaults: {required: false} } do |f|
+          .panel-body
+            .row
+              .col-lg-4
+                = f.input :name, input_html: {value: @q[:name]}, label: 'Nombre'
+              .col-lg-4
+                = f.input :section, as: :select, collection: @sections, label_method: :name_with_zone_name, value_method: :id, selected: @q[:section], include_blank: 'Todas', label: 'Zona/Sección', input_html: {data: {tool: 'select2'}}
+              .col-lg-4
+                = f.input :coordinator, as: :select, collection: @coordinators, label_method: :full_name, value_method: :id, selected: @q[:coordinator], include_blank: 'Todos', label: 'Coordinador', input_html: {data: {tool: 'select2'}}
+            .row
+              .col-lg-4
+                = f.input :active, as: :select, collection: active_options, selected: @q[:active], include_blank: 'Todos', label: 'Activo', input_html: {data: {tool: 'select2'}}
+          .panel-footer
+            = f.button :submit, value: 'Buscar', class: 'btn btn-primary'
+            %span.pull-right
+              = link_to 'Mostrar todos', admin_squares_path, class: 'btn btn-default'
 
-      -@squares.each_with_index do |square,index|
-        %tr
-          %td=square.id
-          %td=square.name
-          %td=square.zone.name
-          %td=square.section.name
-          %td=square.voter ? square.voter.full_name : 'No asignado'
-          %td
-            = link_to 'Ver', admin_square_path(square.id)
-            |
-            = link_to 'Editar', edit_admin_square_path(square.id)
-            |
-            = link_to 'Borrar', admin_square_path(square.id), method: :delete, data: { confirm: 'Desea eliminar la manzana?' }
-
-  -else
-    %h4
-      No hay manzanas registradas
+.row
+  .col-lg-12  
+    .panel.panel-default 
+      .panel-body
+        - if @squares.empty?
+          %h4
+            No hay manzanas registradas
+        - else
+          %table.table.table-responsive.table-bordered.table-hover
+            %thead
+              %tr
+                %th Nombre
+                %th Zona/Sección
+                %th Coordinador
+                %th Activa
+                %th
+            %tbody
+              - @squares.each do |square|
+                %tr
+                  %td
+                    = square.name.titleize
+                  %td
+                    = square.section.name_with_zone_name.titleize
+                  %td
+                    = coordinator_name(square)
+                  %td
+                    = active_label(square)
+                  %td
+                    = link_to 'Ver', admin_square_path(square.id)
+                    |
+                    = link_to 'Editar', edit_admin_square_path(square.id)

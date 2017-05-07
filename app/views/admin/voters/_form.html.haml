@@ -1,0 +1,18 @@
+.panel.panel-default
+  .panel-heading
+    %b
+      Persona
+  .panel-body
+    = simple_form_for [:admin, @voter], html: {class:  'form-horizontal' }, validate: true do |f|
+      .col-lg-6
+        = f.input :full_name, label: 'Nombre', required: true
+        = f.input :address, label: 'Dirección', required: true
+        = f.input :email, label: 'Correo electronico', required: true
+        = f.input :password, as: :password, label: 'Contraseña'
+        = f.input :electoral_number, label: 'Clave electoral'
+        = f.input :phone_number, label: 'Telefono'
+        = f.input :social_network, label: 'Red social'
+        = f.input :role, as: :select, collection: roles_options, label: 'Rol', include_blank: false, required: true, input_html: {data: {tool: 'select2'}}
+        = f.input :active, as: :boolean
+        .form-group
+          = f.button :submit, 'Guardar', class: 'btn btn-success'

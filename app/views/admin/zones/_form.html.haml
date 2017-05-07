@@ -1,17 +1,10 @@
 .panel.panel-default
-  .panel-heading
-    %b
-      Zona
   .panel-body
-    = simple_form_for [:admin, @zone], html: {multipart: true, class:  'form-horizontal' }, validate: true do |f|
-      .col-xs-12
-        .col-xs-5
-          = f.input :name, input_html: { maxlength: 100 }, label: 'Nombre', required: true
-
-      .col-xs-12
-        .col-xs-12.text-right
-          = f.button :submit, 'Guardar', class: ['btn', 'btn-success']
-
-.col-xs-12.text-right.bottom
-  = link_to 'Lista de zonas', :back, class: 'btn btn-default'
+    = simple_form_for [:admin, @zone], html: {class:  'form-horizontal' }, validate: true do |f|
+      .col-lg-6
+        = f.input :name, input_html: { maxlength: 100 }, label: 'Nombre', required: true
+        = f.association :coordinator, collection: @coordinators, value_method: :id, label_method: :full_name, label: 'Coordinador', include_blank: 'Ninguno', input_html: {data: {tool: 'select2'}}
+        = f.input :active, as: :boolean
+        .form-group
+          = f.button :submit, 'Guardar', class: 'btn btn-success'
 
