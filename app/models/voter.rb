@@ -13,11 +13,14 @@ class Voter < ActiveRecord::Base
   has_many :zones,    class_name: 'Zone',    foreign_key: :coordinator_id
   has_many :sections, class_name: 'Section', foreign_key: :coordinator_id
   has_many :squares,  class_name: 'Square',  foreign_key: :coordinator_id
+  has_many :sympathizers, class_name: 'Voter',  foreign_key: :promoter_id
   belongs_to :square
 
   # Scopes
   scope :active, -> { where(active: true) }
   scope :with_roles, ->(roles){ where(role: roles) }
+  scope :promoters, ->{ with_roles(PROMOTER) }
+  scope :sympathizers, ->{ with_roles(SYMPATHIZER) }
 
   # Role constants
   ZONE_COORDINATOR = 1
@@ -89,7 +92,25 @@ class Voter < ActiveRecord::Base
     ).result
   end
 
+  def add_promoter(params)
+    self.role = PROMOTER
+    self.square_id = params[:square_id]
+    self.promoter_id = nil
+    save
+  end
+
+  def remove_promoter
+    remove_promoter_from_sympathizers
+    self.role = SYMPATHIZER
+    self.square_id = nil
+    save
+  end
+
   private
+
+    def remove_promoter_from_sympathizers
+      sympathizers.update_all(promoter_id: nil)
+    end
 
     def user_created_from_app?
       return true if from_app

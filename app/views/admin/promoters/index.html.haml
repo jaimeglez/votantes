@@ -1,0 +1,33 @@
+= content_for :javascript do
+  = javascript_include_tag 'panels', 'jquery.storageapi'
+
+%h3
+  Promotores
+  .pull-right
+    = link_to 'Crear promotor', new_admin_promoter_path, class: 'btn btn-success'
+
+.row
+  .col-lg-12  
+    .panel.panel-default 
+      .panel-body
+        - if @promoters.empty?
+          %h4
+            No hay promotores registrados
+        - else
+          %table.table.table-responsive.table-bordered.table-hover
+            %thead
+              %tr
+                %th Nombre
+                %th Manzana
+                %th
+            %tbody
+              - @promoters.each do |promoter|
+                %tr
+                  %td
+                    = promoter.full_name
+                  %td
+                    = promoter.square.with_parents_name
+                  %td
+                    = link_to 'Ver', admin_voter_path(promoter.id)
+                    |
+                    = link_to 'Remover', admin_promoter_path(promoter.id), method: :DELETE

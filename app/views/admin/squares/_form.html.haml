@@ -2,7 +2,7 @@
   .panel-body
     = simple_form_for [:admin, @square], html: {class:  'form-horizontal' }, validate: true do |f|
       .col-lg-6
-        = f.association :section, collection: @sections, value_method: :id, label_method: :name_with_zone_name, label: 'Sección', include_blank: false, required: true, input_html: {data: {tool: 'select2'}}
+        = f.association :section, collection: @sections, value_method: :id, label_method: :with_parents_name, label: 'Sección', include_blank: false, required: true, input_html: {data: {tool: 'select2'}}
         = f.input :name, input_html: { maxlength: 100 }, label: 'Nombre', required: true
         = f.association :coordinator, collection: @coordinators, value_method: :id, label_method: :full_name, label: 'Coordinador', include_blank: 'Ninguno', input_html: {data: {tool: 'select2'}}
         = f.input :active, as: :boolean

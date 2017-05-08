@@ -21,7 +21,7 @@
               .col-lg-4
                 = f.input :name, input_html: {value: @q[:name]}, label: 'Nombre'
               .col-lg-4
-                = f.input :section, as: :select, collection: @sections, label_method: :name_with_zone_name, value_method: :id, selected: @q[:section], include_blank: 'Todas', label: 'Zona/Sección', input_html: {data: {tool: 'select2'}}
+                = f.input :section, as: :select, collection: @sections, label_method: :with_parents_name, value_method: :id, selected: @q[:section], include_blank: 'Todas', label: 'Zona/Sección', input_html: {data: {tool: 'select2'}}
               .col-lg-4
                 = f.input :coordinator, as: :select, collection: @coordinators, label_method: :full_name, value_method: :id, selected: @q[:coordinator], include_blank: 'Todos', label: 'Coordinador', input_html: {data: {tool: 'select2'}}
             .row
@@ -54,7 +54,7 @@
                   %td
                     = square.name.titleize
                   %td
-                    = square.section.name_with_zone_name.titleize
+                    = square.section.with_parents_name.titleize
                   %td
                     = coordinator_name(square)
                   %td

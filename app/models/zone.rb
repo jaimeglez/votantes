@@ -10,6 +10,10 @@ class Zone < ActiveRecord::Base
 
   after_save :assing_voter_coordination
 
+  def with_parents_name
+    name
+  end
+
   def self.build_search(params)
     search(
       name_like: params[:name], 

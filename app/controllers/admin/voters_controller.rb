@@ -44,7 +44,7 @@ class Admin::VotersController < Admin::AdminBaseController
       params[:voter].delete(:password) if params[:voter][:password].blank?
       params.require(:voter).permit(:full_name, :address, :email,
         :electoral_number, :latitude, :longitude, :phone_number,
-        :social_network, :password, :role, :area_id, :active
+        :social_network, :password, :area_id, :active
       )
     end
 

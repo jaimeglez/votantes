@@ -11,6 +11,10 @@ class Square < ActiveRecord::Base
     AND sections.active = true AND zones.active = true") }
   scope :by_section, ->(section_id){ where(section_id: section_id) }
 
+  def with_parents_name
+    "#{section.with_parents_name} - #{name}"
+  end
+
   def self.build_search(params)
     search(
       name_like: params[:name], 

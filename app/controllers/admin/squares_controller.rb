@@ -1,6 +1,6 @@
 class Admin::SquaresController < Admin::AdminBaseController
   before_action :search_form, only: :index
-  before_filter :get_sections
+  before_filter :get_sections, only: [:index, :new, :edit]
 
   def index
     if params[:q].present?
@@ -58,7 +58,6 @@ class Admin::SquaresController < Admin::AdminBaseController
 
     def search_form
       @coordinators = Voter.with_roles(Voter::SQUARE_COORDINATOR)
-      @sections = Section.active.includes(:zone)
       @q = params[:q] ||= {}
     end
 end

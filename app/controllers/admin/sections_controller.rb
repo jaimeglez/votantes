@@ -1,6 +1,6 @@
 class Admin::SectionsController < Admin::AdminBaseController
   before_action :search_form, only: :index
-  before_action :get_zones, only: [:new, :edit]
+  before_action :get_zones, only: [:index, :new, :edit]
 
   def index
     if params[:q].present?
@@ -8,11 +8,6 @@ class Admin::SectionsController < Admin::AdminBaseController
     else
       @sections = Section.all.order('name asc')
     end
-
-    # respond_to do |format|
-    #   format.html
-    #   format.json { render json: @sections }
-    # end
   end
 
   def new
@@ -58,7 +53,6 @@ class Admin::SectionsController < Admin::AdminBaseController
 
     def search_form
       @coordinators = Voter.with_roles(Voter::SECTION_COORDINATOR)
-      @zones = Zone.active
       @q = params[:q] ||= {}
     end
 end

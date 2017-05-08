@@ -12,7 +12,7 @@ class Section < ActiveRecord::Base
 
   after_save :assing_voter_coordination
 
-  def name_with_zone_name
+  def with_parents_name
     "#{zone.name} - #{name}"
   end
 

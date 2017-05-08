@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170118033846) do
+ActiveRecord::Schema.define(version: 20170508001937) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(version: 20170118033846) do
     t.json     "tokens"
     t.datetime "created_at",                                           null: false
     t.datetime "updated_at",                                           null: false
+    t.uuid     "promoter_id"
   end
 
   add_index "voters", ["active"], name: "index_voters_on_active", using: :btree
