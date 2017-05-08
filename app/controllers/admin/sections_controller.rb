@@ -6,7 +6,7 @@ class Admin::SectionsController < Admin::AdminBaseController
     if params[:q].present?
       @sections = Section.build_search(params[:q]).order('name asc')
     else
-      @sections = Section.all.order('name asc')
+      @sections = Section.all.includes(:coordinator, :zone).order('name asc')
     end
   end
 

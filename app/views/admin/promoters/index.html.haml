@@ -45,9 +45,9 @@
               - @promoters.each do |promoter|
                 %tr
                   %td
-                    = promoter.full_name
+                    = promoter.full_name.titleize
                   %td
-                    = promoter.square.with_parents_name
+                    = promoter.square.with_parents_name.titleize
                   %td
                     = link_to 'Ver', admin_voter_path(promoter.id)
                     |

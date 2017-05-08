@@ -1,0 +1,62 @@
+= content_for :javascript do
+  = javascript_include_tag 'panels', 'jquery.storageapi'
+
+%h3
+  Simpatizantes
+
+.row
+  .col-lg-12
+    .panel.panel-default
+      .panel-heading.panel-heading-collapsed
+        Buscar
+        = link_to 'javascript:void(0)', data: {tool: 'panel-collapse',
+          toggle: 'tooltip'}, class: 'pull-right' do
+          %em.fa.fa-plus
+      .panel-wrapper.collapse
+        = simple_form_for :q, { url: admin_promoters_path, method: :get, defaults: {required: false} } do |f|
+          .panel-body
+            .row
+              .col-lg-4
+                = f.input :name, input_html: {value: @q[:name]}, label: 'Nombre'
+              .col-lg-4
+                = f.input :square, as: :select, collection: @promoters, label_method: :full_name, value_method: :id, selected: @q[:promoter], include_blank: true, label: 'Promotor', include_blank: 'Todos', input_html: {data: {tool: 'select2'}}
+              .col-lg-4
+                = f.input :square, as: :select, collection: @squares, label_method: :with_parents_name, value_method: :id, selected: @q[:square], include_blank: true, label: 'Manzana', include_blank: 'Todas', input_html: {data: {tool: 'select2'}}
+          .panel-footer
+            = f.button :submit, value: 'Buscar', class: 'btn btn-primary'
+            %span.pull-right
+              = link_to 'Mostrar todos', admin_sympathizers_path, class: 'btn btn-default'
+
+.row
+  .col-lg-12  
+    .panel.panel-default 
+      .panel-body
+        - if @sympathizers.empty?
+          %h4
+            No hay simpatizantes registrados
+        - else
+          %table.table.table-responsive.table-bordered.table-hover
+            %thead
+              %tr
+                %th Nombre
+                %th Asignado a
+                %th
+            %tbody
+              - @sympathizers.each do |sympathizer|
+                %tr
+                  %td
+                    = sympathizer.full_name.titleize
+                  %td
+                    - if !sympathizer.promoter.nil?
+                      Promotor: 
+                      = sympathizer.promoter.full_name.titleize
+                    - elsif !sympathizer.square.nil?
+                      Manzana: 
+                      sympathizer.square.with_parents_name.titleize
+                  %td
+                    - if sympathizer.square_id.nil? && sympathizer.promoter_id.nil?
+                      = link_to 'Asignar', edit_admin_sympathizer_path(sympathizer.id)
+                    - else
+                      = link_to 'Editar', edit_admin_sympathizer_path(sympathizer.id)
+                      |
+                      = link_to 'Remover', admin_sympathizer_path(sympathizer.id), method: :DELETE

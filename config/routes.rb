@@ -20,7 +20,8 @@ Rails.application.routes.draw do
     resources :sections, except: [ :destroy, :show ]
     resources :squares, except: [ :destroy ]
     resources :voters
-    resources :promoters
+    resources :promoters, except: [:edit, :update]
+    resources :sympathizers, except: [:show, :new, :create]
     resources :voter_documents, except: [ :edit, :destroy, :update ]
     resources :messages, except: [ :edit, :destroy, :update ]
   end

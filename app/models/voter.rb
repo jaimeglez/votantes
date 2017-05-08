@@ -15,6 +15,7 @@ class Voter < ActiveRecord::Base
   has_many :squares,  class_name: 'Square',  foreign_key: :coordinator_id
   has_many :sympathizers, class_name: 'Voter',  foreign_key: :promoter_id
   belongs_to :square
+  belongs_to :promoter, class_name: 'Voter'
 
   # Scopes
   scope :active, -> { where(active: true) }
@@ -54,6 +55,10 @@ class Voter < ActiveRecord::Base
     ROLES[self.role]
   end
 
+  def name
+    full_name
+  end
+
   def areas
     case role
     when ZONE_COORDINATOR
@@ -63,12 +68,12 @@ class Voter < ActiveRecord::Base
     when SQUARE_COORDINATOR
       self.squares
     else
-      self.square
+      if !promoter_id.nil?
+        self.promoter
+      else
+        self.square
+      end
     end
-  end
-
-  def assing_role(role)
-    update(role: role)
   end
 
   def self.allowed_zone_coordinators
@@ -89,7 +94,8 @@ class Voter < ActiveRecord::Base
       address_like: params[:address], 
       role_equals: params[:role],
       active_equals: params[:active],
-      square_id_equals: params[:square]
+      square_id_equals: params[:square],
+      promoter_id_equals: params[:promoter]
     ).result
   end
 
@@ -105,6 +111,28 @@ class Voter < ActiveRecord::Base
     self.role = SYMPATHIZER
     self.square_id = nil
     save
+  end
+
+  def add_sympathizer(params)
+    byebug
+    self.role = SYMPATHIZER
+    self.square_id = params[:square_id]
+    self.promoter_id = params[:promoter_id]
+    save
+  end
+
+  def remove_sympathizer
+    self.role = SYMPATHIZER
+    self.square_id = nil
+    self.promoter_id = nil
+    save
+  end
+
+  def assign_coodination(role)
+    self.role = role
+    self.square_id = nil
+    self.promoter_id = nil
+    self.save
   end
 
   private

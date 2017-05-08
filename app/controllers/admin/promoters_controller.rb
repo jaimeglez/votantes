@@ -1,4 +1,4 @@
-class Admin::PromotersController < ApplicationController
+class Admin::PromotersController < Admin::AdminBaseController
   before_action :search_form, only: :index
   before_filter :get_squares, only: [:index, :new, :edit]
 
@@ -7,7 +7,7 @@ class Admin::PromotersController < ApplicationController
       params[:q][:role] = Voter::PROMOTER
       @promoters = Voter.build_search(params[:q]).order('full_name asc')
     else
-      @promoters = Voter.promoters.order('full_name')
+      @promoters = Voter.promoters.includes(square: {section: :zone}).order('full_name')
     end
   end
 
@@ -47,7 +47,7 @@ class Admin::PromotersController < ApplicationController
     end
 
     def get_squares
-      @squares = Square.active.includes(section: :zone)
+      @squares = Square.all.includes(section: :zone)
     end
 
     def search_form

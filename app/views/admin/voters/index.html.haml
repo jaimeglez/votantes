@@ -53,11 +53,11 @@
               - @voters.each do |voter|
                 %tr
                   %td
-                    = voter.full_name
+                    = voter.full_name.titleize
                   %td
-                    = voter.address
+                    = voter.address.titleize
                   %td
-                    = voter.role_name
+                    = voter.role_name.titleize
                   %td
                     = areas_name(voter)
                   %td

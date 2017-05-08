@@ -10,6 +10,8 @@ class Square < ActiveRecord::Base
   scope :active, ->{ joins(section: :zone).where("squares.active = true
     AND sections.active = true AND zones.active = true") }
   scope :by_section, ->(section_id){ where(section_id: section_id) }
+  
+  after_save :assing_voter_coordination
 
   def with_parents_name
     "#{section.with_parents_name} - #{name}"
@@ -23,4 +25,15 @@ class Square < ActiveRecord::Base
       active_equals: params[:active]
     ).result
   end
+
+  private
+    def assing_voter_coordination
+      return unless self.coordinator_id_changed?
+      if self.coordinator_id.nil?
+        voter = Voter.find(self.coordinator_id_was)
+        voter.assign_coodination(Voter::SYMPATHIZER)
+      else
+        self.coordinator.assign_coodination(Voter::SQUARE_COORDINATOR)
+      end
+    end
 end

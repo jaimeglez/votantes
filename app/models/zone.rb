@@ -24,7 +24,12 @@ class Zone < ActiveRecord::Base
 
   private
     def assing_voter_coordination
-      return if self.coordinator_id.nil? || !self.coordinator_id_changed?
-      self.coordinator.assing_role(Voter::ZONE_COORDINATOR)
+      return unless self.coordinator_id_changed?
+      if self.coordinator_id.nil?
+        voter = Voter.find(self.coordinator_id_was)
+        voter.assign_coodination(Voter::SYMPATHIZER)
+      else
+        self.coordinator.assign_coodination(Voter::ZONE_COORDINATOR)
+      end
     end
 end

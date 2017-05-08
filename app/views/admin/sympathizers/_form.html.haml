@@ -1,0 +1,8 @@
+.panel.panel-default
+  .panel-body
+    = simple_form_for :sympathizer, url: admin_sympathizer_path, method: :PUT, html: {class:  'form-horizontal' }, validate: false do |f|
+      .col-lg-6
+        = f.input :square_id, as: :select, collection: @squares, label: 'Manzana', label_method: :with_parents_name, value_method: :id, required: false, include_blank: 'Ninguna', input_html: {data: {tool: 'select2'}}
+        = f.input :promoter_id, as: :select, collection: @promoters, required: false, label: 'Promotor', label_method: :full_name, value_method: :id, include_blank: 'Ninguno', input_html: {data: {tool: 'select2'}}
+        .form-group
+          = f.button :submit, 'Guardar', class: 'btn btn-success'
