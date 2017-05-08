@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:gerardocastro/blondie.git
+  remote: git://github.com/gerardocastro/blondie.git
   revision: 92263a4e7bb7b0e3f43154e3b73566da9085d747
   branch: master
   specs:
