@@ -4,7 +4,8 @@ class Admin::PromotersController < ApplicationController
 
   def index
     if params[:q].present?
-      @promoters = Voter.build_search(params[:q]).order('name asc')
+      params[:q][:role] = Voter::PROMOTER
+      @promoters = Voter.build_search(params[:q]).order('full_name asc')
     else
       @promoters = Voter.promoters.order('full_name')
     end

@@ -7,6 +7,27 @@
     = link_to 'Crear promotor', new_admin_promoter_path, class: 'btn btn-success'
 
 .row
+  .col-lg-12
+    .panel.panel-default
+      .panel-heading.panel-heading-collapsed
+        Buscar
+        = link_to 'javascript:void(0)', data: {tool: 'panel-collapse',
+          toggle: 'tooltip'}, class: 'pull-right' do
+          %em.fa.fa-plus
+      .panel-wrapper.collapse
+        = simple_form_for :q, { url: admin_promoters_path, method: :get, defaults: {required: false} } do |f|
+          .panel-body
+            .row
+              .col-lg-4
+                = f.input :name, input_html: {value: @q[:name]}, label: 'Nombre'
+              .col-lg-4
+                = f.input :square, as: :select, collection: @squares, label_method: :name, value_method: :id, selected: @q[:square], include_blank: true, label: 'Manzana', include_blank: 'Todas', input_html: {data: {tool: 'select2'}}
+          .panel-footer
+            = f.button :submit, value: 'Buscar', class: 'btn btn-primary'
+            %span.pull-right
+              = link_to 'Mostrar todos', admin_promoters_path, class: 'btn btn-default'
+
+.row
   .col-lg-12  
     .panel.panel-default 
       .panel-body
