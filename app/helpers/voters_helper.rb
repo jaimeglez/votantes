@@ -5,7 +5,11 @@ module VotersHelper
 
   def areas_name(voter)
     areas = voter.areas
-    return if areas.nil?
-    areas.map(&:name).join('-')
+    return if areas.blank?
+    if areas.class.name == 'ActiveRecord::Associations::CollectionProxy'
+      areas.map(&:name).join('-')
+    else
+      areas.name
+    end
   end
 end
