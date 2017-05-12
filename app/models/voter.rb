@@ -134,6 +134,14 @@ class Voter < ActiveRecord::Base
     self.save
   end
 
+  def self.sympathizers_count
+    with_roles([PROMOTER, SYMPATHIZER]).count
+  end
+
+  def self.coordinators_count
+    with_roles([ZONE_COORDINATOR, SECTION_COORDINATOR, SQUARE_COORDINATOR]).count
+  end
+
   private
 
     def remove_promoter_from_sympathizers

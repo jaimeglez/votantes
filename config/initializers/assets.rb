@@ -14,5 +14,7 @@ Rails.application.config.assets.precompile += [
       'squares.js',
       'panels.js',
       'jquery.storageapi.js',
-      'sidebar.js'
+      'sidebar.js',
+      'chart.js',
+      'dashboard'
     ]

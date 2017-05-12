@@ -14,6 +14,16 @@ class Zone < ActiveRecord::Base
     name
   end
 
+  def self.build_chart
+    labels = []
+    data = []
+    all.includes(:sections).each do |zone|
+      labels << zone.name
+      data << zone.sections.size
+    end
+    [labels, data]
+  end
+
   def self.build_search(params)
     search(
       name_like: params[:name], 

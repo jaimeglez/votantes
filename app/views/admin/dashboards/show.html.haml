@@ -1,2 +1,83 @@
+= content_for :javascript do
+  = javascript_include_tag 'chart', 'dashboard'
+
 %h3
   Dashboard
+
+.row
+  .col-lg-2.col-sm-4
+    .panel.widget.bg-primary
+      .row.row-table
+        .col-xs-12.text-center.pv-lg
+          .h2.mt0
+            = Zone.count
+          .text-uppercase
+            Zonas
+  .col-lg-2.col-sm-4
+    .panel.widget.bg-primary
+      .row.row-table
+        .col-xs-12.text-center.pv-lg
+          .h2.mt0
+            = Section.count
+          .text-uppercase
+            Secciones
+  .col-lg-2.col-sm-4
+    .panel.widget.bg-primary
+      .row.row-table
+        .col-xs-12.text-center.pv-lg
+          .h2.mt0
+            = Square.count
+          .text-uppercase
+            Manzanas
+  .col-lg-2.col-sm-4
+    .panel.widget.bg-primary
+      .row.row-table
+        .col-xs-12.text-center.pv-lg
+          .h2.mt0
+            = Voter.count
+          .text-uppercase
+            Personas
+  .col-lg-2.col-sm-4
+    .panel.widget.bg-primary
+      .row.row-table
+        .col-xs-12.text-center.pv-lg
+          .h2.mt0
+            = Voter.coordinators_count
+          .text-uppercase
+            Coordinadores
+  .col-lg-2.col-sm-4
+    .panel.widget.bg-primary
+      .row.row-table
+        .col-xs-12.text-center.pv-lg
+          .h2.mt0
+            = Voter.sympathizers_count
+          .text-uppercase
+            Simpatizantes
+
+.row
+  .col-lg-12
+    .panel.panel-default
+      .panel-heading
+        Secciones por Zonas
+      .panel-body
+        %canvas#zones-chart
+
+.row
+  .col-lg-12
+    .panel.panel-default
+      .panel-heading
+        Manzanas por secciones
+      .panel-body
+        %canvas#sections-chart
+
+.row
+  .col-lg-12
+    .panel.panel-default
+      .panel-heading
+        Simpatizantes por Manzanas
+      .panel-body
+        %canvas#squares-chart
+
+:javascript
+  var zonesLabels = #{raw @zonesLabels}
+  var zonesData = #{raw @zonesData}
