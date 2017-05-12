@@ -114,7 +114,6 @@ class Voter < ActiveRecord::Base
   end
 
   def add_sympathizer(params)
-    byebug
     self.role = SYMPATHIZER
     self.square_id = params[:square_id]
     self.promoter_id = params[:promoter_id]

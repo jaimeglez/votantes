@@ -20,7 +20,7 @@ class Square < ActiveRecord::Base
   def self.build_search(params)
     search(
       name_like: params[:name], 
-      section_id_equals: params[:zone],
+      section_id_equals: params[:section],
       coordinator_id_equals: params[:coordinator],
       active_equals: params[:active]
     ).result
