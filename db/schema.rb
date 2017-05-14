@@ -82,7 +82,6 @@ ActiveRecord::Schema.define(version: 20170508001937) do
     t.string   "full_name",              limit: 150
     t.string   "address"
     t.string   "electoral_number",       limit: 18
-    t.string   "section"
     t.string   "latitude"
     t.string   "longitude"
     t.string   "phone_number"

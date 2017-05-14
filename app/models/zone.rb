@@ -14,10 +14,10 @@ class Zone < ActiveRecord::Base
     name
   end
 
-  def self.build_chart
+  def self.build_chart(parent)
     labels = []
     data = []
-    all.includes(:sections).each do |zone|
+    Zone.all.includes(:sections).each do |zone|
       labels << zone.name
       data << zone.sections.size
     end

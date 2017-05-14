@@ -17,6 +17,19 @@ class Square < ActiveRecord::Base
     "#{section.with_parents_name} - #{name}"
   end
 
+  def self.build_chart(section_name)
+    labels = []
+    data = []
+    section = Section.find_by(name: section_name)
+    unless section.nil?
+      section.squares.includes(:voters).each do |square|
+        labels << square.name
+        data << square.voters.size
+      end
+    end
+    [labels, data]
+  end
+
   def self.build_search(params)
     search(
       name_like: params[:name], 

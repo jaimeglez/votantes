@@ -16,5 +16,9 @@ Rails.application.config.assets.precompile += [
       'jquery.storageapi.js',
       'sidebar.js',
       'chart.js',
-      'dashboard'
+      'dashboard.js',
+      'highcharts.js',
+      'highcharts/modules/data.js',
+      'highcharts/modules/drilldown.js',
+      'highcharts/modules/exporting'
     ]

@@ -16,6 +16,19 @@ class Section < ActiveRecord::Base
     "#{zone.name} - #{name}"
   end
 
+  def self.build_chart(zone_name)
+    labels = []
+    data = []
+    zone = Zone.find_by(name: zone_name)
+    unless zone.nil?
+      zone.sections.includes(:squares).each do |section|
+        labels << section.name
+        data << section.squares.size
+      end
+    end
+    [labels, data]
+  end
+
   def self.build_search(params)
     search(
       name_like: params[:name], 

@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resource :dashboard, only: :show
+    get '/dashboard/chart/:type/(:parent)', to: 'dashboards#chart'
     resources :zones, except: [ :destroy, :show ]
     resources :sections, except: [ :destroy, :show ]
     resources :squares, except: [ :destroy ]
