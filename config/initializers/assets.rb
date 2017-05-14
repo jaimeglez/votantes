@@ -20,5 +20,11 @@ Rails.application.config.assets.precompile += [
       'highcharts.js',
       'highcharts/modules/data.js',
       'highcharts/modules/drilldown.js',
-      'highcharts/modules/exporting'
+      'highcharts/modules/exporting',
+      "fontawesome-webfont.ttf",
+      "fontawesome-webfont.eot",
+      "fontawesome-webfont.svg",
+      "fontawesome-webfont.woff",
+      "fontawesome-webfont.woff2",
+      "fontawesome-webfont.ttf"
     ]
