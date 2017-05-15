@@ -46,6 +46,14 @@ class Admin::SquaresController < Admin::AdminBaseController
     end
   end
 
+  def export
+    @square = Square.includes(:voters).find(params[:id])
+    @section = @square.section
+    respond_to do |format|
+      format.xlsx
+    end
+  end
+
   private
     def square_permit
       params.require(:square).permit(:name, 

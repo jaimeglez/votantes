@@ -41,6 +41,13 @@ class Admin::ZonesController < Admin::AdminBaseController
     end
   end
 
+  def export
+    @zone = Zone.includes(sections: {squares: :voters}).find(params[:id])
+    respond_to do |format|
+      format.xlsx
+    end
+  end
+
   private
     def zone_permit
       params.require(:zone).permit(:id, :name, :coordinator_id, :active)

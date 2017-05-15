@@ -63,3 +63,5 @@
                     = link_to 'Ver', admin_square_path(square.id)
                     |
                     = link_to 'Editar', edit_admin_square_path(square.id)
+                    |
+                    = link_to 'Exportar', admin_square_export_path(square.id, format: :xlsx)

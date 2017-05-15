@@ -18,8 +18,11 @@ Rails.application.routes.draw do
     resource :dashboard, only: :show
     get '/dashboard/chart/:type/(:parent)', to: 'dashboards#chart'
     resources :zones, except: [ :destroy, :show ]
+    get '/zones/export/:id', to: 'zones#export', as: :zone_export
     resources :sections, except: [ :destroy, :show ]
+    get '/sections/export/:id', to: 'sections#export', as: :section_export
     resources :squares, except: [ :destroy ]
+    get '/squares/export/:id', to: 'squares#export', as: :square_export
     resources :voters
     resources :promoters, except: [:edit, :update]
     resources :sympathizers, except: [:show, :new, :create]

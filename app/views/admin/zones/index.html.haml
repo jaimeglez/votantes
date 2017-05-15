@@ -54,3 +54,5 @@
                     = link_to 'Secciones', admin_sections_path(q: {zone_id: zone.id})
                     |
                     = link_to 'Editar', edit_admin_zone_path(zone.id)
+                    |
+                    = link_to 'Exportar', admin_zone_export_path(zone.id, format: :xlsx)

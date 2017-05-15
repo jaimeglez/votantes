@@ -1,0 +1,59 @@
+wb = xlsx_package.workbook
+
+
+
+if @square.voters.length > 0
+  coord = @square.coordinator
+
+  wb.add_worksheet(name: "#{@square.with_section_name}") do |sheet|
+    title_style = wb.styles.add_style({
+      alignment: {horizontal: :center, vertical: :center, main_cell_style: true},
+      border: Axlsx::STYLE_THIN_BORDER
+    })
+    subtitle_cell_style = wb.styles.add_style({
+      alignment: {horizontal: :center, vertical: :center, main_cell_style: true},
+      border: Axlsx::STYLE_THIN_BORDER,
+      bg_color: 'cc'
+    })
+    data_cell_style = wb.styles.add_style({
+      alignment: {horizontal: :left, vertical: :center, main_cell_style: true},
+      border: Axlsx::STYLE_THIN_BORDER
+    })
+
+    #header1
+    sheet.add_row ['DATOS DEL COORDINADOR', '', '', 'MANZANA', @square.name, '', '', '', '', ''], height: 50, style: title_style
+    sheet.column_widths 20, 20, 20, 20, 20, 20, 20, 20, 20, 20
+    sheet.merge_cells("A1:C1")
+    sheet.merge_cells("E1:J1")
+    sheet["A1:C1"].each do |c| 
+      c.sz = 25
+      b = true 
+    end
+
+    #header2
+    sheet.add_row ['Seccion', 'Nombre', '', '', 'Direccion', '', '', '', 'Telefono', 'Firma'], height: 25, style: subtitle_cell_style
+    sheet.merge_cells("B2:D2")
+    sheet.merge_cells("E2:H2")
+
+    #data1
+    sheet.add_row [@section.name, coord.try(:full_name), '', '', coord.try(:address), '', '', '', coord.try(:phone_number), ''], height: 50, style: data_cell_style
+    sheet.merge_cells("B3:D3")
+    sheet.merge_cells("E3:H3")
+
+    #header3
+    sheet.add_row ['Seccion', 'Nombre', '', '', 'Direccion', '', 'Clave de elector', '', 'Telefono', 'Firma'], height: 25, style: subtitle_cell_style
+    sheet.merge_cells("B4:D4")
+    sheet.merge_cells("E4:F4")
+    sheet.merge_cells("G4:H4")
+
+
+    #data
+    @square.voters.each_with_index do |voter, index|
+      sheet.add_row [@section.name, voter.full_name, '', '', voter.address, '', voter.electoral_number, '', voter.phone_number, ''], height: 50, style: data_cell_style
+      sheet.merge_cells("B#{5 + index}:D#{5 + index}")
+      sheet.merge_cells("E#{5 + index}:F#{5 + index}")
+      sheet.merge_cells("G#{5 + index}:H#{5 + index}")
+    end
+  end
+end
+

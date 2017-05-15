@@ -17,6 +17,10 @@ class Square < ActiveRecord::Base
     "#{section.with_parents_name} - #{name}"
   end
 
+  def with_section_name
+    "#{section.name} - #{name}"
+  end
+
   def self.build_chart(section_name)
     labels = []
     data = []
