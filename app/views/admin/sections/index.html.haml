@@ -60,7 +60,7 @@
                   %td
                     = active_label(section)
                   %td
-                    = link_to 'Manzanas', admin_squares_path(section_id: section.id)
+                    = link_to 'Manzanas', admin_squares_path(q: {section: section.id})
                     |
                     = link_to 'Editar', edit_admin_section_path(section.id)
                     |

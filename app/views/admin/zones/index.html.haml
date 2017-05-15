@@ -51,7 +51,7 @@
                   %td
                     = active_label(zone)
                   %td
-                    = link_to 'Secciones', admin_sections_path(q: {zone_id: zone.id})
+                    = link_to 'Secciones', admin_sections_path(q: {zone: zone.id})
                     |
                     = link_to 'Editar', edit_admin_zone_path(zone.id)
                     |
