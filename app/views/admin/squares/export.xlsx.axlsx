@@ -55,5 +55,8 @@ if @square.voters.length > 0
       sheet.merge_cells("G#{5 + index}:H#{5 + index}")
     end
   end
+else
+  wb.add_worksheet(name: "#{@square.with_section_name}") do |sheet|
+  end
 end
 
