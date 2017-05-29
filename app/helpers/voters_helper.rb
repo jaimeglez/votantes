@@ -12,4 +12,8 @@ module VotersHelper
       areas.name
     end
   end
+
+  def group_values(fields)
+    fields.map{|field| [I18n.t("voter.#{field}"), field]}
+  end
 end

@@ -26,5 +26,7 @@ Rails.application.config.assets.precompile += [
       "fontawesome-webfont.svg",
       "fontawesome-webfont.woff",
       "fontawesome-webfont.woff2",
-      "fontawesome-webfont.ttf"
+      "fontawesome-webfont.ttf",
+      'define_import.js',
+      'select2sortable.css'
     ]

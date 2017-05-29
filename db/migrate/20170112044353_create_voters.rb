@@ -3,7 +3,7 @@ class CreateVoters < ActiveRecord::Migration
     create_table :voters, id: :uuid do |t|
       t.string :full_name, limit: 150
       t.string :address
-      t.string :electoral_number, limit: 18, unique: true
+      t.string :electoral_number, unique: true
       t.string :latitude
       t.string :longitude
       t.string :phone_number

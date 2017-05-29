@@ -1,0 +1,21 @@
+= content_for :stylesheet do
+  = stylesheet_link_tag 'select2sortable'
+
+= content_for :javascript do
+  = javascript_include_tag 'define_import'
+
+.row
+  .col-lg-12  
+    .panel.panel-default 
+      .panel-body
+        = simple_form_for :document, url: admin_import_voter_document_path(@voter_document.id), html: {multipart: true, class:  'form-horizontal' }, validate: true do |f|
+          .col-lg-6
+            = f.simple_fields_for :fields do |ff|
+              - @voter_fields.each do |field|
+                = ff.input field, as: :select, collection: @headers, label: t("voter.#{field}"), include_blank: false, required: false, input_html: { multiple: true, data: {tool: 'select2-tags'}}
+
+            = f.simple_fields_for :comparison do |ff|
+              - @groups.each do |group|
+                = ff.input group, as: :select, collection: group_values(@voter_fields), label: t("voter.#{group}"), include_blank: false, required: false, input_html: { multiple: true, data: {tool: 'select2-tags'}}
+            .form-group
+              = f.button :submit, 'Guardar', class: 'btn btn-success'

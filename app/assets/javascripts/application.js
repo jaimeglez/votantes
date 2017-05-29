@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require select2
+//= require jquery-ui/widgets/sortable
 //= require sidebar
 
 var API_URL = '/api/v1/';

@@ -2,7 +2,9 @@
   .panel-body
     = simple_form_for [:admin, @voter], html: {class:  'form-horizontal' }, validate: true do |f|
       .col-lg-6
-        = f.input :full_name, label: 'Nombre', required: true
+        = f.input :name, label: 'Nombre', required: true
+        = f.input :f_last_name, label: 'Primer apellido', required: true
+        = f.input :s_last_name, label: 'Segundo apellido', required: true
         = f.input :address, label: 'Dirección', required: true
         = f.input :email, label: 'Correo electronico', required: true
         = f.input :password, as: :password, label: 'Contraseña'

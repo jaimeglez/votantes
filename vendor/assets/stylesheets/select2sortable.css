@@ -1,0 +1,8 @@
+.select2-container--bootstrap .select2-selection--multiple .select2-selection__choice {
+  width: 95%;
+  padding: 5px 10px;
+}
+.select2-search__field,
+.select2-search.select2-search--inline.ui-sortable-handle {
+  width: 95% !important;
+}

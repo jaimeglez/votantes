@@ -1,0 +1,14 @@
+es:
+  voter:
+    name: 'Nombre'
+    f_last_name: 'Primer apellido'
+    s_last_name: 'Segundo apellido'
+    address: 'Dirección'
+    electoral_number: 'Clave electoral'
+    phone_number: 'Telefono'
+    email: 'Correo electronico'
+    group1: 'Grupo 1'
+    group2: 'Grupo 2'
+    group3: 'Grupo 3'
+    group4: 'Grupo 4'
+    group5: 'Grupo 5'

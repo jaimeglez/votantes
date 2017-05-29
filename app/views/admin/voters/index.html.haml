@@ -55,9 +55,9 @@
                   %td
                     = voter.full_name.titleize
                   %td
-                    = voter.address.titleize
+                    = voter.try(:address)
                   %td
-                    = voter.role_name.titleize
+                    = voter.try(:role_name)
                   %td
                     = areas_name(voter)
                   %td

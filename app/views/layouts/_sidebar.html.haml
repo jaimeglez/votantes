@@ -5,7 +5,9 @@
         %li{class: active_menu_option('dashboard')}
           = link_to root_path do
             %span
-              Inicio
+              Panel de control
+        %li.nav-heading
+          Areas
         %li{class: active_menu_option('zones')}
           = link_to admin_zones_path do
             %span
@@ -18,6 +20,8 @@
           = link_to admin_squares_path do
             %span
               Manzanas
+        %li.nav-heading
+          Roles
         %li{class: active_menu_option('promoters')}
           = link_to admin_promoters_path do
             %span
@@ -26,10 +30,18 @@
           = link_to admin_sympathizers_path do
             %span
               Simpatizantes
+        %li.nav-heading
+          Personas
         %li{class: active_menu_option('voters')}
           = link_to admin_voters_path do
             %span
               Personas
+        %li{class: active_menu_option('voter_documents')}
+          = link_to admin_voter_documents_path do
+            %span
+              Importar
+        %li.nav-heading
+          Comunicación
         %li{class: active_menu_option('messages')}
           = link_to admin_messages_path do
             %span

@@ -27,6 +27,8 @@ Rails.application.routes.draw do
     resources :promoters, except: [:edit, :update]
     resources :sympathizers, except: [:show, :new, :create]
     resources :voter_documents, except: [ :edit, :destroy, :update ]
+    get '/voter_documents/define_import/:id', to: 'voter_documents#define_import', as: :define_voter_document_import
+    post '/voter_documents/import/:id', to: 'voter_documents#import', as: :import_voter_document
     resources :messages, except: [ :edit, :destroy, :update ]
   end
 

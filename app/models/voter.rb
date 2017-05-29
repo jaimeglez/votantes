@@ -38,25 +38,27 @@ class Voter < ActiveRecord::Base
     SYMPATHIZER => I18n.t('voter.roles.sympathizer'),
   }
 
-  attr_accessor :from_app, :area_id
+  attr_accessor :from, :area_id
+
+  IMPORT_FIELDS = %w(name f_last_name s_last_name address electoral_number phone_number email)
 
   # Callbacks
-  validates_presence_of :full_name, :address
-  validates :electoral_number, :latitude, :longitude, :phone_number, :social_network, 
-    :role, :email, presence: true, if: :user_created_from_app?
+  validates_presence_of :name, :f_last_name, :s_last_name
+  # validates :electoral_number, :latitude, :longitude, :phone_number, :social_network, 
+  #   :role, :email, :address, presence: true, if: :created_from_app?
 
   # before_validation :check_user_permissions, on: :create, if: :user_created_from_app?
   before_validation :add_rand_password, on: :create
-  before_validation :associate_coordinations, on: :create, if: :user_created_from_app?
+  before_validation :associate_coordinations, on: :create, if: :created_from_app?
   before_validation :add_default_role
-  after_commit :welcome_email, on: :create, if: :user_created_from_app?
+  after_commit :welcome_email, on: :create, if: :created_from_app?
 
   def role_name
     ROLES[self.role]
   end
 
-  def name
-    full_name
+  def full_name
+    "#{name} #{f_last_name} #{s_last_name}"
   end
 
   def areas
@@ -142,14 +144,18 @@ class Voter < ActiveRecord::Base
     with_roles([ZONE_COORDINATOR, SECTION_COORDINATOR, SQUARE_COORDINATOR]).count
   end
 
+  def email_required?
+    false
+  end
+
   private
 
     def remove_promoter_from_sympathizers
       sympathizers.update_all(promoter_id: nil)
     end
 
-    def user_created_from_app?
-      return true if from_app
+    def created_from_app?
+      return true if from == 'app'
     end
 
     # def check_user_permissions

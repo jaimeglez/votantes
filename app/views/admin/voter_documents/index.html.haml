@@ -1,32 +1,32 @@
-.well.well-lg
-  .row
-    .col-xs-12
-      %h4.text-muted
-        CSV de votantes
-    .col-xs-12
-      .btn-group
-        =link_to 'Agregar documento', new_admin_voter_document_path, class: 'btn btn-success'
-        -# = f.button :submit, value: 'Buscar', class: 'btn btn-default'
+%h3
+  Documentos importados
+  .pull-right
+    = link_to 'Importar documento', new_admin_voter_document_path, class: 'btn btn-success'
 
-.col-xs-12
-  %h1
-    Lista de documentos CSV
-
-  -unless @voter_documents.empty?
-    %table.table.table-hover
-      %thead
-        %tr
-          %th Nombre
-          %th Archivo
-
-      -@voter_documents.each_with_index do |document,index|
-        %tr
-          %td=document.name
-          %td=link_to document.attachment.file.filename, document.attachment_url
-          %td
-            -# = link_to 'Borrar', admin_voter_document_path(document.id), method: :delete, data: { confirm: 'Desea eliminar el documento?' }
-
-  -else
-    %h4
-      No hay documentos
-
+.row
+  .col-lg-12  
+    .panel.panel-default 
+      .panel-body
+        - if @voter_documents.empty?
+          %h4
+            No hay documentos importados
+        - else
+          %table.table.table-responsive.table-bordered.table-hover
+            %thead
+              %tr
+                %th Nombre
+                %th Archivo
+                %th Fecha
+                %th 
+            %tbody
+              - @voter_documents.each do |document|
+                %tr
+                  %td
+                    = document.name.titleize
+                  %td
+                    = document.attachment.file.filename.titleize
+                  %td
+                    = document.created_at
+                  %td
+                    - unless document.imported
+                      = link_to 'Importar', admin_define_voter_document_import_path(document.id)
