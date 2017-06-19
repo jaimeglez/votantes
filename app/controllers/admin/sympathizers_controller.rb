@@ -5,9 +5,9 @@ class Admin::SympathizersController < Admin::AdminBaseController
   def index
     if params[:q].present?
       params[:q][:role] = Voter::SYMPATHIZER
-      @sympathizers = Voter.build_search(params[:q]).order('full_name asc')
+      @sympathizers = Voter.build_search(params[:q]).order('name asc')
     else
-      @sympathizers = Voter.sympathizers.includes(:promoter, square: {section: :zone}).order('full_name')
+      @sympathizers = Voter.sympathizers.includes(:promoter, square: {section: :zone}).order('name')
     end
   end
 

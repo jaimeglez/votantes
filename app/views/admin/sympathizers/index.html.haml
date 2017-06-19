@@ -45,14 +45,14 @@
               - @sympathizers.each do |sympathizer|
                 %tr
                   %td
-                    = sympathizer.full_name.titleize
+                    = sympathizer.full_name
                   %td
                     - if !sympathizer.promoter.nil?
                       Promotor: 
                       = sympathizer.promoter.full_name.titleize
                     - elsif !sympathizer.square.nil?
                       Manzana: 
-                      sympathizer.square.with_parents_name.titleize
+                      = sympathizer.square.with_parents_name
                   %td
                     - if sympathizer.square_id.nil? && sympathizer.promoter_id.nil?
                       = link_to 'Asignar', edit_admin_sympathizer_path(sympathizer.id)

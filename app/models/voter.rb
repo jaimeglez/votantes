@@ -92,7 +92,7 @@ class Voter < ActiveRecord::Base
 
   def self.build_search(params)
     search(
-      full_name_like: params[:name], 
+      name_or_f_last_name_or_s_last_name_like: params[:name], 
       address_like: params[:address], 
       role_equals: params[:role],
       active_equals: params[:active],
