@@ -1,5 +1,3 @@
-require 'bcrypt'
-
 module DeviseTokenAuth::Concerns::User
   extend ActiveSupport::Concern
 
