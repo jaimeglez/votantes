@@ -10,7 +10,7 @@ class VoterDocument < ActiveRecord::Base
 
   def import(params)
     query = build_comparsion_query(params[:comparison])
-    document = DocumentReader.new(attachment.file.path)
+    document = DocumentReader.new(attachment.file.url)
     document.rows_number.each do |row|
       row_data = document.row_data(row, params[:fields])
       puts row_data
