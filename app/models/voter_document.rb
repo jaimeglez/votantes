@@ -4,7 +4,7 @@ class VoterDocument < ActiveRecord::Base
   mount_uploader :attachment, AttachmentUploader
 
   def headers
-    document = DocumentReader.new(attachment.file.path)
+    document = DocumentReader.new(attachment.file.url)
     document.headers
   end
 
