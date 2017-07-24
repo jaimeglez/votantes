@@ -1,6 +1,6 @@
 .panel.panel-default
   .panel-body
-    = simple_form_for [:admin, @zone], html: {class:  'form-horizontal' }, validate: true do |f|
+    = simple_form_for [:admin, @zone], html: {class:  'form-horizontal', validate: false, 'data-parsley-validate' => true } do |f|
       .col-lg-6
         = f.input :name, input_html: { maxlength: 100 }, label: 'Nombre', required: true
         = f.association :coordinator, collection: @coordinators, value_method: :id, label_method: :full_name, label: 'Coordinador', include_blank: 'Ninguno', input_html: {data: {tool: 'select2'}}

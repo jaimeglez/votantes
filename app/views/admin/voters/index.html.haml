@@ -46,7 +46,7 @@
                 %th Nombre
                 %th Dirección
                 %th Rol
-                %th Areas
+                %th Encargado de
                 %th Activa
                 %th
             %tbody
@@ -59,11 +59,11 @@
                   %td
                     = voter.try(:role_name)
                   %td
-                    = areas_name(voter)
+                    = in_charge_of_name(voter)
                   %td
                     = active_label(voter)
                   %td
                     = link_to 'Ver', admin_voter_path(voter.id)
                     |
                     = link_to 'Editar', edit_admin_voter_path(voter.id)
-    =# paginate @voters
+    = paginate @voters

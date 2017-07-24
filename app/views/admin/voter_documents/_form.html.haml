@@ -3,7 +3,7 @@
     %b
       Nuevo documento
   .panel-body
-    = simple_form_for [:admin, @voter_document], html: {multipart: true, class:  'form-horizontal' }, validate: true do |f|
+    = simple_form_for [:admin, @voter_document], html: {multipart: true, class:  'form-horizontal', validate: false, 'data-parsley-validate' => true } do |f|
       .col-lg-6
         = f.input :name, input_html: { maxlength: 100 }, label: 'Nombre', required: true
         = f.input :attachment, as: :file, label: 'Documento(CSV)', required: true

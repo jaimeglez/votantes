@@ -11,6 +11,8 @@
 // about supported directives.
 //
 //= require jquery
+//= require parsley
+//= require parsley.i18n.es
 //= require jquery_ujs
 //= require bootstrap
 //= require select2

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170529001257) do
+ActiveRecord::Schema.define(version: 20170723052711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,17 @@ ActiveRecord::Schema.define(version: 20170529001257) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
+
+  create_table "notes", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.text     "note",       null: false
+    t.integer  "note_type",  null: false
+    t.uuid     "voter_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "notes", ["note_type"], name: "index_notes_on_note_type", using: :btree
+  add_index "notes", ["voter_id"], name: "index_notes_on_voter_id", using: :btree
 
   create_table "sections", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name",           limit: 100

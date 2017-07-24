@@ -65,3 +65,4 @@
                     = link_to 'Editar', edit_admin_section_path(section.id)
                     |
                     = link_to 'Exportar', admin_section_export_path(section.id, format: :xlsx)
+        = paginate @sections

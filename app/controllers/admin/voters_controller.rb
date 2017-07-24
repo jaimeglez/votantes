@@ -3,9 +3,9 @@ class Admin::VotersController < Admin::AdminBaseController
 
   def index
     if params[:q].present?
-      @voters = Voter.build_search(params[:q]).order('address asc')
+      @voters = Voter.build_search(params[:q]).order('address asc').page(params[:page])
     else
-      @voters = Voter.all.order('address asc')
+      @voters = Voter.all.order('address asc').page(params[:page])
     end
   end
 
@@ -37,6 +37,10 @@ class Admin::VotersController < Admin::AdminBaseController
       flash.now[:danger] = 'Hubo un error al editar la persona'
       render :edit
     end
+  end
+
+  def show
+    @voter = Voter.find(params[:id])
   end
 
   private

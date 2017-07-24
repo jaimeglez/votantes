@@ -1,6 +1,6 @@
 .panel.panel-default
   .panel-body
-    = simple_form_for [:admin, @voter], html: {class:  'form-horizontal' }, validate: true do |f|
+    = simple_form_for [:admin, @voter], html: {class:  'form-horizontal', validate: false, 'data-parsley-validate' => true } do |f|
       .col-lg-6
         = f.input :name, label: 'Nombre', required: true
         = f.input :f_last_name, label: 'Primer apellido', required: true

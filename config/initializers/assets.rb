@@ -13,6 +13,7 @@ Rails.application.config.assets.precompile += [
       'messages.js',
       'squares.js',
       'panels.js',
+      'sympathizers.js',
       'jquery.storageapi.js',
       'sidebar.js',
       'chart.js',

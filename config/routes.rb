@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     get '/voter_documents/define_import/:id', to: 'voter_documents#define_import', as: :define_voter_document_import
     post '/voter_documents/import/:id', to: 'voter_documents#import', as: :import_voter_document
     resources :messages, except: [ :edit, :destroy, :update ]
+    resources :notes, only: :index
   end
 
   get '/voter_passwords/edit', to: 'voter_passwords#edit'

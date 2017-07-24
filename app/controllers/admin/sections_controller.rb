@@ -4,9 +4,9 @@ class Admin::SectionsController < Admin::AdminBaseController
 
   def index
     if params[:q].present?
-      @sections = Section.build_search(params[:q]).order('name asc')
+      @sections = Section.build_search(params[:q]).order('name asc').page(params[:page])
     else
-      @sections = Section.all.includes(:coordinator, :zone).order('name asc')
+      @sections = Section.all.includes(:coordinator, :zone).order('name asc').page(params[:page])
     end
   end
 

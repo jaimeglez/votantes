@@ -11,8 +11,8 @@ module ApplicationHelper
     [['Si', true], ['No', false]]
   end
 
-  def active_menu_option(path)
-    return '' unless path == controller_name
+  def active_menu_option(path, extra = {})
+    return '' unless path == controller_name && (extra.to_a - params.to_a).empty?
     'active'
   end
 end

@@ -14,6 +14,7 @@ class Voter < ActiveRecord::Base
   has_many :sections, class_name: 'Section', foreign_key: :coordinator_id
   has_many :squares,  class_name: 'Square',  foreign_key: :coordinator_id
   has_many :sympathizers, class_name: 'Voter',  foreign_key: :promoter_id
+  has_many :notes
   belongs_to :square
   belongs_to :promoter, class_name: 'Voter'
 
@@ -69,12 +70,8 @@ class Voter < ActiveRecord::Base
       self.sections
     when SQUARE_COORDINATOR
       self.squares
-    else
-      if !promoter_id.nil?
-        self.promoter
-      else
-        self.square
-      end
+    when PROMOTER
+      self.sympathizers
     end
   end
 

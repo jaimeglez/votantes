@@ -251,3 +251,7 @@ es:
       square_coordinator: 'Coordinador de manzana'
       promoter: 'Promotor'
       sympathizer: 'Simpatizante'
+  note:
+    title:
+      management: 'gestiones'
+      activity: 'actividades'

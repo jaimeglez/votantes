@@ -19,7 +19,7 @@
               .col-lg-4
                 = f.input :name, input_html: {value: @q[:name]}, label: 'Nombre'
               .col-lg-4
-                = f.input :square, as: :select, collection: @promoters, label_method: :full_name, value_method: :id, selected: @q[:promoter], include_blank: true, label: 'Promotor', include_blank: 'Todos', input_html: {data: {tool: 'select2'}}
+                = f.input :promoter, as: :select, collection: @promoters, label_method: :full_name, value_method: :id, selected: @q[:promoter], include_blank: true, label: 'Promotor', include_blank: 'Todos', input_html: {data: {tool: 'select2'}}
               .col-lg-4
                 = f.input :square, as: :select, collection: @squares, label_method: :with_parents_name, value_method: :id, selected: @q[:square], include_blank: true, label: 'Manzana', include_blank: 'Todas', input_html: {data: {tool: 'select2'}}
           .panel-footer
@@ -60,3 +60,4 @@
                       = link_to 'Editar', edit_admin_sympathizer_path(sympathizer.id)
                       |
                       = link_to 'Remover', admin_sympathizer_path(sympathizer.id), method: :DELETE
+          = paginate @sympathizers

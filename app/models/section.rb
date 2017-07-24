@@ -42,10 +42,15 @@ class Section < ActiveRecord::Base
     def assing_voter_coordination
       return unless self.coordinator_id_changed?
       if self.coordinator_id.nil?
-        voter = Voter.find(self.coordinator_id_was)
-        voter.assign_coodination(Voter::SYMPATHIZER)
+        remove_coordination
       else
         self.coordinator.assign_coodination(Voter::SECTION_COORDINATOR)
       end
+    end
+
+    def remove_coordination
+      voter = Voter.find_by(id: self.coordinator_id_was)
+      return if voter.nil?
+      voter.assign_coodination(Voter::SYMPATHIZER)
     end
 end

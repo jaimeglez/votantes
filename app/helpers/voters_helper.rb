@@ -3,13 +3,14 @@ module VotersHelper
     Voter::ROLES.map{|k,v| [v,k]}
   end
 
-  def areas_name(voter)
+  # def areas_name(voter)
+  def in_charge_of_name(voter)
     areas = voter.areas
     return if areas.blank?
-    if areas.class.name == 'ActiveRecord::Associations::CollectionProxy'
-      areas.map(&:name).join('-')
+    if voter.role == Voter::PROMOTER
+      areas.map(&:full_name).join('-')
     else
-      areas.name
+      areas.map(&:with_parents_name).join('-')
     end
   end
 

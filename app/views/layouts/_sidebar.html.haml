@@ -46,6 +46,14 @@
           = link_to admin_messages_path do
             %span
               Mensajes
+        %li{class: active_menu_option('notes', {'note_type' => 'management'})}
+          = link_to admin_notes_path(note_type: 'management') do
+            %span
+              Gestión
+        %li{class: active_menu_option('notes', {'note_type' => 'activity'})}
+          = link_to admin_notes_path(note_type: 'activity') do
+            %span
+              Actividades
         %li
           = link_to destroy_admin_session_path, method: :delete do
             %span

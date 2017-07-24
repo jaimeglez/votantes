@@ -1,6 +1,6 @@
 class Admin::VoterDocumentsController < Admin::AdminBaseController
   def index
-    @voter_documents = VoterDocument.all
+    @voter_documents = VoterDocument.page(params[:page])
   end
 
   def new
@@ -31,8 +31,9 @@ class Admin::VoterDocumentsController < Admin::AdminBaseController
   end 
 
   def import
-    voter_document = VoterDocument.find(params[:id])
-    voter_document.import(params[:document])
+    LoadVoterDocumentJob.set(wait: 5.seconds).perform_later(params[:id], params[:document])
+    # voter_document = VoterDocument.find(params[:id])
+    # voter_document.import(params[:document])
     flash.now[:success] = 'El archivo comenzara a ser importado'
     redirect_to admin_voter_documents_path
   end

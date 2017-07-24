@@ -1,13 +1,7 @@
 class VoterDocument < ActiveRecord::Base
   validates_presence_of :name, :attachment
 
-  # after_commit :store_voters_data, on: :create
-
   mount_uploader :attachment, AttachmentUploader
-
-  # def store_voters_data
-  #   VoterWorker.perform_at(5.seconds.from_now, id)
-  # end
 
   def headers
     document = DocumentReader.new(attachment.file.path)
@@ -19,6 +13,7 @@ class VoterDocument < ActiveRecord::Base
     document = DocumentReader.new(attachment.file.path)
     document.rows_number.each do |row|
       row_data = document.row_data(row, params[:fields])
+      puts row_data
       voter = Voter.where([query, row_data]).first
       if voter.nil?
         Voter.create(row_data)
@@ -26,6 +21,9 @@ class VoterDocument < ActiveRecord::Base
         voter.update(row_data)
       end
     end
+  end
+
+  def set_imported
     update(imported: true)
   end
 

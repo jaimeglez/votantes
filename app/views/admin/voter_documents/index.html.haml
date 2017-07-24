@@ -30,3 +30,4 @@
                   %td
                     - unless document.imported
                       = link_to 'Importar', admin_define_voter_document_import_path(document.id)
+          = paginate @voter_documents

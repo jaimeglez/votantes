@@ -1,0 +1,52 @@
+= content_for :javascript do
+  = javascript_include_tag 'panels', 'jquery.storageapi'
+
+%h3
+  = t("note.title.#{params[:note_type]}").titleize
+
+.row
+  .col-lg-12
+    .panel.panel-default
+      .panel-heading.panel-heading-collapsed
+        Buscar
+        = link_to 'javascript:void(0)', data: {tool: 'panel-collapse',
+          toggle: 'tooltip'}, class: 'pull-right' do
+          %em.fa.fa-plus
+      .panel-wrapper.collapse
+        = simple_form_for :q, { url: admin_notes_path(note_type: params[:note_type]), method: :get, defaults: {required: false} } do |f|
+          = f.hidden_field :note_type, value: params[:note_type]
+          .panel-body
+            .row
+              .col-lg-4
+                = f.input :voter, as: :select, collection: @voters, label_method: :full_name, value_method: :id, selected: @q[:voter], include_blank: 'Todas', label: 'Persona', input_html: {data: {tool: 'select2'}}
+          .panel-footer
+            = f.button :submit, value: 'Buscar', class: 'btn btn-primary'
+            %span.pull-right
+              = link_to 'Mostrar todos', admin_notes_path(note_type: params[:note_type]), class: 'btn btn-default'
+
+.row
+  .col-lg-12  
+    .panel.panel-default 
+      .panel-body
+        - if @notes.empty?
+          %h4
+            = "No hay " + t("note.title.#{params[:note_type]}") + " registradas"
+        - else
+          %table.table.table-responsive.table-bordered.table-hover
+            %thead
+              %tr
+                %th Persona
+                %th Nota
+                %th Creado
+                %th
+            %tbody
+              - @notes.each do |note|
+                %tr
+                  %td
+                    = note.voter.full_name.titleize
+                  %td
+                    = note.note
+                  %td
+                    = note.created_at
+
+        = paginate @notes

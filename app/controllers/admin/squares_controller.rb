@@ -4,9 +4,9 @@ class Admin::SquaresController < Admin::AdminBaseController
 
   def index
     if params[:q].present?
-      @squares = Square.build_search(params[:q]).order('name asc')
+      @squares = Square.build_search(params[:q]).order('name asc').page(params[:page])
     else
-      @squares = Square.all.includes(:coordinator, section: :zone).order('name asc')
+      @squares = Square.all.includes(:coordinator, section: :zone).order('name asc').page(params[:page])
     end
   end
 

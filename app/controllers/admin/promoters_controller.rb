@@ -5,9 +5,9 @@ class Admin::PromotersController < Admin::AdminBaseController
   def index
     if params[:q].present?
       params[:q][:role] = Voter::PROMOTER
-      @promoters = Voter.build_search(params[:q]).order('full_name asc')
+      @promoters = Voter.build_search(params[:q]).order('name asc').page(params[:page])
     else
-      @promoters = Voter.promoters.includes(square: {section: :zone}).order('full_name')
+      @promoters = Voter.promoters.includes(square: {section: :zone}).order('name').page(params[:page])
     end
   end
 

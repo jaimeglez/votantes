@@ -1,0 +1,58 @@
+.panel.panel-default
+  .panel-heading
+    %b
+      = @voter.full_name.titleize
+
+  .panel-body
+    .col-md-12
+      .col-md-6
+        %div
+          %b
+            Nombre: 
+          = @voter.name.titleize
+        %div
+          %b
+            Primer apellido: 
+          = @voter.f_last_name.titleize
+        %div
+          %b
+            Segundo apellido: 
+          = @voter.s_last_name.titleize
+        %div
+          %b
+            Rol: 
+          = @voter.role_name.titleize
+        - if @voter.role != Voter::SYMPATHIZER
+          %div
+            %b
+              Encargado de: 
+            = in_charge_of_name(@voter)
+        %div
+          %b
+            Dirección: 
+          = @voter.address.titleize
+        %div
+          %b
+            Correo electronico: 
+          = @voter.email
+        %div
+          %b
+            Clave electoral: 
+          = @voter.electoral_number
+        %div
+          %b
+            Telefono: 
+          = @voter.phone_number
+        %div
+          %b
+            Red social: 
+          = @voter.social_network
+        %div
+          %b
+            Activo: 
+          = active_label(@voter)
+
+        
+
+.col-md-12.text-right.bottom
+  = link_to 'Lista de personas', admin_voters_path, class: 'btn btn-default'

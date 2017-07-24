@@ -3,9 +3,9 @@ class Admin::ZonesController < Admin::AdminBaseController
 
   def index
     if params[:q].present?
-      @zones = Zone.build_search(params[:q]).order('name asc')
+      @zones = Zone.build_search(params[:q]).order('name asc').page(params[:page])
     else
-      @zones = Zone.all.order('name asc')
+      @zones = Zone.all.order('name asc').page(params[:page])
     end
   end
 
