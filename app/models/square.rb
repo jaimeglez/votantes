@@ -10,6 +10,7 @@ class Square < ActiveRecord::Base
   scope :active, ->{ joins(section: :zone).where("squares.active = true
     AND sections.active = true AND zones.active = true") }
   scope :by_section, ->(section_id){ where(section_id: section_id) }
+  scope :free, ->{ where('coordinator_id IS NULL')  }
   
   after_save :assing_voter_coordination
 

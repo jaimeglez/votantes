@@ -52,7 +52,16 @@ class Voter < ActiveRecord::Base
   before_validation :add_rand_password, on: :create
   before_validation :associate_coordinations, on: :create, if: :created_from_app?
   before_validation :add_default_role
+  after_create :set_uid
   after_commit :welcome_email, on: :create, if: :created_from_app?
+
+  def token_validation_response
+    {
+      id: id,
+      role: role,
+      areas: areas_with_subareas
+    }
+  end
 
   def role_name
     ROLES[self.role]
@@ -72,6 +81,21 @@ class Voter < ActiveRecord::Base
       self.squares
     when PROMOTER
       self.sympathizers
+    else
+      []
+    end
+  end
+
+  def areas_with_subareas
+    case role
+    when ZONE_COORDINATOR
+      zones.with_childrens
+    when SECTION_COORDINATOR
+      sections.with_childrens
+    when SQUARE_COORDINATOR
+      sections.with_childrens
+    else
+      []
     end
   end
 
@@ -146,6 +170,10 @@ class Voter < ActiveRecord::Base
   end
 
   private
+    def set_uid
+      return unless self.uid.nil?
+      self.uid = self.id
+    end
 
     def remove_promoter_from_sympathizers
       sympathizers.update_all(promoter_id: nil)

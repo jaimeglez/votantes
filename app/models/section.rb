@@ -1,5 +1,6 @@
 class Section < ActiveRecord::Base
   has_many :squares, dependent: :restrict_with_error
+  has_many :free_squares, ->{ where('active = ?', true).free }, class_name: Square, dependent: :restrict_with_error
   belongs_to :zone
   belongs_to :coordinator, class_name: Voter, foreign_key: :coordinator_id
 
@@ -9,11 +10,22 @@ class Section < ActiveRecord::Base
   default_scope ->{ order('name asc') }
   scope :active, ->{ where(active: true, zones: { active: true}) }
   scope :by_zone, ->(zone_id){ where(zone_id: zone_id) }
+  scope :free, ->{ where('coordinator_id IS NULL')  }
 
   after_save :assing_voter_coordination
 
   def with_parents_name
     "#{zone.name} - #{name}"
+  end
+
+  def self.with_childrens
+    includes(:free_squares).map do |section|
+      {
+        id: section.id,
+        name: section.name,
+        squares: section.free_squares{|square| {id: square.id, name: square.name}}
+      }
+    end
   end
 
   def self.build_chart(zone_name)
