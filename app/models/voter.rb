@@ -14,9 +14,23 @@ class Voter < ActiveRecord::Base
   has_many :sections, class_name: 'Section', foreign_key: :coordinator_id
   has_many :squares,  class_name: 'Square',  foreign_key: :coordinator_id
   has_many :sympathizers, class_name: 'Voter',  foreign_key: :promoter_id
+  has_many :contacts, class_name: 'Voter',  foreign_key: :added_by_id
   has_many :notes
   belongs_to :square
   belongs_to :promoter, class_name: 'Voter'
+
+  # Validations
+  validates_presence_of :name, :f_last_name, :street, :ext_num, 
+    :neighborhood, :email, :electoral_number
+  validates :email, uniqueness: true
+  validates :electoral_number, uniqueness: true
+
+  # Callbacks
+  before_validation :add_rand_password, on: :create
+  before_validation :add_default_role, on: :create, if: Proc.new { |v| v.role.nil? }
+  before_validation :set_uid
+  before_validation :set_role, if: :created_from_app?
+  after_commit :welcome_email, on: :create, if: :created_from_app?
 
   # Scopes
   scope :active, -> { where(active: true) }
@@ -24,7 +38,9 @@ class Voter < ActiveRecord::Base
   scope :promoters, ->{ with_roles(PROMOTER) }
   scope :sympathizers, ->{ with_roles(SYMPATHIZER) }
 
-  # Role constants
+  attr_accessor :from, :area_id, :old_area_id
+
+  # constants
   ZONE_COORDINATOR = 1
   SECTION_COORDINATOR = 2
   SQUARE_COORDINATOR = 3
@@ -39,21 +55,8 @@ class Voter < ActiveRecord::Base
     SYMPATHIZER => I18n.t('voter.roles.sympathizer'),
   }
 
-  attr_accessor :from, :area_id
-
-  IMPORT_FIELDS = %w(name f_last_name s_last_name address electoral_number phone_number email)
-
-  # Callbacks
-  validates_presence_of :name, :f_last_name, :s_last_name
-  # validates :electoral_number, :latitude, :longitude, :phone_number, :social_network, 
-  #   :role, :email, :address, presence: true, if: :created_from_app?
-
-  # before_validation :check_user_permissions, on: :create, if: :user_created_from_app?
-  before_validation :add_rand_password, on: :create
-  before_validation :associate_coordinations, on: :create, if: :created_from_app?
-  before_validation :add_default_role
-  after_create :set_uid
-  after_commit :welcome_email, on: :create, if: :created_from_app?
+  IMPORT_FIELDS = %w(name f_last_name s_last_name birth_date gender street ext_num int_num neighborhood email electoral_number phone_number social_network)
+  GROUPS = %w(group1 group2 group3 group4 group5)
 
   def token_validation_response
     {
@@ -69,6 +72,10 @@ class Voter < ActiveRecord::Base
 
   def full_name
     "#{name} #{f_last_name} #{s_last_name}"
+  end
+
+  def address
+    "#{street} #{ext_num} #{int_num} #{neighborhood}"
   end
 
   def areas
@@ -91,8 +98,6 @@ class Voter < ActiveRecord::Base
     when ZONE_COORDINATOR
       zones.with_childrens
     when SECTION_COORDINATOR
-      sections.with_childrens
-    when SQUARE_COORDINATOR
       sections.with_childrens
     else
       []
@@ -150,7 +155,8 @@ class Voter < ActiveRecord::Base
     save
   end
 
-  def assign_coodination(role)
+  def reassign_role(role)
+    return unless self.areas.size.zero?
     self.role = role
     self.square_id = nil
     self.promoter_id = nil
@@ -169,10 +175,86 @@ class Voter < ActiveRecord::Base
     false
   end
 
+  def self.find_or_new(params)
+    voter = where(email: params[:email]).or.where(electoral_number: params[:electoral_number]).first
+    if voter.nil?
+      Voter.new(params)
+    else
+      voter.assign_attributes(params)
+      voter
+    end
+  end
+
+  def set_device_token(device_token)
+    Voter.where(device_token: device_token).update_all(device_token: nil)
+    self.device_token = device_token
+  end
+
+  def self.by_area(type, ids)
+    case(type)
+    when 'zones'
+      by_zones(ids)
+    when 'sections'
+      by_sections(ids)
+    when 'squares'
+      by_squares(ids)
+    end
+  end
+
+  def self.by_zones(zone_ids)
+    voters = joins(square: [section: :zone]).where('zones.id IN (?) AND voters.device_token IS NOT NULL', zone_ids).pluck(:id)
+    coordinators = Zone.where(id: zone_ids).where('voters.device_token IS NOT NULL').pluck(:coordinator_id)
+    voters + coordinators
+  end
+
+  def self.by_sections(sections_ids)
+    voters = joins(square: :section).where('sections.id IN (?)', sections_ids).pluck(:id)
+    coordinators = Section.where(id: sections_ids).pluck(:coordinator_id)
+    voters + coordinators
+  end
+
+  def self.by_squares(squares_ids)
+    voters = joins(:square).where('square.id IN (?)', squares_ids).pluck(:id)
+    coordinators = Square.where(id: squares_ids).pluck(:coordinator_id)
+    voters + coordinators
+  end
+
+  def self.by_zones(zone_ids)
+    voters = joins(square: [section: :zone]).where('zones.id IN (?)', zone_ids).pluck(:id)
+    coordinators = Zone.where(id: zone_ids).pluck(:coordinator_id)
+    voters + coordinators
+  end
+
   private
     def set_uid
-      return unless self.uid.nil?
-      self.uid = self.id
+      return unless self.uid.blank? || self.email_changed?
+      self.uid = self.email
+    end
+
+    def set_role
+      return if !self.role_changed? && area_id == old_area_id
+      if self.area_id.nil?
+        add_default_role
+      else
+        assign_area_by_role
+      end
+    end
+
+    def assign_area_by_role
+      case(self.role)
+      when 2
+        section = Section.find_by(id: area_id) 
+        return add_default_role if section.nil?
+        section.coordinator_id = self.id
+        section.save
+      when 3
+        square = Square.find_by(id: area_id) 
+        return add_default_role if square.nil?
+        square.coordinator_id = self.id
+        square.save
+      when 4
+        Voter.where(square_id: area_id).update_all(promoter_id: id)
+      end
     end
 
     def remove_promoter_from_sympathizers
@@ -180,58 +262,16 @@ class Voter < ActiveRecord::Base
     end
 
     def created_from_app?
-      return true if from == 'app'
+      from == 'app'
     end
 
-    # def check_user_permissions
-    #   user = Voter.find( self.user_id )
-
-    #   if user.role > self.role
-    #     self.errors.add(:base, I18n.t('custom.role_hierarchy_validation'))
-    #     return false
-    #   end
-
-    #   if user.role == PROMOTER && self.role == SYMPATHIZER
-    #     user_sympathizers = Voter.where(role: SYMPATHIZER, user_id: user.id)
-
-    #     if user_sympathizers.count > 9
-    #       self.errors.add(:base, I18n.t('custom.role_sympathizers_limit'))
-    #       return false
-    #     end
-    #   end
-
-    # end
-
     def add_default_role
-      self.role = SYMPATHIZER if self.role.nil?
+      self.role = SYMPATHIZER
     end
 
     def add_rand_password
       return unless self.password.blank?
       self.password = (0...10).map { (65 + rand(26)).chr }.join
-    end
-
-    def associate_coordinations
-      if [ZONE_COORDINATOR, SECTION_COORDINATOR, SQUARE_COORDINATOR].include?(role) \
-        && areas_ids.blank?
-        self.errors.add(:base, I18n.t('custom.role_missing_areas_ids'))
-        return false
-      end
-
-      case role
-      when ZONE_COORDINATOR
-        areas_to_relate = Zone.where(id: eval(areas_ids))
-      when SECTION_COORDINATOR
-        areas_to_relate = Section.where(id: eval(areas_ids))
-      when SQUARE_COORDINATOR
-        areas_to_relate = Square.where(id: eval(areas_ids))
-      else
-        return
-      end
-
-      areas_to_relate.each do |area|
-        area.update_attribute(:coordinator_id, id)
-      end
     end
 
     def welcome_email

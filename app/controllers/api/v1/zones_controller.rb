@@ -1,5 +1,4 @@
 class Api::V1::ZonesController < Api::V1::ApiBaseController
-  before_action :authenticate_api_v1_voter!
   respond_to :json
 
   def index

@@ -3,9 +3,9 @@ class Admin::VotersController < Admin::AdminBaseController
 
   def index
     if params[:q].present?
-      @voters = Voter.build_search(params[:q]).order('address asc').page(params[:page])
+      @voters = Voter.build_search(params[:q]).order('street asc').page(params[:page])
     else
-      @voters = Voter.all.order('address asc').page(params[:page])
+      @voters = Voter.all.order('street asc').page(params[:page])
     end
   end
 
@@ -46,9 +46,10 @@ class Admin::VotersController < Admin::AdminBaseController
   private
     def voter_permit
       params[:voter].delete(:password) if params[:voter][:password].blank?
-      params.require(:voter).permit(:full_name, :address, :email,
-        :electoral_number, :latitude, :longitude, :phone_number,
-        :social_network, :password, :area_id, :active
+      params.require(:voter).permit(:name, :f_last_name, 
+        :s_last_name, :birth_date, :gender, :street, :ext_num,
+        :int_num, :neighborhood, :email, :electoral_number, :phone_number,
+        :social_network, :password, :active
       )
     end
 

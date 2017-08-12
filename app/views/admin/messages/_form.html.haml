@@ -25,15 +25,15 @@
 
       .col-xs-12
         .col-xs-5
-          = f.input :zones_ids, as: :select, label: 'Seleccione zonas', required: true, collection: [],
+          = f.input :zones_ids, as: :select, label: 'Seleccione zonas', required: true, collection: @zones,
             input_html: { multiple: true },
-            wrapper_html: { class: "receivers_container #{'hidden' if @message.group_type != 'zones'}"}
-          = f.input :sections_ids, as: :select, label: 'Seleccione secciones', required: true, collection: [],
+            wrapper_html: { class: "receivers_container"}
+          = f.input :sections_ids, as: :select, label: 'Seleccione secciones', required: true, collection: @sections,
             input_html: { multiple: true },
-            wrapper_html: { class: "receivers_container #{'hidden' if @message.group_type != 'sections'}"}
-          = f.input :squares_ids, as: :select, label: 'Seleccione manzanas', required: true, collection: [],
+            wrapper_html: { class: "receivers_container hidden"}
+          = f.input :squares_ids, as: :select, label: 'Seleccione manzanas', required: true, collection: @squares,
             input_html: { multiple: true },
-            wrapper_html: { class: "receivers_container #{'hidden' if @message.group_type != 'squares'}"}
+            wrapper_html: { class: "receivers_container hidden"}
 
       .col-xs-12
         .col-xs-12.text-right

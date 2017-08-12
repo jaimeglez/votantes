@@ -4,13 +4,13 @@ class VoterDocument < ActiveRecord::Base
   mount_uploader :attachment, AttachmentUploader
 
   def headers
-    document = DocumentReader.new(attachment.file.url)
+    document = DocumentReader.new(file_url)
     document.headers
   end
 
   def import(params)
     query = build_comparsion_query(params[:comparison])
-    document = DocumentReader.new(attachment.file.url)
+    document = DocumentReader.new(file_url)
     document.rows_number.each do |row|
       row_data = document.row_data(row, params[:fields])
       puts row_data
@@ -53,5 +53,13 @@ class VoterDocument < ActiveRecord::Base
         query = query[0...-5] + ") AND "+ blank[0...-5] +"))"
       end
       query_array.join(' OR ')
+    end
+
+    def file_url
+      if Rails.env.development?
+        attachment.file.path  
+      else
+        attachment.file.url  
+      end
     end
 end

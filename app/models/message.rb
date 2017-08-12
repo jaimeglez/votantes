@@ -17,9 +17,24 @@ class Message < ActiveRecord::Base
     model.receivers['squares_ids'].reject!(&:blank?)
   end
 
+  after_create :send_notification
+
   def file_size
     if content_video.size.to_f/(1000*1000) > 10
       errors.add(:content_video, "You cannot upload a file greater than 10 MB")
     end
   end
+
+  private
+    def send_notification
+      fcm = FCM.new(Rails.application.secrets.fcm_key)
+      voters = Voter.by_area(group_type, receivers["#{group_type}_ids"])
+      registration_ids = Voter.where(id: voters).pluck(:device_token)
+      options = {data: {message: "Nuevo mensaje", title: 'Red Ciudadana', msg_type: msg_type, content: content_by_type}}
+      response = fcm.send(registration_ids, options)
+    end
+
+    def content_by_type
+      return content_text if msg_type == 'text'
+    end
 end

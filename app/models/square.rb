@@ -10,7 +10,6 @@ class Square < ActiveRecord::Base
   scope :active, ->{ joins(section: :zone).where("squares.active = true
     AND sections.active = true AND zones.active = true") }
   scope :by_section, ->(section_id){ where(section_id: section_id) }
-  scope :free, ->{ where('coordinator_id IS NULL')  }
   
   after_save :assing_voter_coordination
 
@@ -47,16 +46,14 @@ class Square < ActiveRecord::Base
   private
     def assing_voter_coordination
       return unless self.coordinator_id_changed?
-      if self.coordinator_id.nil?
-        remove_coordination
-      else
-        self.coordinator.assign_coodination(Voter::SQUARE_COORDINATOR)
-      end
+      remove_old_coordination
+      return if self.coordinator_id.nil?
+      self.coordinator.reassign_role(Voter::SQUARE_COORDINATOR)
     end
 
-    def remove_coordination
+    def remove_old_coordination
       voter = Voter.find_by(id: self.coordinator_id_was)
       return if voter.nil?
-      voter.assign_coodination(Voter::SYMPATHIZER)
+      voter.reassign_role(Voter::SYMPATHIZER)
     end
 end

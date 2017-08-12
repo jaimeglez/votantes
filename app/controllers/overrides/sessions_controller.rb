@@ -1,23 +1,52 @@
 module Overrides
   class SessionsController < DeviseTokenAuth::SessionsController
+    def create
+      # Check
+      field = (resource_params.keys.map(&:to_sym) & resource_class.authentication_keys).first
 
-    swagger_controller :sessions, "Sessions"
+      @resource = nil
+      if field
+        q_value = resource_params[field]
 
-    swagger_api :create do
-      summary "Create a new session for a user"
-      param :form, :email, :string, :required, "Email"
-      param :form, :password, :string, :required, "Password"
-      response :unauthorized
-      response :not_acceptable
-    end
+        if resource_class.case_insensitive_keys.include?(field)
+          q_value.downcase!
+        end
 
-    swagger_api :destroy do
-      summary "Remove session for a user"
-      param :header, :uid, :string, :required, "Email"
-      param :header, :client, :string, :required, "Client"
-      param :header, :access_token, :string, :required, "Access token"
-      response :unauthorized
-      response :not_acceptable
+        q = "#{field.to_s} = ? AND provider='email'"
+
+        if ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
+          q = "BINARY " + q
+        end
+
+        @resource = resource_class.where(q, q_value).first
+      end
+
+      if @resource && valid_params?(field, q_value) && (!@resource.respond_to?(:active_for_authentication?) || @resource.active_for_authentication?)
+        valid_password = @resource.valid_password?(resource_params[:password])
+        if (@resource.respond_to?(:valid_for_authentication?) && !@resource.valid_for_authentication? { valid_password }) || !valid_password
+          render_create_error_bad_credentials
+          return
+        end
+        # create client id
+        @client_id = SecureRandom.urlsafe_base64(nil, false)
+        @token     = SecureRandom.urlsafe_base64(nil, false)
+
+        @resource.tokens[@client_id] = {
+          token: BCrypt::Password.create(@token),
+          expiry: (Time.now + DeviseTokenAuth.token_lifespan).to_i
+        }
+        @resource.set_device_token(params["session"]["device_token"])
+        @resource.save
+
+        sign_in(:user, @resource, store: false, bypass: false)
+
+        yield @resource if block_given?
+        render_create_success
+      elsif @resource && !(!@resource.respond_to?(:active_for_authentication?) || @resource.active_for_authentication?)
+        render_create_error_not_confirmed
+      else
+        render_create_error_bad_credentials
+      end
     end
 
     private

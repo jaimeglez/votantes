@@ -24,6 +24,7 @@ gem 'rails-push-notifications', '~> 0.2.0'
 gem 'devise', '~> 4.0.0'
 gem 'kaminari'
 gem "parsley-rails"
+gem 'devise-i18n'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -47,6 +48,7 @@ gem 'rubyzip', '~> 1.1.0'
 gem 'axlsx', '2.1.0.pre'
 gem 'axlsx_rails'
 gem 'rails_12factor'
+gem 'fcm'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

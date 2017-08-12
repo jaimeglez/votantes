@@ -41,10 +41,9 @@ Rails.application.routes.draw do
   # token auth routes available at /api/v1/auth
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      resources :voters
-      resources :zones, only: [:index]
-      resources :sections, only: [:index]
-      resources :squares, only: [:index]
+      resource :voters, only: [:update]
+      resource :managements, only: [:create]
+      resource :activities, only: [:create]
       mount_devise_token_auth_for 'Voter', at: 'auth', skip: [:omniauth_callbacks], controllers: {
         registrations:  'overrides/registrations',
         sessions:  'overrides/sessions',

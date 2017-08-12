@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170723052711) do
+ActiveRecord::Schema.define(version: 20170811232905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,7 +91,6 @@ ActiveRecord::Schema.define(version: 20170723052711) do
   end
 
   create_table "voters", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "address"
     t.string   "electoral_number",       default: ""
     t.string   "latitude"
     t.string   "longitude"
@@ -121,6 +120,14 @@ ActiveRecord::Schema.define(version: 20170723052711) do
     t.string   "name"
     t.string   "f_last_name"
     t.string   "s_last_name"
+    t.string   "birth_date"
+    t.string   "gender"
+    t.string   "street"
+    t.string   "ext_num"
+    t.string   "int_num"
+    t.string   "neighborhood"
+    t.uuid     "added_by_id"
+    t.string   "device_token"
   end
 
   add_index "voters", ["active"], name: "index_voters_on_active", using: :btree

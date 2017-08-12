@@ -4,11 +4,15 @@
       .col-lg-6
         = f.input :name, label: 'Nombre', required: true
         = f.input :f_last_name, label: 'Primer apellido', required: true
-        = f.input :s_last_name, label: 'Segundo apellido', required: true
-        = f.input :address, label: 'Dirección', required: true
+        = f.input :s_last_name, label: 'Segundo apellido'
+        = f.input :birth_date, label: 'Fecha de nacimiento'
+        = f.input :street, label: 'Calle', required: true
+        = f.input :ext_num, label: 'Numero Ext.', required: true
+        = f.input :int_num, label: 'Numero Int.'
+        = f.input :neighborhood, label: 'Colonia', required: true
         = f.input :email, label: 'Correo electronico', required: true
         = f.input :password, as: :password, label: 'Contraseña'
-        = f.input :electoral_number, label: 'Clave electoral'
+        = f.input :electoral_number, label: 'Clave electoral', required: true
         = f.input :phone_number, label: 'Telefono'
         = f.input :social_network, label: 'Red social'
         = f.input :active, as: :boolean

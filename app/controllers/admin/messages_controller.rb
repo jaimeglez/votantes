@@ -5,6 +5,9 @@ class Admin::MessagesController < Admin::AdminBaseController
 
   def new
     @message = Message.new
+    @zones = Zone.active.all
+    @sections = Section.all
+    @squares = Square.all
   end
 
   def create
