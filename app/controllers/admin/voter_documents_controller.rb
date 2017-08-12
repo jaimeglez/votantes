@@ -9,7 +9,6 @@ class Admin::VoterDocumentsController < Admin::AdminBaseController
 
   def create
     @voter_document = VoterDocument.new(document_params)
-    byebug
     if @voter_document.save
        flash.now[:success] = 'El documento fue guardado exitosamente'
        redirect_to admin_define_voter_document_import_path(@voter_document.id)
