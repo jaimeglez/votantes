@@ -17,7 +17,7 @@ class Message < ActiveRecord::Base
     model.receivers['squares_ids'].reject!(&:blank?)
   end
 
-  after_create :send_notification
+  after_commit :send_notification, on: :create
 
   def file_size
     if content_video.size.to_f/(1000*1000) > 10
