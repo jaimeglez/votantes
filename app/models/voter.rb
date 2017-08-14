@@ -191,6 +191,7 @@ class Voter < ActiveRecord::Base
   end
 
   def self.by_area(type, ids)
+    byebug
     case(type)
     when 'zones'
       by_zones(ids)
@@ -203,27 +204,19 @@ class Voter < ActiveRecord::Base
 
   def self.by_zones(zone_ids)
     voters = joins(square: [section: :zone]).where('zones.id IN (?) AND voters.device_token IS NOT NULL', zone_ids).pluck(:id)
-    # voters = joins(square: [section: :zone]).where('zones.id IN (?) AND voters.device_token IS NOT NULL', zone_ids).pluck(:id)
     coordinators = Zone.coordinators(zone_ids)
-    # coordinators = Zone.where(id: zone_ids).where('voters.device_token IS NOT NULL').pluck(:coordinator_id)
     voters + coordinators
   end
 
   def self.by_sections(sections_ids)
     voters = joins(square: :section).where('sections.id IN (?)', sections_ids).pluck(:id)
-    coordinators = Section.where(id: sections_ids).pluck(:coordinator_id)
+    coordinators = Section.coordinators(sections_ids)
     voters + coordinators
   end
 
   def self.by_squares(squares_ids)
     voters = joins(:square).where('square.id IN (?)', squares_ids).pluck(:id)
-    coordinators = Square.where(id: squares_ids).pluck(:coordinator_id)
-    voters + coordinators
-  end
-
-  def self.by_zones(zone_ids)
-    voters = joins(square: [section: :zone]).where('zones.id IN (?)', zone_ids).pluck(:id)
-    coordinators = Zone.where(id: zone_ids).pluck(:coordinator_id)
+    coordinators = Square.coordinators(squares_ids)
     voters + coordinators
   end
 

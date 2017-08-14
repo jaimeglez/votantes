@@ -26,6 +26,17 @@ class Section < ActiveRecord::Base
     end
   end
 
+  def self.coordinators(sections_ids)
+    coordinators = []
+    where(id: sections_ids).includes(:squares).each do |section|
+      coordinators << section.coordinator_id unless section.coordinator_id.nil?
+      section.squares.each do |square|
+        coordinators << square.coordinator_id unless square.coordinator_id.nil?
+      end
+    end
+    coordinators
+  end
+
   def self.build_chart(zone_name)
     labels = []
     data = []

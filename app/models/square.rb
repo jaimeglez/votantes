@@ -43,6 +43,10 @@ class Square < ActiveRecord::Base
     ).result
   end
 
+  def self.coordinators(squares_ids)
+    where(id: squares_ids).pluck(:coordinator_id)
+  end
+
   private
     def assing_voter_coordination
       return unless self.coordinator_id_changed?
