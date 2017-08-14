@@ -9,6 +9,7 @@ class VoterDocument < ActiveRecord::Base
   end
 
   def import(params)
+    byebug
     query = build_comparsion_query(params[:comparison])
     document = DocumentReader.new(file_url)
     document.rows_number.each do |row|
@@ -16,8 +17,10 @@ class VoterDocument < ActiveRecord::Base
       puts row_data
       voter = Voter.where([query, row_data]).first
       if voter.nil?
+        byebug
         Voter.create(row_data)
       else
+        byebug
         voter.update(row_data)
       end
     end

@@ -36,5 +36,6 @@ class Message < ActiveRecord::Base
 
     def content_by_type
       return content_text if msg_type == 'text'
+      byebug
     end
 end

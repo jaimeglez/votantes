@@ -43,6 +43,20 @@ class Zone < ActiveRecord::Base
     ).result
   end
 
+
+  def self.coordinators(zone_ids)
+    coordinators = []
+    where(id: zone_ids).includes(sections: :squares).each do |zone|
+      coordinators << zone.coordinator_id unless zone.coordinator_id.nil?
+      zone.sections.each do |section|
+        coordinators << section.coordinator_id unless section.coordinator_id.nil?
+        section.squares.each do |square|
+          coordinators << square.coordinator_id unless square.coordinator_id.nil?
+        end
+      end
+    end
+    coordinators
+  end
   private
     def assing_voter_coordination
       return unless self.coordinator_id_changed?

@@ -203,7 +203,9 @@ class Voter < ActiveRecord::Base
 
   def self.by_zones(zone_ids)
     voters = joins(square: [section: :zone]).where('zones.id IN (?) AND voters.device_token IS NOT NULL', zone_ids).pluck(:id)
-    coordinators = Zone.where(id: zone_ids).where('voters.device_token IS NOT NULL').pluck(:coordinator_id)
+    # voters = joins(square: [section: :zone]).where('zones.id IN (?) AND voters.device_token IS NOT NULL', zone_ids).pluck(:id)
+    coordinators = Zone.coordinators(zone_ids)
+    # coordinators = Zone.where(id: zone_ids).where('voters.device_token IS NOT NULL').pluck(:coordinator_id)
     voters + coordinators
   end
 
