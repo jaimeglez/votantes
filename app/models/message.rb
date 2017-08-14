@@ -28,7 +28,6 @@ class Message < ActiveRecord::Base
   private
     def send_notification
       fcm = FCM.new(Rails.application.secrets.fcm_key)
-      byebug
       voters = Voter.by_area(group_type, receivers["#{group_type}_ids"])
       registration_ids = Voter.where(id: voters).pluck(:device_token)
       options = {data: {message: "Nuevo mensaje", title: 'Red Ciudadana', msg_type: msg_type, content: content_by_type}}
@@ -37,6 +36,6 @@ class Message < ActiveRecord::Base
 
     def content_by_type
       return content_text if msg_type == 'text'
-      byebug
+      # byebug
     end
 end

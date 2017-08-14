@@ -191,7 +191,6 @@ class Voter < ActiveRecord::Base
   end
 
   def self.by_area(type, ids)
-    byebug
     case(type)
     when 'zones'
       by_zones(ids)
