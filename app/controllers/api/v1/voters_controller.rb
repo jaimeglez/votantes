@@ -34,7 +34,10 @@ class Api::V1::VotersController < Api::V1::ApiBaseController
         :birth_date,
         :electoral_number,
         :active,
-        :from
+        :from,
+        :gender,
+        :id,
+        :old_area_id
       )
     end
 end

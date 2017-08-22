@@ -21,16 +21,18 @@ class Voter < ActiveRecord::Base
 
   # Validations
   validates_presence_of :name, :f_last_name, :street, :ext_num, 
-    :neighborhood, :email, :electoral_number
-  validates :email, uniqueness: true
-  validates :electoral_number, uniqueness: true
+    :neighborhood, :gender
+  validates_presence_of :role, if: :created_from_app?
+  validates :email, uniqueness: true, allow_nil: true
+  validates :electoral_number, uniqueness: true, allow_nil: true
 
   # Callbacks
   before_validation :add_rand_password, on: :create
   before_validation :add_default_role, on: :create, if: Proc.new { |v| v.role.nil? }
   before_validation :set_uid
   before_validation :set_role, if: :created_from_app?
-  after_commit :welcome_email, on: :create, if: :created_from_app?
+  after_save :assign_area_by_role, if: :created_from_app?
+  before_save :welcome_email, if: :send_welcome_email?
 
   # Scopes
   scope :active, -> { where(active: true) }
@@ -176,12 +178,11 @@ class Voter < ActiveRecord::Base
   end
 
   def self.find_or_new(params)
-    voter = where(email: params[:email]).or.where(electoral_number: params[:electoral_number]).first
-    if voter.nil?
-      Voter.new(params)
+    if params[:email] || params[:electoral_number] || params[:id]
+      voter = get_voter(params)
+      build_voter(voter, params)
     else
-      voter.assign_attributes(params)
-      voter
+      Voter.new(params)
     end
   end
 
@@ -227,11 +228,7 @@ class Voter < ActiveRecord::Base
 
     def set_role
       return if !self.role_changed? && area_id == old_area_id
-      if self.area_id.nil?
-        add_default_role
-      else
-        assign_area_by_role
-      end
+      add_default_role if self.area_id.nil?
     end
 
     def assign_area_by_role
@@ -268,9 +265,34 @@ class Voter < ActiveRecord::Base
       self.password = (0...10).map { (65 + rand(26)).chr }.join
     end
 
+    def send_welcome_email?
+      !email.blank? && created_from_app? && email_was != email
+    end
+
     def welcome_email
       enc = Devise.token_generator.generate(self.class, :reset_password_token)
       update_columns(reset_password_token: enc[1], reset_password_sent_at: Time.now.utc)
       VoterMailer.download_app_email(self).deliver_now
+    end
+
+    def self.get_voter(params)
+      if params[:id]
+        Voter.find_by(id: params[:id])
+      else
+        return nil unless params[:email] || params[:electoral_number]
+        where_params = {}
+        where_params[:email] = params[:email] if params[:email]
+        where_params[:electoral_number] = params[:electoral_number] if params[:electoral_number]
+        find_by(where_params)
+      end
+    end
+
+    def self.build_voter(voter, params)
+      if voter.nil?
+        Voter.new(params)
+      else
+        voter.assign_attributes(params)
+        voter
+      end
     end
 end
