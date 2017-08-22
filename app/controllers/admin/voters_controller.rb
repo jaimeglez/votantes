@@ -15,6 +15,7 @@ class Admin::VotersController < Admin::AdminBaseController
 
   def create
     @voter = Voter.new(voter_permit)
+    byebug
     if @voter.save
       flash.now[:success] = 'Se creó la persona satisfactoriamente'
       redirect_to admin_voters_path

@@ -10,6 +10,7 @@
         = f.input :ext_num, label: 'Numero Ext.', required: true
         = f.input :int_num, label: 'Numero Int.'
         = f.input :neighborhood, label: 'Colonia', required: true
+        = f.input :gender, as: :select, collection: ['Masculino', 'Femenino'], label: 'Sexo', include_blank: 'Ninguno', input_html: {data: {tool: 'select2'}}
         = f.input :email, label: 'Correo electronico'
         = f.input :password, as: :password, label: 'Contraseña'
         = f.input :electoral_number, label: 'Clave electoral'
