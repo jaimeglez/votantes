@@ -245,6 +245,7 @@ class Voter < ActiveRecord::Base
         square.save
       when 4
         Voter.where(square_id: area_id).update_all(promoter_id: id)
+        update(square_id: area_id)
       end
     end
 

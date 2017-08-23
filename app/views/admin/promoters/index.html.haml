@@ -21,7 +21,7 @@
               .col-lg-4
                 = f.input :name, input_html: {value: @q[:name]}, label: 'Nombre'
               .col-lg-4
-                = f.input :square, as: :select, collection: @squares, label_method: :with_parents_name, value_method: :id, selected: @q[:square], include_blank: true, label: 'Manzana', include_blank: 'Todas', input_html: {data: {tool: 'select2'}}
+                = f.input :square, as: :select, collection: @squares, label_method: :with_parents_name, value_method: :id, selected: @q[:square], label: 'Manzana', include_blank: 'Todas', input_html: {data: {tool: 'select2'}}
           .panel-footer
             = f.button :submit, value: 'Buscar', class: 'btn btn-primary'
             %span.pull-right

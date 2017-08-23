@@ -22,8 +22,8 @@ class Admin::MessagesController < Admin::AdminBaseController
   end
 
    private
-   def message_permit
-     params.require(:message).permit(:msg_type, :content_video, :content_text, :group_type,
-                                     zones_ids: [], sections_ids: [], squares_ids: [])
-   end
+     def message_permit
+       params.require(:message).permit(:msg_type, :content_video, :content_text, :group_type,
+                                       zones_ids: [], sections_ids: [], squares_ids: [])
+     end
 end
